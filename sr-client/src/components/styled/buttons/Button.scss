@@ -1,0 +1,24 @@
+.button{
+   display: flex;
+   cursor: pointer;
+   align-items: center;
+   justify-content: center;
+   border-radius: 3000px;
+   background: #FF5D29;
+   color: #ffffff;
+   font-size: 14px;
+   font-family: MontserratMedium;
+   &:hover{
+      background: #FA3C00;
+   }
+   &--outlined{
+      background: #ffffff;
+      border: 1px solid #FF6938;
+      color: #FF6938;
+      &:hover{
+         background: #FF5D29;
+         color: #ffffff;
+      }
+   }
+
+}

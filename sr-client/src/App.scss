@@ -1,0 +1,34 @@
+$maxWidthContainer: 1300;
+$minWidthContainer: 300;
+
+$b1: 1024;
+$b2: 768;
+$b3: 320;
+
+@import "assets/sass/fonts";
+@import "assets/sass/utils/utils";
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box !important;
+}
+
+body {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.row {
+  display: flex;
+}

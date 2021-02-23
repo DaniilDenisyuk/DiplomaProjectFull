@@ -1,0 +1,87 @@
+.select-location {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    position: absolute;
+    top: 0;
+  }
+  &__control {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin: -10px;
+    padding: 10px;
+    &::before {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      background: url("../../../assets/img/location-icon.svg") center/contain
+        no-repeat;
+    }
+    &--menu-is-open {
+      &::before {
+        filter: brightness(0);
+      }
+      .select-location__value-container {
+        color: #0d0d0d;
+      }
+      .select-location__indicator {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__value-container {
+    font-family: MontserratSemiBold;
+    font-size: 17px;
+    color: #ffffff;
+    position: relative;
+    display: flex;
+    input {
+      height: 0;
+    }
+  }
+
+  &__indicators {
+    margin-left: 6px;
+  }
+
+  &__indicator {
+    width: 18px;
+    height: 11px;
+    background: url("../../../assets/img/arrow-dropdown.svg") center/contain
+      no-repeat;
+  }
+
+  &__placeholder {
+    color: rgb(129, 127, 102);
+  }
+  &__menu {
+    align-self: center;
+  }
+  &__menu-list {
+    background-color: #ffffff;
+    margin-top: 15px;
+    display: grid;
+    margin-bottom: -10px;
+    grid-column-gap: 25px;
+    grid-template-columns: auto auto;
+  }
+
+  &__option {
+    cursor: pointer;
+    font-family: Montserrat;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 5px 0;
+    margin: 5px 0;
+    color: #000000;
+    &:hover {
+      color: #ff5d29;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.menu-item {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 310px;
+  height: 460px;
+  padding: 0 0 40px 40px;
+  margin-bottom: 7px;
+  &__img {
+    height: auto;
+    width: auto;
+    img {
+      object-fit: cover;
+      object-position: center center;
+    }
+  }
+  &__info {
+  }
+  &__row {
+    display: flex;
+    width: 100%;
+  }
+
+  &__name {
+    font-size: 24px;
+    font-family: MontserratBold;
+    margin-bottom: 10px;
+  }
+
+  &__description {
+    margin-bottom: 15px;
+    height: 65px;
+    font-size: 13px;
+    color: #474747;
+    overflow: hidden;
+  }
+
+  &__price {
+    display: flex;
+    flex-direction: column;
+  }
+
+  // &__new-price{
+
+  // }
+
+  &__old-price {
+    text-decoration: line-through;
+  }
+
+  &__to-basket {
+    margin-left: auto;
+    width: 129px;
+    height: 40px;
+  }
+}

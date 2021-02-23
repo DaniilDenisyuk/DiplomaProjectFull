@@ -1,0 +1,61 @@
+.select-language {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    font-family: MontserratSemiBold;
+    font-size: 17px;
+  }
+  &__control {
+    cursor: pointer;
+    color: #ffffff;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 5px;
+    &--menu-is-open {
+      color: #0d0d0d;
+    }
+  }
+
+  &__value-container {
+    position: relative;
+    display: flex;
+    input {
+      height: 0;
+    }
+  }
+  &__single-value {
+    display: flex;
+  }
+
+  &__placeholder {
+    color: rgb(129, 127, 102);
+  }
+  &__menu {
+    align-self: center;
+  }
+  &__menu-list {
+    background-color: #ffffff;
+    display: block;
+  }
+  &__lang-icon {
+    margin-right: 8px;
+    width: 17px;
+    height: 17px;
+  }
+  &__option {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    padding: 5px 5px;
+    margin: 5px -5px;
+    color: #000000;
+    &:hover {
+      color: #ff5d29;
+    }
+  }
+}

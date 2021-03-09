@@ -7,6 +7,10 @@
   height: 460px;
   padding: 0 0 40px 40px;
   margin-bottom: 7px;
+  background-color: #fff;
+  &:hover {
+    box-shadow: 0px 8px 29px rgba(0, 71, 122, 0.08);
+  }
   &__img {
     height: auto;
     width: auto;
@@ -15,8 +19,8 @@
       object-position: center center;
     }
   }
-  &__info {
-  }
+  // &__info {
+  // }
   &__row {
     display: flex;
     width: 100%;

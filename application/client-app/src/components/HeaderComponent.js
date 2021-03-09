@@ -59,77 +59,6 @@ class Header extends Component {
 
   render() {
     return (
-      <header class="header">
-        <div class="__container__">
-          <div class="header__wrapper">
-            <nav class="header__nav nav-menu" id="nav-menu">
-              <div class="nav-menu__wrapper">
-                <div class="nav-menu__close i-close"></div>
-                <div class="nav-menu__logo logo">
-                  <div class="logo__img">
-                    <img src="./img/fs-logo.svg" alt="Logo" />
-                  </div>
-                  <div class="logo__text">
-                    <img
-                      src="./img/fs-logo-text-line.png"
-                      alt="Festival sushi"
-                    />
-                  </div>
-                </div>
-                <nav class="nav-menu__items-wrapper">
-                  <a href="/home" class="nav-menu__item">
-                    Головна
-                  </a>
-                  <a href="/menu" class="nav-menu__item">
-                    Меню
-                  </a>
-                  <a href="/discounts" class="nav-menu__item">
-                    Акції
-                  </a>
-                  <a href="/delivery" class="nav-menu__item">
-                    Доставка
-                  </a>
-                </nav>
-                <div class="nav-menu__about">
-                  <a href="#" class="nav-menu__item">
-                    Про нас
-                  </a>
-                  <span>/</span>
-                  <a href="#" class="nav-menu__item">
-                    Контакти
-                  </a>
-                </div>
-              </div>
-            </nav>
-            <a class="header__contact" href="tel:+3809812345678">
-              <p>+38(098)12345678</p>
-            </a>
-            <div class="header__basket basket" id="basket-btn">
-              <div class="basket__basket">
-                <span class="basket__item-cnt">6</span>
-              </div>
-              <p class="basket__sum">820 грн.</p>
-            </div>
-            <div class="header__burger" id="burger-menu">
-              <span></span>
-            </div>
-            <div class="header__location location">
-              <div class="location__icon"></div>
-              <div class="location__selected">
-                <p class="location__name">Фастів</p>
-                <div class="location__arrow selmenu-arrow"></div>
-              </div>
-
-              <div class="location__wrapper"></div>
-            </div>
-          </div>
-        </div>
-      </header>
-    );
-  }
-
-  render() {
-    return (
       <React.Fragment>
         <Navbar dark expand="md">
           <div className="container">
@@ -237,4 +166,72 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const HeaderComp = () => {
+  return (
+    <header class="header">
+      <div class="__container__">
+        <div class="header__wrapper">
+          <nav class="header__nav nav-menu" id="nav-menu">
+            <div class="nav-menu__wrapper">
+              <div class="nav-menu__close i-close"></div>
+              <div class="nav-menu__logo logo">
+                <div class="logo__img">
+                  <img src="./img/fs-logo.svg" alt="Logo" />
+                </div>
+                <div class="logo__text">
+                  <img src="./img/fs-logo-text-line.png" alt="Festival sushi" />
+                </div>
+              </div>
+              <nav class="nav-menu__items-wrapper">
+                <a href="/home" class="nav-menu__item">
+                  Головна
+                </a>
+                <a href="/menu" class="nav-menu__item">
+                  Меню
+                </a>
+                <a href="/discounts" class="nav-menu__item">
+                  Акції
+                </a>
+                <a href="/delivery" class="nav-menu__item">
+                  Доставка
+                </a>
+              </nav>
+              <div class="nav-menu__about">
+                <a href="#" class="nav-menu__item">
+                  Про нас
+                </a>
+                <span>/</span>
+                <a href="#" class="nav-menu__item">
+                  Контакти
+                </a>
+              </div>
+            </div>
+          </nav>
+          <a class="header__contact" href="tel:+3809812345678">
+            <p>+38(098)12345678</p>
+          </a>
+          <div class="header__basket basket" id="basket-btn">
+            <div class="basket__basket">
+              <span class="basket__item-cnt">6</span>
+            </div>
+            <p class="basket__sum">820 грн.</p>
+          </div>
+          <div class="header__burger" id="burger-menu">
+            <span></span>
+          </div>
+          <div class="header__location location">
+            <div class="location__icon"></div>
+            <div class="location__selected">
+              <p class="location__name">Фастів</p>
+              <div class="location__arrow selmenu-arrow"></div>
+            </div>
+
+            <div class="location__wrapper"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default HeaderComp;

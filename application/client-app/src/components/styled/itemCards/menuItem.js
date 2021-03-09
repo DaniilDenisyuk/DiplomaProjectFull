@@ -3,7 +3,7 @@ import cn from "classnames";
 import Button from "../buttons/Button";
 import "./menuItem.scss";
 
-function menuItem({ className, itemInfo, itemPage, onBasketClick }) {
+function menuItem({ className, itemInfo, linkTo, onBasketClick }) {
   const { name, desctipion, imgSrc, price, newPrice } = itemInfo;
   const priceBlock = newPrice ? (
     <React.Fragment>

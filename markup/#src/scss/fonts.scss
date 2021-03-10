@@ -1,0 +1,9 @@
+@import "utils/mixins.scss";
+
+@include font("RobotoBold", "Roboto-Bold", "regular", "normal");
+@include font("RobotoMedium", "Roboto-Medium", "regular", "normal");
+@include font("Roboto", "Roboto-Regular", "regular", "normal");
+@include font("MontserratBold", "Montserrat-Bold", "regular", "normal");
+@include font("MontserratMedium", "Montserrat-Medium", "regular", "normal");
+@include font("MontserratSemiBold", "Montserrat-SemiBold", "regular", "normal");
+@include font("Montserrat", "Montserrat-Regular", "regular", "normal");

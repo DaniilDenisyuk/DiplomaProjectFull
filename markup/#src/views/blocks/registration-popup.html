@@ -1,0 +1,37 @@
+<section class="popup registration-popup" id="registration-popup">
+  <div class="popup__wrapper">
+    <span class="popup__close"></span>
+    <h2 class="popup__title">Реєстрація</h2>
+    <p class="popup__auxiliary-text">Заповніть форму нижче:</p>
+    <form class="popup__form">
+      <div class="popup__form-group">
+        <input type="text" name='name' id="rgstr-name"></input>
+        <label for="rgstr-name">Ім’я</label>
+      </div>
+      <div class="popup__form-group">
+        <input type="tel" name='phone' id="rgstr-phone"></input>
+        <label for="rgstr-phone">Номер телефону</label>
+      </div>
+      <div class="popup__form-group popup__form-group--invalid">
+        <input type="password" name='password' id="rgstr-password" ></input>
+        <label for="rgstr-password">Пароль</label>
+        <p class="tip">
+        </p>
+      </div>
+      <div class="popup__form-group-checkbox">
+        <input type="checkbox" name='ppd-agree' id='ppd-agree'></input>
+        <label for='ppd-agree' ></label>
+        <p class="popup__checkbox-text">
+          Я погоджуюсь на обробку своїх персональних даних
+        </p>
+      </div>
+      <button type="submit" class="popup__submit-btn">Зареєструватись</button>
+    </form>
+    <p class="popup__link-text">
+      Уже маєте профіль?
+      <a href="#" class="popup__link">
+        Увійти
+      </a>
+    </p>
+  </div>
+</section>

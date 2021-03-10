@@ -1,0 +1,116 @@
+.banner {
+   display: flex;
+   position: relative;
+   padding-top: 90px;
+   background-image: linear-gradient(120deg, #2b5263 0%, #223e48 51%, #142930 100%);
+   width: 100%;
+   box-shadow: 0 9px 14px rgba(0, 0, 0, 0.25);
+   &__wrapper {
+      width: 100%;
+      position: relative;
+   }
+   .__container__ {
+      margin: 0 0 0 adaptVal(310, 130, 1920, 1300);
+      width: 100%;
+      @media (max-width: 1300px) {
+         margin: 0 0 0 130px;
+      }
+      @media (max-width: 1000px) {
+         margin: 0 0 0 30px;
+      }
+   }
+   &__slider {
+      height: 910px;
+   }
+   &__more {
+      display: flex;
+      position: absolute;
+      cursor: pointer;
+      bottom: 195px;
+      color: #ffffff;
+      right: 70/1300 * 100%;
+      transform: rotate(90deg);
+      &::after {
+         display: block;
+         margin-left: 8px;
+         content: "";
+         width: 20px;
+         height: 20px;
+         background: url("../img/down-arrow.svg") center/contain no-repeat;
+         transform: rotate(-90deg);
+      }
+   }
+}
+.bnr-slider {
+   display: flex;
+   &__wrapper {
+      position: relative;
+      display: flex;
+      height: 100%;
+      width: 100%;
+   }
+
+   &__slide {
+      width: 100%;
+      padding: 70px 0 155px 0;
+      color: #ffffff;
+   }
+
+   &__pagination {
+      position: absolute;
+      display: flex;
+      bottom: 155px;
+      right: 50%;
+      transform: translateX(50%);
+      & [class*="bullet"] {
+         cursor: pointer;
+         width: 11px;
+         height: 11px;
+         margin: 0 12.5px;
+         background-color: rgba(174, 174, 174, 0.37);
+         border-radius: 50%;
+         &[class*="active"] {
+            background-color: #ff5d29;
+         }
+      }
+   }
+}
+
+.bnr-slide {
+   display: flex;
+   &__heading {
+      font-size: 60px;
+      font-family: "MontserratBold";
+   }
+
+   &__text {
+      font-size: 24px;
+      padding: 55px 0;
+      font-family: "MontserratMedium";
+   }
+
+   &__btn {
+      display: flex;
+      font-size: 22px;
+      font-family: "MontserratSemiBold";
+      width: 260px;
+      height: 76px;
+      background: #ff5d29;
+      border-radius: 65px;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+         box-shadow: 0px 5px 10px #ff5d29;
+      }
+   }
+
+   &__image {
+   }
+   &__img-col {
+      margin-left: auto;
+   }
+   &__txt-col {
+      padding-top: 100px;
+      width: 650px;
+   }
+}

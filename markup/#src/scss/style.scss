@@ -1,0 +1,46 @@
+$maxWidthContainer: 1300;
+$minWidthContainer: 300;
+
+$b1: 1024;
+$b2: 768;
+$b3: 320;
+
+@import "fonts";
+@import "utils/utils";
+@import "blocks/footer.scss";
+@import "blocks/header.scss";
+@import "blocks/top-proposals.scss";
+@import "blocks/sidenav.scss";
+@import "blocks/banner.scss";
+@import "blocks/delivery.scss";
+@import "blocks/our-bars.scss";
+@import "blocks/basket-popup.scss";
+@import "blocks/registration-popup.scss";
+@import "blocks/payment-block.scss";
+@import "blocks/payment-block.scss";
+@import "icons";
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.row {
+  display: flex;
+}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { PopupField, PopupCheckbox } from "./popupField";
+import { PopupField, PopupCheckbox } from "../popups/popupField";
 import Button from "../buttons/Button";
-import { required, phoneNumber, email } from "./validations";
+import { required, phoneNumber, email } from "../popups/validations";
 import "./popup.scss";
 
 const phoneOrEmail = () => {
@@ -92,4 +92,4 @@ const AuthorizationForm = ({ onSubmit, onGoogleAuth, onFBAuth }) => {
   );
 };
 
-export default AuthorizationForm
+export default AuthorizationForm;

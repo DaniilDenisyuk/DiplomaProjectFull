@@ -2,7 +2,7 @@ import React from "react";
 import Select, { components } from "react-select";
 import cn from "classnames";
 import { LOCATIONS } from "../../../shared/locations";
-import "./selectLocation.scss";
+import "./SelectLocation.scss";
 
 const options = LOCATIONS.map(({ id, name }) => ({ value: id, label: name }));
 
@@ -27,7 +27,7 @@ const Indicator = (props) => (
   </components.DropdownIndicator>
 );
 
-const selectLocation = ({ className, onChange }) => (
+const SelectLocation = ({ className, onChange }) => (
   <Select
     styles={customStyles}
     className={cn("select-location-container", className)}
@@ -44,4 +44,4 @@ const selectLocation = ({ className, onChange }) => (
   />
 );
 
-export default selectLocation;
+export default SelectLocation;

@@ -2,7 +2,7 @@ import React from "react";
 import Select, { components } from "react-select";
 import { LANGUAGES } from "../../../shared/languages";
 import cn from "classnames";
-import "./selectLanguage.scss";
+import "./SelectLanguage.scss";
 
 const options = [];
 
@@ -49,7 +49,7 @@ const customStyles = {
   valueContainer: () => ({}),
 };
 
-const selectLanguage = ({ className, onChange }) => (
+const SelectLanguage = ({ className, onChange }) => (
   <Select
     styles={customStyles}
     className={cn("select-language-container", className)}
@@ -70,4 +70,4 @@ const selectLanguage = ({ className, onChange }) => (
   />
 );
 
-export default selectLanguage;
+export default SelectLanguage;

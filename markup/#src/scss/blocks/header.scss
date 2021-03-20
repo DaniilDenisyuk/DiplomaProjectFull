@@ -372,3 +372,12 @@
     color: #000000;
   }
 }
+
+.__container {
+  padding: 0 150px;
+  display: flex;
+  align-items: center;
+}
+.__content-wrapper {
+  width: 1300px;
+}

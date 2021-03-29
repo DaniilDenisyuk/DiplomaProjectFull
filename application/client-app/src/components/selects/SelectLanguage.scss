@@ -1,11 +1,12 @@
 .select-language {
   &-container {
     display: flex;
+    align-self: flex-start;
     flex-direction: column;
-    padding: 30px 20px;
-    position: absolute;
-    top: 0;
-    left: 50%;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    padding: 33px 20px 30px;
     font-family: MontserratSemiBold;
     font-size: 17px;
   }
@@ -36,10 +37,8 @@
     color: rgb(129, 127, 102);
   }
   &__menu {
-    align-self: center;
   }
   &__menu-list {
-    background-color: #ffffff;
     display: block;
   }
   &__lang-icon {
@@ -51,7 +50,7 @@
     cursor: pointer;
     display: flex;
     align-items: flex-end;
-    padding: 5px 5px;
+    padding: 5px;
     margin: 5px -5px;
     color: #000000;
     &:hover {

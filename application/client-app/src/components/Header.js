@@ -1,6 +1,7 @@
-import React from "react";
+import Logo from "./Logo";
 import { NavLink } from "react-router-dom";
 import { SelectLocation, SelectLanguage } from "./selects";
+import { useDisableScroll } from "./hooks";
 import { connect } from "react-redux";
 import { useState, useRef } from "react";
 import cn from "classnames";
@@ -10,6 +11,7 @@ const LINKS = {
   main: [
     {
       name: "Головна",
+      exact: true,
       to: "/",
     },
     {
@@ -43,8 +45,9 @@ const BurgerButton = ({ className, handleClick }) => (
   </button>
 );
 
-const renderLink = ({ name, to, className }) => (
+const RenderLink = ({ name, to, className, exact }) => (
   <NavLink
+    exact={exact}
     to={to}
     className={className}
     activeClassName={`${className}--active`}
@@ -53,50 +56,48 @@ const renderLink = ({ name, to, className }) => (
   </NavLink>
 );
 
-const Logo = ({ className }) => {
-  <div className={cn(className, "logo")}>
-    <i class="logo__img" />
-    <i class="logo__text" />
-  </div>;
-};
-
-const LoginButton = ({ children, className, handleClick }) => {
+const LoginButton = ({ children, className, handleClick }) => (
   <button className={cn(className, "login-btn")} onClick={handleClick}>
     {children}
-  </button>;
-};
+  </button>
+);
 
-const CartButton = ({ className, handleClick, sum }) => {
+const CartButton = ({ className, handleClick, sum = 0 }) => (
   <button className={cn(className, "cart-btn")} onClick={handleClick}>
-    <p class="cart-btn__sum">{sum} грн.</p>
-  </button>;
-};
+    {sum} грн.
+  </button>
+);
 
-const NavMenu = ({ links, auxLinks, className, isActive }) => {
+const NavMenu = ({
+  links,
+  auxLinks,
+  className,
+  isActive,
+  handleCloseClick,
+}) => {
   const MainLinks = links.map((link, i) => (
-    <renderLink key={`link-${i}`} {...link} className="nav-menu__link" />
+    <RenderLink key={`link-${i}`} {...link} className="nav-menu__link" />
   ));
   const AuxLinks = auxLinks.map((link, i) => (
-    <renderLink key={`link-${i}`} {...link} className="nav-menu__link" />
+    <RenderLink key={`link-${i}`} {...link} className="nav-menu__link" />
   ));
   return (
     <nav
       className={cn(className, "nav-menu", { "nav-menu--active": isActive })}
     >
       <Logo className="nav-menu__logo" />
-      <span className="nav-menu__close i-close" />
+      <span className="nav-menu__close i-close" onClick={handleCloseClick} />
       <ul className="nav-menu__main-links">{MainLinks}</ul>
       <ul className="nav-menu__aux-links">{AuxLinks}</ul>
     </nav>
   );
 };
 
-const Header = () => {
+export const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
-  const menuRef = useRef();
   return (
     <header className="header __container">
-      <section class="header__wrapper __content-wrapper">
+      <section className="header__wrapper __content-wrapper">
         <BurgerButton
           className="header__burger"
           handleClick={() => {
@@ -104,15 +105,15 @@ const Header = () => {
           }}
         />
         <NavMenu
-          ref={menuRef}
           className="header__nav"
           links={LINKS.main}
           auxLinks={LINKS.aux}
           isActive={menuOpened}
+          handleCloseClick={() => setMenuOpened(false)}
         />
         <SelectLocation className="header__location" />
         <SelectLanguage className="header__lang" />
-        <LoginButton className="header__login" />
+        <LoginButton className="header__login">Увійти</LoginButton>
         <CartButton className="header__cart" />
       </section>
     </header>
@@ -123,4 +124,6 @@ const mapState = (state) => {};
 
 const mapDispatch = {};
 
-export default connect(mapState, mapDispatch)(Header);
+//const HeaderConnected = connect(mapState, mapDispatch)(Header);
+
+//export { HeaderConnected as Header };

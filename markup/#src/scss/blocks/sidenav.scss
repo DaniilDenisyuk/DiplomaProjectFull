@@ -1,229 +1,228 @@
 .sidenav {
-   position: fixed;
-   left: 0;
-   top: 0;
-   width: 100px;
-   overflow: hidden;
-   z-index: 2;
-   height: 100vh;
-   transition: width 0.3s ease;
-   box-shadow: 4px 0 35px rgba(0, 0, 0, 0.1);
-   @media (max-width: #{$b1}px) {
-      top: auto;
-      bottom: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100px;
+  overflow: hidden;
+  z-index: 2;
+  height: 100vh;
+  transition: width 0.3s ease;
+  box-shadow: 4px 0 35px rgba(0, 0, 0, 0.1);
+  @media (max-width: #{$b1}px) {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    height: adaptVal(80, 50, 1000, 320);
+    &::before {
+      display: none !important;
+    }
+    // &::before {
+    //    content: "";
+    //    display: none;
+    //    position: fixed;
+    //    top: auto;
+    //    bottom: 70px;
+    //    height: 100px;
+    //    background: linear-gradient(
+    //       180deg,
+    //       rgba(255, 255, 255, 0.08) 40.5%,
+    //       rgba(255, 255, 255, 0.81) 71.03%,
+    //       #ffffff 100%
+    //    );
+    //    width: 100%;
+    // }
+    &.active {
       width: 100%;
-      height: adaptVal(80, 50, 1000, 320);
-      &::before {
-         display: none !important;
-      }
-      // &::before {
-      //    content: "";
-      //    display: none;
-      //    position: fixed;
-      //    top: auto;
-      //    bottom: 70px;
-      //    height: 100px;
-      //    background: linear-gradient(
-      //       180deg,
-      //       rgba(255, 255, 255, 0.08) 40.5%,
-      //       rgba(255, 255, 255, 0.81) 71.03%,
-      //       #ffffff 100%
-      //    );
-      //    width: 100%;
-      // }
-      &.active {
-         width: 100%;
-      }
-   }
+    }
+  }
 
-   &.active {
-      width: 200px;
-      &::before {
-         display: block;
-      }
-   }
+  &.active {
+    width: 200px;
+    &::before {
+      display: block;
+    }
+  }
 
-   &__logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding: 12px 0 0 14px;
-      @media (max-width: #{$b1}px) {
-         display: none;
-      }
-   }
-
-   &::before {
-      content: "";
-      position: fixed;
+  &__logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 12px 0 0 14px;
+    @media (max-width: #{$b1}px) {
       display: none;
-      left: 0;
-      top: 0;
-      z-index: 2;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.25);
-   }
-   &__wrapper {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      height: 100%;
-      width: 200px;
-      background-color: #ffffff;
-      box-shadow: 4px 0 35px rgba(0, 0, 0, 0.1);
-      @media (max-width: #{$b1}px) {
-         width: 100%;
-      }
-   }
+    }
+  }
 
-   &__menu {
-      margin: auto 0;
-      padding-left: 20px;
-      display: flex;
-      flex-direction: column;
-      @media (max-width: #{$b1}px) {
-         flex-direction: row;
-         padding: 0;
-         margin: auto;
-      }
-   }
+  &::before {
+    content: "";
+    position: fixed;
+    display: none;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+  &__wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    height: 100%;
+    width: 200px;
+    background-color: #ffffff;
+    @media (max-width: #{$b1}px) {
+      width: 100%;
+    }
+  }
 
-   &__menu-item {
-      cursor: pointer;
-      margin: 23px 0;
-      @media (max-width: #{$b1}px) {
-         margin: 0 adaptVal(35, 13, 1000, 320);
-      }
-   }
+  &__menu {
+    margin: auto 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    @media (max-width: #{$b1}px) {
+      flex-direction: row;
+      padding: 0;
+      margin: auto;
+    }
+  }
 
-   &__sets {
-      &::before {
-         background-image: url("../img/sidenav/sets.svg");
-         background-position: center;
-         background-repeat: no-repeat;
-         background-size: contain;
-      }
-      &:hover::before {
-         background-image: url("../img/sidenav/sets-active.svg");
-      }
-   }
+  &__menu-item {
+    cursor: pointer;
+    margin: 23px 0;
+    @media (max-width: #{$b1}px) {
+      margin: 0 adaptVal(35, 13, 1000, 320);
+    }
+  }
 
-   &__rolls {
-      &::before {
-         background-image: url("../img/sidenav/rolls.svg");
-         background-position: center;
-         background-repeat: no-repeat;
-         background-size: contain;
-      }
-      &:hover::before {
-         background-image: url("../img/sidenav/rolls-active.svg");
-      }
-   }
+  &__sets {
+    &::before {
+      background-image: url("../img/sidenav/sets.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    &:hover::before {
+      background-image: url("../img/sidenav/sets-active.svg");
+    }
+  }
 
-   &__sushi {
-      &::before {
-         background-image: url("../img/sidenav/sushi.svg");
-         background-position: center;
-         background-repeat: no-repeat;
-         background-size: contain;
-      }
-      &:hover::before {
-         background-image: url("../img/sidenav/sushi-active.svg");
-      }
-   }
+  &__rolls {
+    &::before {
+      background-image: url("../img/sidenav/rolls.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    &:hover::before {
+      background-image: url("../img/sidenav/rolls-active.svg");
+    }
+  }
 
-   &__soups {
-      &::before {
-         background-image: url("../img/sidenav/soups.svg");
-         background-position: center;
-         background-repeat: no-repeat;
-         background-size: contain;
-      }
-      &:hover::before {
-         background-image: url("../img/sidenav/soups-active.svg");
-      }
-   }
+  &__sushi {
+    &::before {
+      background-image: url("../img/sidenav/sushi.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    &:hover::before {
+      background-image: url("../img/sidenav/sushi-active.svg");
+    }
+  }
 
-   &__drinks {
-      &::before {
-         background-image: url("../img/sidenav/drinks.svg");
-         background-position: center;
-         background-repeat: no-repeat;
-         background-size: contain;
-      }
-      &:hover::before {
-         background-image: url("../img/sidenav/drinks-active.svg");
-      }
-   }
+  &__soups {
+    &::before {
+      background-image: url("../img/sidenav/soups.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    &:hover::before {
+      background-image: url("../img/sidenav/soups-active.svg");
+    }
+  }
+
+  &__drinks {
+    &::before {
+      background-image: url("../img/sidenav/drinks.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    &:hover::before {
+      background-image: url("../img/sidenav/drinks-active.svg");
+    }
+  }
 }
 
 .m-item {
-   &__icon {
-      display: flex;
-      align-items: center;
-      &::before {
-         content: "";
-         margin-right: 30px;
-         display: block;
-         width: 50px;
-         height: 50px;
-         @media (max-width: #{$b1}px) {
-            width: adaptVal(50, 35, $b1, $b2);
-            height: adaptVal(50, 35, $b1, $b2);
-            margin: 0;
-         }
-         @media (max-width: #{$b2}px) {
-            width: adaptVal(35, 25, $b2, $b3);
-            height: adaptVal(35, 25, $b2, $b3);
-         }
-      }
+  &__icon {
+    display: flex;
+    align-items: center;
+    &::before {
+      content: "";
+      margin-right: 30px;
+      display: block;
+      width: 50px;
+      height: 50px;
       @media (max-width: #{$b1}px) {
-         flex-direction: column;
-      }
-   }
-   &:hover &__text {
-      color: #ff5d29;
-   }
-
-   &__text {
-      color: #434343;
-      font-family: MontserratSemiBold;
-      font-size: 18px;
-      @media (max-width: #{$b1}px) {
-         font-size: adaptVal(18, 13, $b1, $b2);
+        width: adaptVal(50, 35, $b1, $b2);
+        height: adaptVal(50, 35, $b1, $b2);
+        margin: 0;
       }
       @media (max-width: #{$b2}px) {
-         font-size: adaptVal(13, 9, $b2, $b3);
+        width: adaptVal(35, 25, $b2, $b3);
+        height: adaptVal(35, 25, $b2, $b3);
       }
-      @media (max-width: 500px) {
-         font-family: MontserratMedium;
-         color: #161616;
-      }
-   }
+    }
+    @media (max-width: #{$b1}px) {
+      flex-direction: column;
+    }
+  }
+  &:hover &__text {
+    color: #ff5d29;
+  }
+
+  &__text {
+    color: #434343;
+    font-family: MontserratSemiBold;
+    font-size: 18px;
+    @media (max-width: #{$b1}px) {
+      font-size: adaptVal(18, 13, $b1, $b2);
+    }
+    @media (max-width: #{$b2}px) {
+      font-size: adaptVal(13, 9, $b2, $b3);
+    }
+    @media (max-width: 500px) {
+      font-family: MontserratMedium;
+      color: #161616;
+    }
+  }
 }
 
 .logo {
-   display: flex;
-   align-items: center;
-   &__img {
-   }
+  display: flex;
+  align-items: center;
+  &__img {
+  }
 
-   &__text {
-      margin-left: 17px;
-   }
+  &__text {
+    margin-left: 17px;
+  }
 }
 
 .__container__ {
-   width: 100%;
-   margin: 0 adaptVal(310, 30, 1920, 1300) 0 adaptVal(310, 130, 1920, 1300);
-   @media (max-width: 1300px) {
-      margin: 0 30px 0 130px;
-   }
-   @media (max-width: #{$b1}px) {
-      margin: 0 30px;
-   }
-   @media (max-width: #{$b2}px) {
-      margin: 0 20px;
-   }
+  width: 100%;
+  margin: 0 adaptVal(310, 30, 1920, 1300) 0 adaptVal(310, 130, 1920, 1300);
+  @media (max-width: 1300px) {
+    margin: 0 30px 0 130px;
+  }
+  @media (max-width: #{$b1}px) {
+    margin: 0 30px;
+  }
+  @media (max-width: #{$b2}px) {
+    margin: 0 20px;
+  }
 }

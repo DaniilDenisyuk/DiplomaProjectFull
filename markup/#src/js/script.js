@@ -147,9 +147,9 @@ testWebP(function (support) {
 const keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 let supportsPassive = false;
 try {
-   window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-      get: function () { supportsPassive = true; }
-   }));
+  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+    get: function () { supportsPassive = true; }
+  }));
 } catch (e) { }
 const wheelOpt = supportsPassive ? { passive: false } : false;
 const wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';

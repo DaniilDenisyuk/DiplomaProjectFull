@@ -6,13 +6,17 @@ $b2: 768;
 $b3: 320;
 
 @import "assets/sass/fonts";
-@import "assets/sass/utils/utils";
+@import "assets/sass/utils/reset";
 
 img {
   width: 100%;
   height: 100%;
 }
 
+button,
+input {
+  cursor: pointer;
+}
 * {
   box-sizing: border-box !important;
 }
@@ -31,4 +35,13 @@ body {
 
 .row {
   display: flex;
+}
+
+.__container {
+  display: flex;
+}
+
+.__content-wrapper {
+  max-width: 1360px;
+  padding: 0 30px;
 }

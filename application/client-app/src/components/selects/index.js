@@ -1,2 +1,2 @@
-export * from "./SelectLanguage";
 export * from "./SelectLocation";
+export * from "./SelectLanguage";

@@ -22,4 +22,14 @@
       #{$minSize + px} + #{$addSize} * ((100vw - 360px) /#{$maxWidth - 320})
     );
   }
-} ;
+}
+
+@mixin center($orientation) {
+  @if $orientation == "h" {
+    left: 50%;
+    transform: translateX(-50%);
+  } @else {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

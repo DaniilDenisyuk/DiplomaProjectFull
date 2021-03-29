@@ -1,25 +1,25 @@
 .select-location {
   &-container {
     display: flex;
+    align-self: flex-start;
     flex-direction: column;
-    padding: 30px 20px;
-    position: absolute;
-    top: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    padding: 35px 20px 35px;
   }
   &__control {
     cursor: pointer;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    margin: -10px;
-    padding: 10px;
     &::before {
       content: "";
       display: block;
       width: 20px;
       height: 20px;
       margin-right: 8px;
-      background: url("../../../assets/img/location-icon.svg") center/contain
+      background: url("../../assets/img/header/location.svg") center/contain
         no-repeat;
     }
     &--menu-is-open {
@@ -53,7 +53,7 @@
   &__indicator {
     width: 18px;
     height: 11px;
-    background: url("../../../assets/img/arrow-dropdown.svg") center/contain
+    background: url("../../assets/img/arrow-dropdown.svg") center/contain
       no-repeat;
   }
 
@@ -61,10 +61,8 @@
     color: rgb(129, 127, 102);
   }
   &__menu {
-    align-self: center;
   }
   &__menu-list {
-    background-color: #ffffff;
     margin-top: 15px;
     display: grid;
     margin-bottom: -10px;

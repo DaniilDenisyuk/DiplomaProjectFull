@@ -1,9 +1,9 @@
 * {
-   margin: 0;
-   padding: 0;
-   text-decoration: none;
-   font-size: 1em;
-   outline: none;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  font-size: 1em;
+  outline: none;
 }
 code,
 kbd,
@@ -18,9 +18,9 @@ isindex,
 listing,
 xmp,
 plaintext {
-   font: inherit;
-   font-size: 1em;
-   white-space: normal;
+  font: inherit;
+  font-size: 1em;
+  white-space: normal;
 }
 dfn,
 i,
@@ -28,7 +28,7 @@ cite,
 var,
 address,
 em {
-   font-style: normal;
+  font-style: normal;
 }
 th,
 b,
@@ -39,7 +39,7 @@ h3,
 h4,
 h5,
 h6 {
-   font-weight: normal;
+  font-weight: normal;
 }
 a,
 img,
@@ -52,56 +52,85 @@ acronym,
 object,
 applet,
 table {
-   border: none;
+  border: none;
 }
 table {
-   border-collapse: collapse;
-   border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 caption,
 th,
 td,
 center {
-   text-align: left;
-   vertical-align: top;
+  text-align: left;
+  vertical-align: top;
 }
 body {
-   line-height: 1;
-   background: white;
-   color: black;
+  line-height: 1;
+  background: white;
+  color: black;
 }
 q {
-   quotes: "" "";
+  quotes: "" "";
 }
 ul,
 ol,
 dir,
 menu {
-   list-style: none;
+  list-style: none;
 }
 sub,
 sup {
-   vertical-align: baseline;
+  vertical-align: baseline;
 }
 a {
-   color: inherit;
+  color: inherit;
 }
 hr {
-   display: none;
-} /* we don't need a visual hr in layout */
-/* disables some nasty font attributes in standard browsers */
+  display: none;
+}
 font {
-   color: inherit !important;
-   font: inherit !important;
-   color: inherit !important;
+  color: inherit !important;
+  font: inherit !important;
+  color: inherit !important;
 }
 marquee {
-   overflow: inherit !important;
-   -moz-binding: none;
+  overflow: inherit !important;
+  -moz-binding: none;
 }
 blink {
-   text-decoration: none;
+  text-decoration: none;
 }
 nobr {
-   white-space: normal;
+  white-space: normal;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
 }

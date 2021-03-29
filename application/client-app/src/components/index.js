@@ -1,4 +1,4 @@
 export * from "./Header";
-export * from "./Footer";
+//export * from "./Footer";
 export * from "./Sidenav";
-export * from "./PrivateRoute";
+//export * from "./PrivateRoute";

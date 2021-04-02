@@ -1,12 +1,13 @@
 import cn from "classnames";
 
-const ModalField = ({
+export const ModalField = ({
   className,
   input,
   label,
   model,
   id,
   meta: { touched, invalid, error },
+  checkbox,
 }) => (
   <div
     className={cn(className, {
@@ -19,5 +20,3 @@ const ModalField = ({
     {touched && error && <span className={`${className}-error`}>{error}</span>}
   </div>
 );
-
-export default ModalField;

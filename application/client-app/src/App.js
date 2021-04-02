@@ -6,14 +6,14 @@ import React, { Component } from "react";
 //   PaymentPage,
 //   AccountSection,
 // } from "./pages";
-// import {
-//   CartModal,
-//   AuthModal,
-//   RegistrModal,
-//   ResetPwdModal,
-// } from "./components/modals";
+import {
+  // CartModal,
+  AuthModal,
+  // RegistrModal,
+  // ResetPwdModal,
+} from "./components/modals";
 import "./App.scss";
-import { Header, /*Footer,*/ Sidenav /*PrivateRoute*/ } from "./components";
+import { Header, Footer, Sidenav /*PrivateRoute*/ } from "./components";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 //import { Provider } from "react-redux";
 //import { store } from "./Redux/store";
@@ -24,6 +24,7 @@ class App extends Component {
         <BrowserRouter>
           <Header />
           <Sidenav />
+          <Footer />
         </BrowserRouter>
       </React.Fragment>
       // <Provider store={store}>
@@ -38,7 +39,7 @@ class App extends Component {
       //       <Redirect from="*" to="/" />
       //     </Switch>
       //   </BrowserRouter> */}
-      //   {/* <Footer /> */}
+
       // </Provider>
     );
   }

@@ -1,13 +1,4 @@
-import { combineReducers } from "redux";
-
-import { user } from "./user.actions";
-import { order } from "./order.actions";
-import { menu } from "./menu.actions";
-
-const rootReducer = combineReducers({
-  user,
-  order,
-  menu,
-});
-
-export default rootReducer;
+export * from "./order";
+export * from "./menus";
+export * from "./modals";
+export * from "./user";

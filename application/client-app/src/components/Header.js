@@ -1,5 +1,5 @@
 import Logo from "./Logo";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { SelectLocation, SelectLanguage } from "./selects";
 import { useDisableScroll } from "./hooks";
 import { connect } from "react-redux";

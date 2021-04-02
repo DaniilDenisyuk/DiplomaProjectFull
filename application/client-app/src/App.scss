@@ -21,16 +21,12 @@ input {
   box-sizing: border-box !important;
 }
 
-body {
+.main {
   font-family: "Montserrat";
   display: flex;
   flex-direction: column;
   height: 100vh;
   background-color: #ffffff;
-}
-
-.main {
-  flex-grow: 1;
 }
 
 .row {

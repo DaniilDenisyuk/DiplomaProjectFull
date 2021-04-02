@@ -1,14 +1,9 @@
-// import userReducer from "./user.reducer";
-// import orderReducer from "./order.reducer";
-// import menuReducer from "./menu.reducer";
-// import itemReducer from "./item.reducer";
+import { combineReducers } from "redux";
 
-// export default function rootReducer(state = {}, action) {
-//   // always return a new object for the root state
-//   return {
-//     // the value of `state.todos` is whatever the todos reducer returns
-//     user: todosReducer(state.todos, action),
-//     // For both reducers, we only pass in their slice of the state
-//     filters: filtersReducer(state.filters, action),
-//   };
-// }
+import { menus } from "./menus";
+import { modals } from "./modals";
+import { order } from "./order";
+import { user } from "./user";
+
+const rootReducer = combineReducers({ menus, modals, order, user });
+export default rootReducer;

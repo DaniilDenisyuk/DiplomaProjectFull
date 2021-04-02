@@ -1,6 +1,6 @@
 import { userActionTypes } from "../actionTypes";
 
-export function users(state = {}, action) {
+export const user = (state = {}, action) => {
   switch (action.type) {
     case userActionTypes.GETALL_REQUEST:
       return {
@@ -45,4 +45,4 @@ export function users(state = {}, action) {
     default:
       return state;
   }
-}
+};

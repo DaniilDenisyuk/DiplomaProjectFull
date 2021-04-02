@@ -1,63 +1,79 @@
 .footer {
   display: flex;
-  background: #000;
+  background: #182f37;
   margin-top: auto;
+
   &__wrapper {
-    color: #ffffff;
+    position: relative;
     width: 100%;
-    padding: 65px 0;
+    padding-top: 65px;
+    padding-bottom: 65px;
   }
 
   &__row {
     display: flex;
-    justify-content: space-between;
   }
 
-  &__info {
+  &__list {
+    &--info {
+      order: 1;
+    }
+    &--support {
+      margin-left: 130px;
+      order: 2;
+    }
+    &--contacts {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      order: 3;
+    }
+    &--account {
+      margin-left: auto;
+      order: 4;
+    }
+
+    &--additional {
+      margin-left: 165px;
+      order: 5;
+    }
   }
-  &__list-heading {
+
+  &__copyright {
+    color: #ffffff;
+    margin-top: 12px;
+    font-family: Roboto;
+    font-size: 13px;
+    text-align: center;
+  }
+}
+
+.footer-list {
+  &__heading {
+    color: #ffffff;
     font-family: RobotoMedium;
     font-size: 18px;
     margin-bottom: 15px;
   }
-  &__list {
-  }
-
-  &__li {
+  &__link {
     display: block;
+    padding: 5px 0;
+    color: #afafaf;
     font-family: Roboto;
     font-size: 14px;
-    color: #afafaf;
-    padding: 5px 0;
-  }
-
-  &__support {
-  }
-
-  &__contacts {
-    a {
-      display: flex;
+    &:hover {
+      color: #ff5d29;
     }
-    a::before {
+  }
+  .i-phone {
+    display: flex;
+    &::before {
       content: "";
       display: inline-block;
       margin-right: 10px;
       width: 16px;
       height: 16px;
-      background: url("../img/footer-phone.svg") center/contain no-repeat;
+      background: url("../assets/img/phone.svg") center/contain no-repeat;
     }
-  }
-
-  &__personal-account {
-  }
-
-  &__additional {
-  }
-
-  &__copyright {
-    margin-top: 10px;
-    font-family: Roboto;
-    font-size: 13px;
-    text-align: center;
   }
 }

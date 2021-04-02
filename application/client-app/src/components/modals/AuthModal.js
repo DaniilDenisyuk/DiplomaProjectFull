@@ -1,52 +1,47 @@
-import React, { useState } from "react";
-import { PopupField, PopupCheckbox } from "../popups/popupField";
+import { useState } from "react";
+import { ModalField, validations } from "../forms";
 import Button from "../buttons/Button";
-import { required, phoneNumber, email } from "../popups/validations";
-import "./popup.scss";
 
-const phoneOrEmail = () => {
-  if (!phoneNumber() | !email()) {
-    return "Must be email or phone number";
-  }
-  return undefined;
-};
+export const AuthModal = ({ isActive, onSubmit, onGoogleAuth, onFBAuth }) => {
+  const [userInfo, setUserInfo] = useState({
+    login: "",
+    password: "",
+  });
 
-const AuthorizationForm = ({ onSubmit, onGoogleAuth, onFBAuth }) => {
-  const [userInfo, setUser] = useState({});
   const handleInputChange = (event) => {
     event.preventDefault();
     const {
       dataset: { model },
       value,
     } = event.target;
-    setUser({
+    setUserInfo({
       ...userInfo,
       [model]: value,
     });
   };
   return (
-    <section className="popup" id="auth-popup">
-      <div className="popup__wrapper">
-        <span className="popup__close"></span>
-        <h2 className="popup__title">Авторизація</h2>
-        <p className="popup__auxiliary-text">Увійти за допомогою:</p>
-        <div className="popup__sign-with">
+    <section className="auth-modal modal">
+      <div className="modal__wrapper">
+        <span className="modal__close"></span>
+        <h2 className="modal__title">Авторизація</h2>
+        <p className="modal__auxiliary-text">Увійти за допомогою:</p>
+        <div className="modal__sign-with">
           <button
             onClick={onGoogleAuth}
-            className="popup__sign-with-btn popup__sign-with-btn--google"
+            className="modal__sign-with-btn modal__sign-with-btn--google"
           >
             Google
           </button>
           <button
             onClick={onFBAuth}
-            className="popup__sign-with-btn popup__sign-with-btn--facebook"
+            className="modal__sign-with-btn modal__sign-with-btn--facebook"
           >
             Facebook
           </button>
         </div>
-        <form onSubmit={onSubmit} className="popup__form">
-          <PopupField
-            className="popup__form-field"
+        <form onSubmit={onSubmit} className="modal__form">
+          <modalField
+            className="modal__form-field"
             label="Name"
             model="login"
             id="auth-login"
@@ -55,8 +50,8 @@ const AuthorizationForm = ({ onSubmit, onGoogleAuth, onFBAuth }) => {
             onChange={handleInputChange}
             validate={[required, phoneOrEmail]}
           />
-          <PopupField
-            className="popup__form-field"
+          <modalField
+            className="modal__form-field"
             label="Password"
             model="password"
             id="auth-password"
@@ -65,11 +60,11 @@ const AuthorizationForm = ({ onSubmit, onGoogleAuth, onFBAuth }) => {
             onChange={handleInputChange}
             validate={required}
           />
-          <a href="#" className="popup__fgt-pwd">
+          <a href="#" className="modal__fgt-pwd">
             Забули пароль?
           </a>
-          <PopupCheckbox
-            className="popup__form-checkbox"
+          <modalCheckbox
+            className="modal__form-checkbox"
             type="checkbox"
             label="ppd-agreement"
             model="ppd"
@@ -77,13 +72,13 @@ const AuthorizationForm = ({ onSubmit, onGoogleAuth, onFBAuth }) => {
             name="ppd-agreement"
             validate={required}
           />
-          <Button type="submit" className="popup__submit-btn">
+          <Button type="submit" className="modal__submit-btn">
             Зареєструватись
           </Button>
         </form>
-        <p className="popup__link-text">
+        <p className="modal__link-text">
           Уже маєте профіль?
-          <a href="#" className="popup__link">
+          <a href="#" className="modal__link">
             Увійти
           </a>
         </p>
@@ -91,5 +86,3 @@ const AuthorizationForm = ({ onSubmit, onGoogleAuth, onFBAuth }) => {
     </section>
   );
 };
-
-export default AuthorizationForm;

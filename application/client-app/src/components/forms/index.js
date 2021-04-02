@@ -1,2 +1,2 @@
-export * from "./ModalCheckbox";
 export * from "./ModalField";
+export * from "./validations";

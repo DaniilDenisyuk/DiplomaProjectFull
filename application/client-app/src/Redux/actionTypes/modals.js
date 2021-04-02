@@ -1,0 +1,4 @@
+export const modalsAT = {
+  OPEN_MODAL: "MODALS_OPEN_MODAL",
+  CLOSE_MODAL: "MODALS_CLOSE_MODAL",
+};

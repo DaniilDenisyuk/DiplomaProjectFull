@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import { useDisableScroll } from "./hooks";
 import cn from "classnames";
@@ -64,7 +64,9 @@ export const Sidenav = () => {
         onMouseEnter={() => setIsOpened(true)}
         onMouseLeave={() => setIsOpened(false)}
       >
-        <Logo className="sidenav__logo" />
+        <Link to="/about">
+          <Logo className="sidenav__logo" />
+        </Link>
         <SidenavList links={LINKS} className="sidenav__menu" />
       </div>
     </aside>

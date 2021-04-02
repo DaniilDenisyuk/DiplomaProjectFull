@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import ItemCounter from "../ItemCounter";
 import CartItem from "../cards/CartItem";
 
-const cartModal = (props, { linkTo }) => {
+export const CartModal = (props, { linkTo }) => {
   return (
     <section class="bucket-popup" id="bucket-popup">
       <div class="bucket-popup__wrapper">
@@ -19,3 +19,6 @@ const cartModal = (props, { linkTo }) => {
     </section>
   );
 };
+
+const mapState = () => {};
+const mapDispatch = {};

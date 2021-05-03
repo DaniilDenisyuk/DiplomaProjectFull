@@ -1,0 +1,3 @@
+const usersController = () => {};
+
+export { usersController };

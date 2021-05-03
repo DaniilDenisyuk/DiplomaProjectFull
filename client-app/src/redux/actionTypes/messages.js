@@ -1,0 +1,7 @@
+const messagesAT = {
+  ADD_ERROR_MESSAGE: "ADD_ERROR_MESSAGE",
+  ADD_SUCCESS_MESSAGE: "ADD_SUCCESS_MESSAGE",
+  ADD_INFO_MESSAGE: "ADD_INFO_MESSAGE",
+};
+
+export default messagesAT;

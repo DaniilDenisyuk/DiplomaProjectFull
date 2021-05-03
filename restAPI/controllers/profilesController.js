@@ -1,0 +1,3 @@
+const profilesController = () => {};
+
+export { profilesController };

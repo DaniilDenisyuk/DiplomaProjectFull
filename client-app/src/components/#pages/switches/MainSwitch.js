@@ -2,8 +2,8 @@ import { Films, Home, Profiles, UserInfo } from "../pages";
 import AdminSwitch from "./AdminSwitch";
 import { PrivateRoute } from "./PrivateRoute";
 import { AuthFormModal, RegistrFormModal } from "../modals";
-import { ROLES } from "../../shared/roles";
-import { login, register } from "../../redux/actionCreators/user";
+import { ROLES } from "../../../shared/roles";
+import { login, register } from "../../../redux/actionCreators/user";
 
 import { connect } from "react-redux";
 import {
@@ -54,9 +54,9 @@ const MainSwitch = ({ login, register }) => {
           }}
         />
         <Redirect
-          from="/registr"
+          from="/register"
           to={{
-            pathname: "/registr",
+            pathname: "/register",
             state: { background: { pathname: "/home" } },
           }}
         />

@@ -13,14 +13,6 @@ const login = (login, password) => {
   );
 };
 
-const register = (userInfo) => {
-  const requestOptions = {
-    method: "POST",
-    body: JSON.stringify(userInfo),
-  };
-  return fetch(`${API_URL}/auth/register`, requestOptions).then(handleResponse);
-};
-
 const logout = (token) => {
   if (!token) return;
   const requestOptions = {
@@ -32,7 +24,7 @@ const logout = (token) => {
   );
 };
 
-const refreshToken = (token) => {
+const refreshToken = (token = "") => {
   const requestOptions = {
     method: "POST",
     headers: tokenHeader(token),
@@ -44,7 +36,6 @@ const refreshToken = (token) => {
 
 export const authService = {
   login,
-  register,
   logout,
   refreshToken,
 };

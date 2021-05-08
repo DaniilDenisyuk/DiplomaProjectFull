@@ -1,8 +1,8 @@
-import { API_URL } from "../shared/apiUrl";
-import tokenHeader from "../helpers/tokenHeader";
-import handleResponse from "../helpers/handleResponse";
+import { API_URL } from "./helpers/apiUrl";
+import tokenHeader from "./helpers/tokenHeader";
+import handleResponse from "./helpers/handleResponse";
 
-const login = (login, password) => {
+const login = async (login, password) => {
   const requestOptions = {
     method: "POST",
     body: JSON.stringify({ login, password }),
@@ -13,7 +13,7 @@ const login = (login, password) => {
   );
 };
 
-const logout = (token) => {
+const logout = async (token) => {
   if (!token) return;
   const requestOptions = {
     method: "POST",
@@ -24,7 +24,7 @@ const logout = (token) => {
   );
 };
 
-const refreshToken = (token = "") => {
+const refreshToken = async (token = "") => {
   const requestOptions = {
     method: "POST",
     headers: tokenHeader(token),

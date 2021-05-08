@@ -1,0 +1,14 @@
+.login-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  &::before {
+    content: url("../../../assets/img/header/user.svg");
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+}

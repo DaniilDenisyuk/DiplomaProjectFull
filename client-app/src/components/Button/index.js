@@ -4,20 +4,22 @@ import "./style.scss";
 const Button = ({
   children,
   className,
-  text,
   type,
+  rounded,
+  primary,
+  secondary,
   onClick,
-  style = "button",
 }) => {
   return (
     <button
       className={cn(className, "button", {
-        "button--link": style === "link",
+        "button--primary": primary,
+        "button--secondary": secondary,
+        "button--rounded": rounded,
       })}
       type={type}
       onClick={onClick}
     >
-      {text}
       {children}
     </button>
   );

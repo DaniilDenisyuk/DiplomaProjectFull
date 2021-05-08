@@ -1,6 +1,6 @@
-import { API_URL } from "../shared/apiUrl";
-import tokenHeader from "../helpers/tokenHeader";
-import handleResponse from "../helpers/handleResponse";
+import { API_URL } from "./helpers/apiUrl";
+import tokenHeader from "./helpers/tokenHeader";
+import handleResponse from "./helpers/handleResponse";
 
 const createMovie = (token, movie) => {
   if (!token) return;

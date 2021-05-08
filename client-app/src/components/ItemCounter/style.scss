@@ -1,0 +1,46 @@
+.item-counter {
+  &__btn {
+    cursor: pointer;
+    display: flex;
+    width: 22px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #ffffff;
+    border: 1px solid #7ac74f;
+    background: #ffffff;
+    &::after,
+    &::before {
+      content: "";
+      background: #7ac74f;
+      display: none;
+      position: absolute;
+      height: 2px;
+      width: 14px;
+      background: #ffffff;
+      border-radius: 3000px;
+    }
+    &::before {
+      transform: rotate(90deg);
+    }
+    &--inc {
+      &::after,
+      &::before {
+        display: block;
+      }
+    }
+    &--dec {
+      &::after {
+        display: block;
+      }
+    }
+    &:disabled {
+      border-color: #adadad;
+      &::after,
+      &::before {
+        background: #adadad;
+      }
+    }
+  }
+}

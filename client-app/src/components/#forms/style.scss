@@ -1,0 +1,52 @@
+.form {
+  display: block;
+  line-height: 24px;
+  font: Roboto 14px #67758d;
+  &__heading {
+    font: Montserrat 600 24px 30px #110a3a;
+    margin-bottom: 14px;
+    letter-spacing: 1.5%;
+  }
+  &__group {
+    position: relative;
+    margin-bottom: 6px;
+    &--no-label {
+      margin-bottom: 21px;
+    }
+  }
+  &__label {
+  }
+  &__input {
+    font-size: 16px;
+    padding: 0 17px;
+    border: 1px solid #bbbbbb;
+    border-radius: 7px;
+    width: 350px;
+  }
+  &__field-link {
+  }
+  &__submit {
+    width: 350px;
+    font-weight: 500;
+    border-radius: 7px !important;
+  }
+  &__tip-message {
+    font: Montserrat 600 24px #717171;
+    margin-bottom: 17px;
+  }
+  &__submitting {
+  }
+  &__error-message {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+  }
+  &__links {
+    margin-top: 60px;
+  }
+  &__link {
+    margin-left: 10px;
+    font-weight: 500;
+    color: #ff5d29;
+  }
+}

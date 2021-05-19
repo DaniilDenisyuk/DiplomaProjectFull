@@ -10,7 +10,7 @@ const register = (user) => {
   return fetch(`${API_URL}/users`, requestOptions).then(handleResponse);
 };
 
-const getUser = async (token, userId) => {
+const getUserData = async (token, userId) => {
   if (!token) return;
   const requestOptions = {
     method: "GET",
@@ -21,7 +21,7 @@ const getUser = async (token, userId) => {
   );
 };
 
-const updateUser = async (token, userId, user) => {
+const updateUserData = async (token, userId, user) => {
   if (!token) return;
   const requestOptions = {
     method: "PUT",
@@ -43,10 +43,4 @@ const deleteUser = (token, userId) => {
     handleResponse
   );
 };
-
-export const userService = {
-  register,
-  getUser,
-  updateUser,
-  deleteUser,
-};
+export const userService = { register, getUserData, updateUserData, deleteUser };

@@ -82,48 +82,50 @@ const Header = () => {
   const [infoOpened, setInfoOpened] = useState(false);
   const history = useHistory();
   return (
-    <header className="header __container">
-      <section className="header__wrapper">
-        <Burger onClick={() => setMenuOpened(true)} />
-        <NavMenu
-          className="header__nav"
-          links={LINKS.main}
-          auxLinks={LINKS.aux}
-          isActive={menuOpened}
-          onClose={() => setMenuOpened(false)}
-        />
-        <SelectLocation className="header__location" />
-        <SelectLang className="header__lang" />
-        <AuthButton
-          text="Увійти"
-          className="header__login"
-          onOpenLogin={() =>
-            history.push("/login", { background: history.location })
-          }
-          onOpenInfo={() => setInfoOpened(true)}
-        />
-        <CartButton
-          className="header__cart"
-          onOpenCart={() => setCartOpened(true)}
-        />
-        {infoOpened && (
-          <AuthInfoPopup
-            className="dropin"
-            onClose={() => setInfoOpened(false)}
+    <>
+      <header className="header __container">
+        <section className="header__wrapper">
+          <Burger onClick={() => setMenuOpened(true)} />
+          <NavMenu
+            className="header__nav"
+            links={LINKS.main}
+            auxLinks={LINKS.aux}
+            isActive={menuOpened}
+            onClose={() => setMenuOpened(false)}
           />
-        )}
-        {cartOpened && (
-          <CartModal
-            className="header__cart-modal"
-            onClose={() => setCartOpened(false)}
-            onOrderClick={() => {
-              setCartOpened(false);
-              history.push("/payment");
-            }}
+          <SelectLocation className="header__location" />
+          <SelectLang className="header__lang" />
+          <AuthButton
+            text="Увійти"
+            className="header__login"
+            onOpenLogin={() =>
+              history.push("/login", { background: history.location })
+            }
+            onOpenInfo={() => setInfoOpened(true)}
           />
-        )}
-      </section>
-    </header>
+          <CartButton
+            className="header__cart"
+            onOpenCart={() => setCartOpened(true)}
+          />
+          {infoOpened && (
+            <AuthInfoPopup
+              className="dropin"
+              onClose={() => setInfoOpened(false)}
+            />
+          )}
+        </section>
+      </header>
+      {cartOpened && (
+        <CartModal
+          className="header__cart-modal"
+          onClose={() => setCartOpened(false)}
+          onOrderClick={() => {
+            setCartOpened(false);
+            history.push("/payment");
+          }}
+        />
+      )}
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import Select, { components } from "react-select";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import cn from "classnames";
 import { getLang } from "../../../common/selectors";
@@ -57,28 +57,12 @@ const customStyles = {
 
 export const SelectLanguage = ({ className, onChange }) => {
   const [isSelectOpened, setIsSelectOpened] = useState(false);
-  const selectRef = useRef(null);
   const lang = useSelector(getLang);
   const dispatch = useDispatch();
-  useEffect(() => {
-    function handleMouseEnter() {
-      this.classList.add("active");
-    }
-    function handleMouseLeave() {
-      this.classList.remove("active");
-    }
-    if (selectRef && selectRef.current) {
-      selectRef.current.addEventListener("mouseenter", handleMouseEnter);
-      selectRef.current.addEventListener("mouseleave", handleMouseLeave);
-      return () => {
-        selectRef.current.removeEventListener("mouseenter", handleMouseEnter);
-        selectRef.current.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    }
-  }, [selectRef]);
   return (
     <div
-      ref={selectRef}
+      onMouseEnter={() => setIsSelectOpened(true)}
+      onMouseLeave={() => setIsSelectOpened(false)}
       className={cn(className, "select-language", {
         active: isSelectOpened,
       })}

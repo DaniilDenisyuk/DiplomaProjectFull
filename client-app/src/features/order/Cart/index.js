@@ -11,7 +11,7 @@ export const CartButton = ({ className, onOpenCart }) => {
   const sum = useSelector(getOrderSum);
   return (
     <button className={cn(className, "cart-button rbt-b")} onClick={onOpenCart}>
-      {`${sum} грн.`}
+      {sum}&#8372;
     </button>
   );
 };
@@ -28,8 +28,8 @@ const Cart = ({ onOrderClick }) => {
   ));
   return (
     <div className="cart">
+      <p className="mnt-m cart__heading">Кошик</p>
       <div className="cart__items">
-        <p className="mnt-m cart__heading">Кошик</p>
         {cards && cards.length ? (
           cards
         ) : (

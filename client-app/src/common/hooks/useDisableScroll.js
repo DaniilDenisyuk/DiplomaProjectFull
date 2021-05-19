@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useDisableScroll = () => {
+export const useDisableScroll = (condition = true) => {
   useEffect(() => {
     const keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
     let supportsPassive = false;
@@ -42,11 +42,11 @@ export const useDisableScroll = () => {
       window.removeEventListener("touchmove", preventDefault, wheelOpt);
       window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
     };
-
-    disableScroll();
-
+    if (condition) {
+      disableScroll();
+    }
     return () => {
       enableScroll();
     };
-  }, []);
+  }, [condition]);
 };

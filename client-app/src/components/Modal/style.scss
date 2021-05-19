@@ -3,17 +3,20 @@
   top: 0;
   left: 0;
   width: 100vw;
+  min-width: 100vw;
   height: 100vh;
   z-index: 9999;
   display: flex;
   transform: translateZ(9999px);
   &__body {
-    position: relative;
     background-color: #ffffff;
-    padding: 30px;
+    padding: 60px 52px;
     border-radius: 7px;
     z-index: 2;
     margin: auto;
+  }
+  &__close-wrapper {
+    position: relative;
   }
   &__close {
     cursor: pointer;
@@ -23,8 +26,8 @@
     align-items: center;
     width: 15px;
     height: 15px;
-    right: 15px;
-    top: 15px;
+    right: 0px;
+    top: 0px;
     &::before,
     &::after {
       content: "";

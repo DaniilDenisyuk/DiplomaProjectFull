@@ -12,7 +12,9 @@ const ModalHOC = (Component) => {
       <div className="fadein modal">
         <div className="modal__shadow-bg" />
         <div ref={bodyRef} className={cn(className, "modal__body")}>
-          <span className="modal__close" onClick={onClose} />
+          <div className="modal__close-wrapper">
+            <span className="modal__close" onClick={onClose} />
+          </div>
           <Component {...rest} />
         </div>
       </div>

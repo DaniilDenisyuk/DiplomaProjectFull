@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import cn from "classnames";
-import "./Footer.scss";
+import "./style.scss";
 
 const LISTS = [
   {
@@ -108,7 +108,7 @@ const RenderFooterList = ({ className, name, links, listClass }) => {
   );
 };
 
-export const Footer = () => {
+const Footer = () => {
   const lists = LISTS.map((list, i) => (
     <RenderFooterList key={`list-${i}`} className="footer__list" {...list} />
   ));
@@ -121,3 +121,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;

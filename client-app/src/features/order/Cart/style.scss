@@ -17,9 +17,13 @@
   display: block;
   color: #0d0d0d;
   &__items {
+    position: relative;
+    z-index: 2;
     display: block;
+    max-height: 500px;
+    overflow-y: scroll;
     margin-bottom: 15px;
-    padding: 45px 55px 0;
+    padding: 0 55px;
   }
   &__empty {
     padding: 50px;
@@ -30,6 +34,7 @@
   }
   &__heading {
     font-size: 28px;
+    padding: 45px 55px 0;
     margin-bottom: 15px;
   }
   &__result {
@@ -40,6 +45,7 @@
   }
   &__sum {
     font-size: 22px;
+    font-family: MontserratSemiBold;
     color: #0d0d0d;
     margin-right: 50px;
   }
@@ -53,6 +59,11 @@
 
 .cart-modal {
   padding: 0;
+  position: relative;
+  .modal__close {
+    right: 55px;
+    top: 50px;
+  }
   &::before {
     content: "";
     border-left: 13px solid transparent;

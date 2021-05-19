@@ -1,6 +1,9 @@
+import store from "../App/store";
+
 export const getToken = (store) => store.auth.jwt;
 export const getIsLoggedIn = (store) => store.auth.isLoggedIn;
 export const getUsername = (store) => store.auth.username;
+export const getUserRole = (store) => store.auth.role;
 
 export const getLocationName = (store) => store.location.name;
 
@@ -16,6 +19,13 @@ export const getMenuItem = (id) => (store) => {
 };
 
 export const getOrderItems = (store) => store.order.items;
+export const getOrderItem = (id) => (store) => {
+  const items = store.order.items;
+  const index = items.findIndex((item) => item.id === id);
+  if (index >= 0) {
+    return items[index];
+  }
+};
 export const getOrderSum = (store) => store.order.sum;
 export const getOrderItemCount = (id) => (store) => {
   const items = getOrderItems(store);

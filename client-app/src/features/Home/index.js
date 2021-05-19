@@ -1,112 +1,84 @@
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useCallback } from "react";
 
-import CardSlider from "../../components/CardSlider";
-import ItemCard from "../../components/ItemInfoCard";
-import Contacts from "../../components/Contacts";
-import Delivery from "../../components/Delivery";
+import { ItemCardSmart } from "../menu/ItemCard";
+import ItemSlider from "../../components/ItemSlider";
+import { getMenuItems } from "../../common/selectors";
+import Contacts from "../Contacts";
+import Delivery from "../Delivery";
 
-import { getMenuItem, getMenuCategories } from "../../common/selectors";
-import { orderActions } from "../order/orderSlice";
+import "./style.scss";
 
-const ItemCardConnected = (itemId, ...rest) => {
-  const item = useSelector(getMenuItem("id", itemId));
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const handleCardClick = () => history.push(`/menu/${itemId}`);
-  const handleOrderClick = () => dispatch(orderActions.addItem(itemId));
-
-  return (
-    <ItemCard
-      item={item}
-      onCardClick={handleCardClick}
-      onOrderClick={handleOrderClick}
-      {...rest}
+const Category = ({ name, toFull, items }) => (
+  <li className="home__category h-category">
+    <h2 className="mnt-m fz-48 h-category__heading">{name}</h2>
+    <Link
+      to={toFull}
+      className="mnt-m fz-14 orange orange-bd h-category__full-link"
+    >
+      Показати усі
+    </Link>
+    <ItemSlider
+      spaceBetween={20}
+      className="h-category__items"
+      items={items}
+      itemComponent={ItemCardSmart}
     />
-  );
-};
+  </li>
+);
 
 const Home = () => {
-  const { sets, rolls, sushi, soups, drinks } = useSelector(getMenuCategories);
+  const items = useSelector(getMenuItems);
+  const sets = useCallback(() => {
+    return items.filter((item) => item.category === "sets");
+  }, [items]);
+  const rolls = useCallback(() => {
+    return items.filter((item) => item.category === "rolls");
+  }, [items]);
+  const sushi = useCallback(() => {
+    return items.filter((item) => item.category === "sushi");
+  }, [items]);
+  const soups = useCallback(() => {
+    return items.filter((item) => item.category === "soups");
+  }, [items]);
+  const drinks = useCallback(() => {
+    return items.filter((item) => item.category === "drinks");
+  }, [items]);
   return (
     <div className="home">
       <div className="home__banner "></div>
       <menu className="home__menu">
         <p className="mnt-b fz-60 home__menu-title">Топ позиції</p>
         <p className="mnt fz-24 home__menu-tip">
-          Нижче Ви можете ознойомитися з нашим асориментом вишуканих сетів,суші,
-          супів та комбо - меню
+          Нижче Ви можете ознойомитися з нашим асориментом
+          <br /> вишуканих сетів,суші, супів та комбо - меню
         </p>
-        <li className="home__category category">
-          <h2 className="fz-48 category__heading">Сети</h2>
-          <Link
-            to="/menu/sets"
-            className="mnt-m fz-14 orange orange-bd  category__full-link"
-          >
-            Показати усі
-          </Link>
-          <CardSlider
-            className="category__items"
-            items={sets}
-            cardComponent={ItemCardConnected}
-          />
-        </li>
-        <li className="home__category category">
-          <h2 className="mnt-m fz-48 category__heading">Роли</h2>
-          <Link
-            to="/menu/rolls"
-            className="mnt-m fz-14 orange orange-bd category__full-link"
-          >
-            Показати усі
-          </Link>
-          <CardSlider
-            className="category__items"
-            items={rolls}
-            cardComponent={ItemCardConnected}
-          />
-        </li>
-        <li className="home__category category">
-          <h2 className="mnt-m fz-48 category__heading">Суші</h2>
-          <Link
-            to="/menu/sushi"
-            className="mnt-m fz-14 orange orange-bd category__full-link"
-          >
-            Показати усі
-          </Link>
-          <CardSlider
-            className="category__items"
-            items={sushi}
-            cardComponent={ItemCardConnected}
-          />
-        </li>
-        <li className="home__category category">
-          <h2 className="mnt-m fz-48 category__heading">Супи</h2>
-          <Link
-            to="/menu/soups"
-            className="mnt-m fz-14 orange orange-bd category__full-link"
-          >
-            Показати усі
-          </Link>
-          <CardSlider
-            className="category__items"
-            items={soups}
-            cardComponent={ItemCardConnected}
-          />
-        </li>
-        <li className="home__category category">
-          <h2 className="mnt-m fz-48 category__heading">Супи</h2>
-          <Link
-            to="/menu/drinks"
-            className="mnt-m fz-14 orange orange-bd category__full-link"
-          >
-            Показати усі
-          </Link>
-          <CardSlider
-            className="category__items"
-            items={drinks}
-            cardComponent={ItemCardConnected}
-          />
-        </li>
+        <Category key="sets" name="Сети" toFull="/menu/sets" items={sets()} />
+        <Category
+          key="rolls"
+          name="Роли"
+          toFull="/menu/rolls"
+          items={rolls()}
+        />
+        <Category
+          key="sushi"
+          name="Суші"
+          toFull="/menu/sushi"
+          items={sushi()}
+        />
+        <Category
+          key="soups"
+          name="Супи"
+          toFull="/menu/soups"
+          items={soups()}
+        />
+        <Category
+          key="drinks"
+          name="Напої"
+          toFull="/menu/drinks"
+          items={drinks()}
+        />
       </menu>
       <Delivery className="home__delivery" />
       <Contacts className="home__contacts" />

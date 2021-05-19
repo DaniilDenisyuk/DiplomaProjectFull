@@ -10,9 +10,9 @@ export const orderConstants = {
   removeItem: "order/removeItem",
 };
 
-const addItem = (itemId) => ({
+const addItem = (item) => ({
   type: orderConstants.addItem,
-  payload: { id: itemId },
+  payload: { item },
 });
 
 const removeItem = (itemId) => ({
@@ -34,30 +34,28 @@ export const orderActions = {
 export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case orderConstants.addItem: {
-      const { item } = action;
-      //add duplicates
-      const { items, sum } = state;
-      const newSum = sum + item.price;
-      items.concat({ item, count: 1 }).filter((item, index, itemsArr) => {
-        const originalIndex = itemsArr.findIndex((obj) => obj.id === item.id);
-        if (originalIndex === index) {
-          return true;
-        }
-        itemsArr[originalIndex].count += 1;
-        return false;
-      });
+      const { item } = action.payload;
+      let { items, sum } = state;
+      sum += parseInt(item.price, 10);
+      const index = items.findIndex((obj) => obj.id === item.id);
+      if (index >= 0) {
+        items[index].count += 1;
+      } else {
+        items = items.concat({ ...item, count: 1 });
+      }
       return {
         items,
-        sum: newSum,
+        sum,
       };
     }
     case orderConstants.removeItem: {
-      const { itemId } = action;
+      const { id } = action.payload;
       const { items, sum } = state;
       let newSum = sum;
-      const index = items.findIndex((item) => item.id === itemId);
+      const index = items.findIndex((item) => item.id === id);
       if (index >= 0) {
-        newSum -= items.splice(index, 1)[0].price;
+        const deleted = items.splice(index, 1)[0];
+        newSum -= parseInt(deleted.price * deleted.count);
       }
       return {
         items,
@@ -65,16 +63,15 @@ export const orderReducer = (state = initialState, action) => {
       };
     }
     case orderConstants.changeCount: {
-      const { itemId, newCount } = action;
+      const { id, count } = action.payload;
       const { items, sum } = state;
       let newSum = sum;
-      const index = items.findIndex((item) => item.id === itemId);
+      const index = items.findIndex((item) => item.id === id);
       if (index >= 0) {
-        const price = items[index].price;
-        const count = items[index].count;
-        const diff = newCount - count;
-        newSum += price * diff;
-        items[index].count = newCount;
+        const price = parseInt(items[index].price);
+        const oldCount = items[index].count;
+        newSum += price * (count - oldCount);
+        items[index].count = count;
       }
       return {
         items,

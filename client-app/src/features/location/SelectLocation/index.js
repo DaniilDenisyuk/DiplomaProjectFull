@@ -1,5 +1,5 @@
 import Select, { components } from "react-select";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import cn from "classnames";
 import { getLocationName } from "../../../common/selectors";
@@ -39,30 +39,13 @@ const Indicator = (props) => (
 
 export const SelectLocation = ({ className }) => {
   const [isSelectOpened, setIsSelectOpened] = useState(false);
-  const selectRef = useRef(null);
   const location = useSelector(getLocationName);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    function handleMouseEnter() {
-      this.classList.add("active");
-    }
-    function handleMouseLeave() {
-      this.classList.remove("active");
-    }
-    if (selectRef && selectRef.current) {
-      selectRef.current.addEventListener("mouseenter", handleMouseEnter);
-      selectRef.current.addEventListener("mouseleave", handleMouseLeave);
-      return () => {
-        selectRef.current.removeEventListener("mouseenter", handleMouseEnter);
-        selectRef.current.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    }
-  }, [selectRef]);
   const PLACEHOLDER = "Ваше місто";
   return (
     <div
-      ref={selectRef}
+      onMouseEnter={() => setIsSelectOpened(true)}
+      onMouseLeave={() => setIsSelectOpened(false)}
       className={cn(className, "select-location", {
         active: isSelectOpened,
       })}

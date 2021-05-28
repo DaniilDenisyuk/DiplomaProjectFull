@@ -1,0 +1,13 @@
+.menu-item {
+  position: relative;
+  &__like-btn {
+    visibility: hidden;
+    position: absolute;
+    top: 255px;
+    right: 35px;
+    border-color: #cfcfcf;
+  }
+  &:hover &__like-btn {
+    visibility: visible;
+  }
+}

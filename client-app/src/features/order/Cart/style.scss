@@ -18,6 +18,7 @@
   color: #0d0d0d;
   &__items {
     position: relative;
+    width: 490px;
     z-index: 2;
     display: block;
     max-height: 500px;
@@ -25,11 +26,16 @@
     margin-bottom: 15px;
     padding: 0 55px;
   }
+  &__to-menu {
+    height: 46px;
+    margin: auto;
+  }
   &__empty {
     padding: 50px;
     text-align: center;
   }
   &__item {
+    width: 100%;
     margin-bottom: 15px;
   }
   &__heading {

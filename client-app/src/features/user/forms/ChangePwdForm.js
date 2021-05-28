@@ -13,7 +13,6 @@ export const ChangePwdForm = ({ className }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const password = useRef({});
   const token = useSelector(getToken);
-  const userId = useSelector(getUserId);
   const {
     register,
     handleSubmit: formSubmit,
@@ -28,7 +27,7 @@ export const ChangePwdForm = ({ className }) => {
 
   const onSubmit = async ({ oldPwd, newPwd }, e) => {
     setIsSubmitting(true);
-    await userService.changeUserPassword(token, userId, oldPwd, newPwd);
+    await userService.changeUserPassword(token, oldPwd, newPwd);
     setIsSubmitting(false);
   };
 
@@ -37,41 +36,49 @@ export const ChangePwdForm = ({ className }) => {
   return (
     <form
       onSubmit={formSubmit(onSubmit, onError)}
-      className={cn(className, "form", "form--account")}
+      className={cn(className, "form")}
     >
-      <h2 className="form__heading">Особиста інформація</h2>
-      <FormGroup
-        className="form__form-group"
-        inputProps={{ ...register("oldPwd", { required: true }), type: "text" }}
-        error={errors.phone && errors.phone.message}
-        label="Старий пароль"
-      />
-      <FormGroup
-        className="form__form-group"
-        inputProps={{ ...register("newPwd", { required: true }), type: "text" }}
-        error={errors.phone && errors.phone.message}
-        label="Новий пароль"
-      />
-      <FormGroup
-        className="form__form-group"
-        inputProps={{
-          ...register("newPwd2", {
-            required: true,
-            validate: (value) =>
-              value === password.current || "Паролі не співпадають",
-          }),
-          type: "text",
-        }}
-        error={errors.email && errors.email.message}
-        label="Повторіть новий пароль"
-      />
-      <Button type="submit" className="form__submit">
-        {isSubmitting ? (
-          <Loading className="form__submitting" message="Зберігаємо" />
-        ) : (
-          "Зберегти"
-        )}
-      </Button>
+      <div className="form__wrapper">
+        <h2 className="form__heading">Змінити пароль</h2>
+        <FormGroup
+          className="form__form-group"
+          inputProps={{
+            ...register("oldPwd", { required: true }),
+            type: "password",
+          }}
+          error={errors.phone && errors.phone.message}
+          label="Старий пароль"
+        />
+        <FormGroup
+          className="form__form-group"
+          inputProps={{
+            ...register("newPwd", { required: true }),
+            type: "password",
+          }}
+          error={errors.phone && errors.phone.message}
+          label="Новий пароль"
+        />
+        <FormGroup
+          className="form__form-group"
+          inputProps={{
+            ...register("newPwd2", {
+              required: true,
+              validate: (value) =>
+                value === password.current || "Паролі не співпадають",
+            }),
+            type: "password",
+          }}
+          error={errors.email && errors.email.message}
+          label="Повторіть новий пароль"
+        />
+        <Button type="submit" className="form__submit" secondary>
+          {isSubmitting ? (
+            <Loading className="form__submitting" message="Зберігаємо" />
+          ) : (
+            "Зберегти"
+          )}
+        </Button>
+      </div>
     </form>
   );
 };

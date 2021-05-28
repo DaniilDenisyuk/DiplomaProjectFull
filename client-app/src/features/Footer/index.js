@@ -8,24 +8,12 @@ const LISTS = [
     listClass: "info",
     links: [
       {
-        name: "Публічний договір",
-        to: "/license",
-      },
-      {
         name: "Про нас",
         to: "/about",
       },
       {
         name: "Інформація про доставку",
         to: "/delivery",
-      },
-      {
-        name: "Вакансії",
-        to: "/vacancies",
-      },
-      {
-        name: "Політика конфіденційності",
-        to: "/policy",
       },
     ],
   },
@@ -47,11 +35,6 @@ const LISTS = [
     name: "Контакти",
     listClass: "contacts",
     links: [
-      {
-        name: "+38(096)12-34-567",
-        to: "tel:+380961234567",
-        linkClass: "i-phone",
-      },
       {
         name: "+38(096)12-34-567",
         to: "tel:+380961234567",
@@ -101,10 +84,12 @@ const RenderFooterList = ({ className, name, links, listClass }) => {
     </Link>
   ));
   return (
-    <ul className={cn(className, `${className}--${listClass}`, "footer-list")}>
-      <p className="footer-list__heading">{name}</p>
-      {items}
-    </ul>
+    <div className={`${className}--${listClass}`}>
+      <ul className={cn(className, "footer-list")}>
+        <p className="footer-list__heading">{name}</p>
+        {items}
+      </ul>
+    </div>
   );
 };
 
@@ -116,7 +101,11 @@ const Footer = () => {
     <footer className="footer __container">
       <div className="footer__wrapper">
         <div className="footer__row">{lists}</div>
-        <p className="footer__copyright">© Усі права захищені 2021</p>
+        <p className="footer__copyright">
+          © Developed by Daniil Denysiuk
+          <br /> Designed by Rostislav Marych
+          <br /> 2021
+        </p>
       </div>
     </footer>
   );

@@ -1,2 +1,2 @@
 export * from "./Cart";
-export * from "./OrderItemCard";
+export * from "./OrderItem";

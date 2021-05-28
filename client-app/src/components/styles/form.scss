@@ -4,62 +4,37 @@
   font-family: Roboto;
   font-size: 14px;
   color: #67758d;
+  &__wrapper {
+    width: 350px;
+  }
   &__heading {
     font-family: MontserratSemiBold;
     font-size: 24px;
     color: #110a3a;
-    margin-bottom: 25px;
+    margin-bottom: 18px;
     letter-spacing: 1.5%;
   }
-  &__group {
-    position: relative;
-    margin-bottom: 6px;
-    &--no-label {
-      margin-bottom: 21px;
+  &__form-group {
+    width: 100%;
+    &--half {
+      width: 50%;
     }
+    margin-bottom: 25px;
   }
-  &__label {
-  }
-  &__input {
-    &::placeholder {
-      color: rgba(103, 117, 141, 0.56);
-    }
-    width: 350px;
-    height: 50px;
-    font-size: 16px;
-    padding: 0 17px;
-    border: 1px solid #bbbbbb;
-    border-radius: 7px;
-  }
-  &__field-link {
-    display: block;
-    &:hover {
-      color: #ff5d29;
-    }
-  }
+
   &__submit {
     font-family: RobotoMedium;
     font-size: 20px;
-    height: 50px;
-    width: 350px;
-    border-radius: 6px;
-    font-weight: 500;
-    border-radius: 7px !important;
+    height: 56px;
+    width: 100%;
+    margin-top: 40px;
+    border-radius: 7px;
   }
   &__tip-message {
     font-family: Montserrat;
     font-size: 13px;
     color: #717171;
     margin-bottom: 21px;
-  }
-  &__submitting {
-  }
-  &__error-message {
-    color: #ff5d29;
-    font-size: 12px;
-    position: absolute;
-    bottom: 100%;
-    right: 0;
   }
   &__links {
     margin-top: 60px;

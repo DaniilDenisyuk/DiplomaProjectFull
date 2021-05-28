@@ -2,11 +2,16 @@ import { authService } from "../../services/authService";
 
 const initialState = {
   isLoggingIn: false,
-  isLoggedIn: false,
-  id: "",
-  username: "",
-  jwt: "",
-  role: "",
+  //isLoggedIn: false,
+  // id: "",
+  // username: "",
+  // jwt: "",
+  // role: "",
+  isLoggedIn: true,
+  id: "0",
+  username: "DanDen6",
+  jwt: "someJwt",
+  role: "admin",
 };
 
 export const authConstants = {

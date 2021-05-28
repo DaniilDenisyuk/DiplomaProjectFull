@@ -21,12 +21,12 @@ const LINKS = {
       to: "/menu",
     },
     {
-      name: "Акції",
-      to: "/discounts",
+      name: "Замовлення",
+      to: "/checkout",
     },
     {
-      name: "Доставка",
-      to: "/delivery",
+      name: "Кабінет",
+      to: "/account",
     },
   ],
   aux: [
@@ -79,7 +79,6 @@ const Burger = ({ className, onClick }) => (
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const [cartOpened, setCartOpened] = useState(false);
-  const [infoOpened, setInfoOpened] = useState(false);
   const history = useHistory();
   return (
     <>
@@ -95,24 +94,11 @@ const Header = () => {
           />
           <SelectLocation className="header__location" />
           <SelectLang className="header__lang" />
-          <AuthButton
-            text="Увійти"
-            className="header__login"
-            onOpenLogin={() =>
-              history.push("/login", { background: history.location })
-            }
-            onOpenInfo={() => setInfoOpened(true)}
-          />
+          <AuthButton className="header__login" />
           <CartButton
             className="header__cart"
             onOpenCart={() => setCartOpened(true)}
           />
-          {infoOpened && (
-            <AuthInfoPopup
-              className="dropin"
-              onClose={() => setInfoOpened(false)}
-            />
-          )}
         </section>
       </header>
       {cartOpened && (
@@ -121,7 +107,11 @@ const Header = () => {
           onClose={() => setCartOpened(false)}
           onOrderClick={() => {
             setCartOpened(false);
-            history.push("/payment");
+            history.push("/checkout");
+          }}
+          onToMenuClick={() => {
+            setCartOpened(false);
+            history.push("/menu");
           }}
         />
       )}

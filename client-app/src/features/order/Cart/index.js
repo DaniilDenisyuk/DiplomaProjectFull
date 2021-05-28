@@ -1,14 +1,14 @@
 import cn from "classnames";
 import { useSelector } from "react-redux";
-import { getOrderSum, getOrderItems } from "../../../common/selectors";
-import OrderItemCard from "../OrderItemCard";
+import { getOrderItemsSum, getOrderItemsId } from "../../../common/selectors";
+import OrderItemCard from "../OrderItem";
 import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
 
 import "./style.scss";
 
 export const CartButton = ({ className, onOpenCart }) => {
-  const sum = useSelector(getOrderSum);
+  const sum = useSelector(getOrderItemsSum);
   return (
     <button className={cn(className, "cart-button rbt-b")} onClick={onOpenCart}>
       {sum}&#8372;
@@ -16,36 +16,45 @@ export const CartButton = ({ className, onOpenCart }) => {
   );
 };
 
-const Cart = ({ onOrderClick }) => {
-  const sum = useSelector(getOrderSum);
-  const orderItems = useSelector(getOrderItems);
-  const cards = orderItems.map((item) => (
-    <OrderItemCard
-      key={`item-${item.id}`}
-      className="cart__item"
-      itemId={item.id}
-    />
+const Cart = ({ onOrderClick, onToMenuClick }) => {
+  const sum = useSelector(getOrderItemsSum);
+  const orderItemsId = useSelector(getOrderItemsId);
+  const cards = orderItemsId.map((id) => (
+    <OrderItemCard key={`item-${id}`} className="cart__item" itemId={id} />
   ));
   return (
     <div className="cart">
       <p className="mnt-m cart__heading">Кошик</p>
       <div className="cart__items">
-        {cards && cards.length ? (
+        {orderItemsId.length > 0 ? (
           cards
         ) : (
           <p className="mnt-m cart__empty">Поки немає товарів</p>
         )}
       </div>
       <div className="cart__result">
-        <div className="cart__sum">Сума: {sum} грн.</div>
-        <Button
-          className="mnt-m cart__order-btn"
-          rounded
-          primary
-          onClick={onOrderClick}
-        >
-          Замовити
-        </Button>
+        {orderItemsId.length > 0 ? (
+          <>
+            <div className="cart__sum">Сума: {sum} грн.</div>
+            <Button
+              className="mnt-m cart__order-btn"
+              rounded
+              primary
+              onClick={onOrderClick}
+            >
+              Оформити
+            </Button>
+          </>
+        ) : (
+          <Button
+            className="cart__to-menu"
+            rounded
+            primary
+            onClick={onToMenuClick}
+          >
+            Перейти в меню
+          </Button>
+        )}
       </div>
     </div>
   );

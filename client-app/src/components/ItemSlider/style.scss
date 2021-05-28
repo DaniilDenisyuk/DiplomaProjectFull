@@ -12,7 +12,7 @@
   }
   &__next-el,
   &__prev-el {
-    padding: 50px 0 50px 50px;
+    padding: 50px 0;
     z-index: 2;
     position: absolute;
     top: 50%;
@@ -30,12 +30,14 @@
     }
   }
   &__prev-el {
+    padding-right: 50px;
     left: 0;
     &::before {
       transform: rotate(90deg);
     }
   }
   &__next-el {
+    padding-left: 50px;
     right: 0;
     &::before {
       transform: rotate(-90deg);

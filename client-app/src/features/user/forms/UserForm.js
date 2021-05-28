@@ -39,46 +39,54 @@ export const UserForm = ({ className }) => {
   return (
     <form
       onSubmit={formSubmit(onSubmit, onError)}
-      className={cn(className, "form", "form--account")}
+      className={cn(className, "form")}
     >
-      <h2 className="form__heading">Особиста інформація</h2>
-      <FormGroup
-        className="form__form-group"
-        inputProps={{
-          ...register("firstName", { required: true }),
-          type: "text",
-        }}
-        error={errors.firstName && errors.firstName.message}
-        label="Ім'я"
-      />
-      <FormGroup
-        className="form__form-group"
-        inputProps={{
-          ...register("lastName", { required: false }),
-          type: "text",
-        }}
-        error={errors.lastName && errors.lastName.message}
-        label="Прізвище"
-      />
-      <FormGroup
-        className="form__form-group"
-        inputProps={{ ...register("phone", { required: true }), type: "text" }}
-        error={errors.phone && errors.phone.message}
-        label="Телефон"
-      />
-      <FormGroup
-        className="form__form-group"
-        inputProps={{ ...register("email", { required: true }), type: "text" }}
-        error={errors.email && errors.email.message}
-        label="Електронна пошта"
-      />
-      <Button type="submit" className="form__submit" secondary>
-        {isSubmitting ? (
-          <Loading className="form__submitting" message="Зберігаємо" />
-        ) : (
-          "Зберегти"
-        )}
-      </Button>
+      <div className="form__wrapper">
+        <h2 className="form__heading">Особиста інформація</h2>
+        <FormGroup
+          className="form__form-group"
+          inputProps={{
+            ...register("firstName", { required: true }),
+            type: "text",
+          }}
+          error={errors.firstName && errors.firstName.message}
+          label="Ім'я"
+        />
+        <FormGroup
+          className="form__form-group"
+          inputProps={{
+            ...register("lastName", { required: false }),
+            type: "text",
+          }}
+          error={errors.lastName && errors.lastName.message}
+          label="Прізвище"
+        />
+        <FormGroup
+          className="form__form-group"
+          inputProps={{
+            ...register("phone", { required: true }),
+            type: "text",
+          }}
+          error={errors.phone && errors.phone.message}
+          label="Телефон"
+        />
+        <FormGroup
+          className="form__form-group"
+          inputProps={{
+            ...register("email", { required: true }),
+            type: "text",
+          }}
+          error={errors.email && errors.email.message}
+          label="Електронна пошта"
+        />
+        <Button type="submit" className="form__submit" secondary>
+          {isSubmitting ? (
+            <Loading className="form__submitting" message="Зберігаємо" />
+          ) : (
+            "Зберегти"
+          )}
+        </Button>
+      </div>
     </form>
   );
 };

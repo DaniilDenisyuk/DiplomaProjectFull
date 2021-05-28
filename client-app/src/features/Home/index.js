@@ -2,9 +2,9 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback } from "react";
 
-import { ItemCardSmart } from "../menu/ItemCard";
+import MenuItem from "../menu/MenuItem";
 import ItemSlider from "../../components/ItemSlider";
-import { getMenuItems } from "../../common/selectors";
+import { getMenuItemsIdAndCategory } from "../../common/selectors";
 import Contacts from "../Contacts";
 import Delivery from "../Delivery";
 
@@ -22,28 +22,37 @@ const Category = ({ name, toFull, items }) => (
     <ItemSlider
       spaceBetween={20}
       className="h-category__items"
-      items={items}
-      itemComponent={ItemCardSmart}
+      itemComponents={items}
     />
   </li>
 );
 
 const Home = () => {
-  const items = useSelector(getMenuItems);
+  const items = useSelector(getMenuItemsIdAndCategory);
   const sets = useCallback(() => {
-    return items.filter((item) => item.category === "sets");
+    return items
+      .filter((item) => item.category === "sets")
+      .map(({ id }) => <MenuItem className="home__menu-item" itemId={id} />);
   }, [items]);
   const rolls = useCallback(() => {
-    return items.filter((item) => item.category === "rolls");
+    return items
+      .filter((item) => item.category === "rolls")
+      .map(({ id }) => <MenuItem className="home__menu-item" itemId={id} />);
   }, [items]);
   const sushi = useCallback(() => {
-    return items.filter((item) => item.category === "sushi");
+    return items
+      .filter((item) => item.category === "sushi")
+      .map(({ id }) => <MenuItem className="home__menu-item" itemId={id} />);
   }, [items]);
   const soups = useCallback(() => {
-    return items.filter((item) => item.category === "soups");
+    return items
+      .filter((item) => item.category === "soups")
+      .map(({ id }) => <MenuItem className="home__menu-item" itemId={id} />);
   }, [items]);
   const drinks = useCallback(() => {
-    return items.filter((item) => item.category === "drinks");
+    return items
+      .filter((item) => item.category === "drinks")
+      .map(({ id }) => <MenuItem className="home__menu-item" itemId={id} />);
   }, [items]);
   return (
     <div className="home">

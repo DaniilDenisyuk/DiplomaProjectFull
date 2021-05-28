@@ -6,45 +6,54 @@
   &__wrapper {
     position: relative;
     width: 100%;
-    padding-top: 65px;
-    padding-bottom: 65px;
+    padding-top: 45px;
+    padding-bottom: 45px;
   }
 
   &__row {
     display: flex;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
   }
 
   &__list {
     &--info {
-      order: 1;
+      grid-column-start: 1;
+      grid-column-end: 3;
     }
     &--support {
-      margin-left: 130px;
-      order: 2;
+      display: flex;
+      justify-content: center;
+      grid-column-start: 3;
+      grid-column-end: 6;
     }
     &--contacts {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      order: 3;
+      display: flex;
+      justify-content: center;
+      grid-column-start: 6;
+      grid-column-end: 8;
     }
     &--account {
-      margin-left: auto;
-      order: 4;
+      grid-column-start: 9;
+      grid-column-end: 11;
     }
 
     &--additional {
-      margin-left: 165px;
-      order: 5;
+      display: flex;
+      justify-content: flex-end;
+      grid-column-start: 11;
+      grid-column-end: 13;
     }
   }
 
   &__copyright {
     color: #ffffff;
-    margin-top: 12px;
+    margin-top: 20px;
     font-family: Roboto;
     font-size: 13px;
     text-align: center;
+    line-height: 20px;
   }
 }
 

@@ -1,156 +1,179 @@
-CREATE TABLE Movies (
-  Id serial,
-  Title varchar(127) NOT NULL,
-  ReleaseYear SMALLINT NOT NULL,
-  Format varchar(31) NOT NULL
-);
-
-ALTER TABLE
-  Movies
-ADD
-  CONSTRAINT pkMovies PRIMARY KEY (Id);
-
-CREATE UNIQUE INDEX akMovies ON Movies (Title, ReleaseYear);
-
-CREATE TABLE Actors (
-  Id serial,
-  FirstName varchar(127) NOT NULL,
-  LastName varchar(127) NOT NULL
-);
-
-ALTER TABLE
-  Actors
-ADD
-  CONSTRAINT pkActors PRIMARY KEY (Id);
-
-CREATE UNIQUE INDEX akActors ON Actors (FirstName, LastName);
-
-CREATE TABLE ActorMovie (
-  ActorId INTEGER NOT NULL,
-  MovieId INTEGER NULL
-);
-
-ALTER TABLE
-  ActorMovie
-ADD
-  CONSTRAINT pkActorMovie PRIMARY KEY (MovieId, ActorId);
-
-ALTER TABLE
-  ActorMovie
-ADD
-  CONSTRAINT fkActorMovieMovieId FOREIGN KEY (MovieId) REFERENCES Movies (Id) ON DELETE CASCADE;
-
-ALTER TABLE
-  ActorMovie
-ADD
-  CONSTRAINT fkActorMovieActorId FOREIGN KEY (ActorId) REFERENCES Actors (Id) ON DELETE CASCADE;
-
-CREATE OR REPLACE FUNCTION insertIfActorsIsNotExists(firstName VARCHAR, lastName VARCHAR) RETURNS INTEGER AS $$
-DECLARE actorId INT;
-BEGIN
-SELECT
-  Id INTO actorId
-FROM
-  Actors
-WHERE
-  Actors.FirstName = $1
-  AND Actors.LastName = $2;
-IF NOT FOUND THEN
-INSERT INTO
-  Actors (FirstName, LastName)
-VALUES
-  ($1, $2) RETURNING Id INTO STRICT actorId;
-ELSE RETURN actorId;
-END IF;
-RETURN actorId;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION removeMovies(id INT) RETURNS INT AS $$
-DELETE FROM
-  Movies
-WHERE
-  id = $1
-RETURNING id;
-$$ LANGUAGE SQL;
-
-CREATE OR REPLACE FUNCTION allMovies() RETURNS TABLE(
-  id int,
-  title varchar,
-  releaseyear smallint,
-  format varchar,
-  stars varchar
-) AS $$
-SELECT
-  m.*, STRING_AGG(a.FirstName || ' ' || a.LastName, ', ') as stars
-FROM
-  Movies AS m
-  INNER JOIN ActorMovie AS am ON m.Id = am.MovieId
-  INNER JOIN Actors AS a ON a.Id = am.ActorId
-GROUP BY
-  m.Id
-ORDER BY
-  m.Id;
-$$ LANGUAGE SQL;
-
-CREATE OR REPLACE FUNCTION createMovies(title VARCHAR, year SMALLINT, format VARCHAR, actors VARCHAR[]) RETURNS INTEGER AS $$
-DECLARE retMovieId INT;
-DECLARE retActorId INT;
-DECLARE actor VARCHAR;
-DECLARE actorName VARCHAR[];
-BEGIN
-  INSERT INTO Movies (title, releaseyear, format) VALUES ($1,$2,$3) RETURNING id INTO STRICT retMovieId;
-  FOREACH actor IN ARRAY actors
-  LOOP
-    actorName = string_to_array(actor, '');
-    SELECT insertIfActorsIsNotExists(actorName[1], COALESCE(actorName[2],' ')) INTO STRICT retActorId;
-    INSERT INTO ActorMovie (MovieId, ActorId) VALUES (retMovieId, retActorId);
-  END LOOP;
-RETURN retMovieId;
-END;
-$$ LANGUAGE plpgsql;
-
 CREATE TABLE Users (
-  Id serial,
-  Email varchar(127),
-  Password varchar NOT NULL,
-  Username varchar(31),
-  Role varchar(31) NOT NULL
+  id serial,
+  username varchar(31),
+  phone varchar(31) NOT NULL,
+  first_name varchar(31) NOT NULL,
+  last_name varchar(31),
+  email varchar(31) NOT NULL,
+  password varchar NOT NULL,
+  orders_count integer default,
+  role varchar(31) NOT NULL,
 );
+CREATE UNIQUE INDEX ak_username ON Users (username);
+CREATE UNIQUE INDEX ak_email ON Users (email);
 
+CREATE TABLE UserAddress (
+  user_id integer,
+  city varchar(31),
+  street varchar(31),
+  house varchar(31),
+  door varchar(31)
+)
 ALTER TABLE
-  Users
+  UserAddress
 ADD
-  CONSTRAINT pkUser PRIMARY KEY (Id);
+  CONSTRAINT fk_UserAddress_user_id FOREIGN KEY (user_id)
+  REFERENCES Users (id) ON DELETE CASCADE
+AND ADD
+  CONSTRAINT pk_UserAddress PRIMARY KEY (user_id)
 
-CREATE UNIQUE INDEX akUserName ON Users (UserName);
-CREATE UNIQUE INDEX akEmail ON Users (Email);
 
-CREATE TABLE Profile (
-  Id serial,
-  UserId integer NOT NULL,
-  Name varchar(127) NOT NULL,
-  Gender varchar(31),
-  Birthday varchar(31),
-  City varchar(31)
+CREATE TABLE Orders (
+  id serial,
+  user_id integer NOT NULL,
+  order_date date NOT NULL default current_date,
+  order_price integer NOT NULL
 );
-
 ALTER TABLE
-  Profile
+  Orders
 ADD
-  CONSTRAINT pkProfile PRIMARY KEY (Id);
+  CONSTRAINT fk_Orders_user_id FOREIGN KEY (user_id)
+  REFERENCES Users (id) ON DELETE CASCADE;
+CREATE INDEX ak_user_id ON Orders (user_id);
 
-CREATE UNIQUE INDEX akProfile ON Profile (UserId, Name, Gender, Birthday, City);
+CREATE TABLE MenuItems (
+  id serial,
+  name varchar(31) NOT NULL,
+  category varchar(31) NOT NULL,
+  img_src varchar(127),
+  volume varchar(31) NOT NULL,
+  energy varchar(31),
+  weight varchar(31),
+  description varchar(255),
+  price integer NOT NULL,
+  orders_count integer default,
+);
+CREATE INDEX ak_category ON MenuItems (category);
+CREATE INDEX ak_name ON MenuItems (name);
+
+CREATE TABLE Ingredients (
+  id serial,
+  name varchar(31) NOT NULL,
+  img_src varchar(127) NOT NULL,
+);
+CREATE INDEX ak_name ON Ingredients (name);
+
+CREATE TABLE Item_Ingredient (
+  item_id integer NOT NULL,
+  ingredient_id integer NOT NULL
+);
 ALTER TABLE
-  Profile
+  Item_Ingredient
 ADD
-  CONSTRAINT fkProfileUserId FOREIGN KEY (UserId) REFERENCES Users (Id) ON DELETE CASCADE;
+  CONSTRAINT fk_Item_Ingredient_item_id FOREIGN KEY (item_id)
+  REFERENCES MenuItems (id) ON DELETE CASCADE;
+ALTER TABLE
+  Item_Ingredient
+ADD
+  CONSTRAINT fk_Item_Ingredient_ingredient_id FOREIGN KEY (ingredient_id)
+  REFERENCES Ingredients (id) ON DELETE CASCADE;
+CREATE INDEX ak_item_id ON Item_Ingredient (item_id);
 
-CREATE OR REPLACE FUNCTION createUser(Email varchar, Password varchar, Username varchar, Role varchar) RETURNS INT AS $$
-INSERT INTO
-  Users (Email, Password, Username, Role) VALUES ($1, $2, $3, $4)
-RETURNING id;
-$$ LANGUAGE SQL;
+CREATE TABLE Set_Roll (
+  set_id integer NOT NULL,
+  roll_id integer NOT NULL
+)
+ALTER TABLE
+  Set_Roll
+ADD
+  CONSTRAINT fk_Set_Roll_set_id FOREIGN KEY (set_id)
+  REFERENCES MenuItems (id) ON DELETE CASCADE;
+ALTER TABLE
+  Set_Roll
+ADD
+  CONSTRAINT fk_Set_Roll_roll_id FOREIGN KEY (roll_id)
+  REFERENCES MenuItems (id) ON DELETE CASCADE;
+CREATE INDEX ak_set_id ON Set_Roll (set_id);
+
+CREATE TABLE Order_Item (
+  order_id integer NOT NULL,
+  item_id integer NOT NULL
+);
+ALTER TABLE
+  Order_Item
+ADD
+  CONSTRAINT fk_Order_Item_order_id FOREIGN KEY (order_id)
+  REFERENCES Order (id) ON DELETE CASCADE;
+ALTER TABLE
+  Order_Item
+ADD
+  CONSTRAINT fk_Order_Item_item_id FOREIGN KEY (item_id)
+  REFERENCES MenuItems (id) ON DELETE CASCADE;
+CREATE INDEX ak_order_id ON Order_Item (order_id);
+
+
+-- CREATE OR REPLACE FUNCTION insertIfActorsIsNotExists(firstName VARCHAR, lastName VARCHAR) RETURNS INTEGER AS $$
+-- DECLARE actorId INT;
+-- BEGIN
+-- SELECT
+--   Id INTO actorId
+-- FROM
+--   Actors
+-- WHERE
+--   Actors.FirstName = $1
+--   AND Actors.LastName = $2;
+-- IF NOT FOUND THEN
+-- INSERT INTO
+--   Actors (FirstName, LastName)
+-- VALUES
+--   ($1, $2) RETURNING Id INTO STRICT actorId;
+-- ELSE RETURN actorId;
+-- END IF;
+-- RETURN actorId;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- CREATE OR REPLACE FUNCTION allMovies() RETURNS TABLE(
+--   id int,
+--   title varchar,
+--   releaseyear smallint,
+--   format varchar,
+--   stars varchar
+-- ) AS $$
+-- SELECT
+--   m.*, STRING_AGG(a.FirstName || ' ' || a.LastName, ', ') as stars
+-- FROM
+--   Movies AS m
+--   INNER JOIN ActorMovie AS am ON m.Id = am.MovieId
+--   INNER JOIN Actors AS a ON a.Id = am.ActorId
+-- GROUP BY
+--   m.Id
+-- ORDER BY
+--   m.Id;
+-- $$ LANGUAGE SQL;
+
+-- CREATE OR REPLACE FUNCTION createMovies(title VARCHAR, year SMALLINT, format VARCHAR, actors VARCHAR[]) RETURNS INTEGER AS $$
+-- DECLARE retMovieId INT;
+-- DECLARE retActorId INT;
+-- DECLARE actor VARCHAR;
+-- DECLARE actorName VARCHAR[];
+-- BEGIN
+--   INSERT INTO Movies (title, releaseyear, format) VALUES ($1,$2,$3) RETURNING id INTO STRICT retMovieId;
+--   FOREACH actor IN ARRAY actors
+--   LOOP
+--     actorName = string_to_array(actor, '');
+--     SELECT insertIfActorsIsNotExists(actorName[1], COALESCE(actorName[2],' ')) INTO STRICT retActorId;
+--     INSERT INTO ActorMovie (MovieId, ActorId) VALUES (retMovieId, retActorId);
+--   END LOOP;
+-- RETURN retMovieId;
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- CREATE OR REPLACE FUNCTION createUser(Email varchar, Password varchar, Username varchar, Role varchar) RETURNS INT AS $$
+-- INSERT INTO
+--   Users (Email, Password, Username, Role) VALUES ($1, $2, $3, $4)
+-- RETURNING id;
+-- $$ LANGUAGE SQL;
 
 -- CREATE OR REPLACE FUNCTION createProfile(Email varchar, Password varchar, Username varchar, Role varchar) RETURNS INT AS $$
 -- INSERT INTO

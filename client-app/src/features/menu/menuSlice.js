@@ -8,6 +8,12 @@ const initialState = {
   isLoading: false,
   isFailed: false,
   items: [...DRINKS, ...SETS, ...SUSHI, ...ROLLS],
+  itemsIdAndCategory: [
+    ...[...DRINKS, ...SETS, ...SUSHI, ...ROLLS].map((item) => ({
+      id: item.id,
+      category: item.category,
+    })),
+  ],
 };
 
 export const menuConstants = {

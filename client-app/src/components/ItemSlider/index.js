@@ -7,18 +7,13 @@ import "./style.scss";
 
 SwiperCore.use([Navigation]);
 
-const ItemSlider = ({
-  className,
-  items,
-  itemComponent: Component,
-  spaceBetween,
-}) => {
+const ItemSlider = ({ className, itemComponents, spaceBetween }) => {
   const [isOnEnd, setIsOnEnd] = useState(false);
   const [isOnStart, setIsOnStart] = useState(true);
 
-  const slides = items.map((item, index) => (
+  const slides = itemComponents.map((item, index) => (
     <SwiperSlide className="item-slider__slide" key={`slide-${index}`}>
-      <Component item={item} />
+      {item}
     </SwiperSlide>
   ));
   return (

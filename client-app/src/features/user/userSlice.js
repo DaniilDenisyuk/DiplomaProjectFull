@@ -2,13 +2,91 @@ import { userService } from "../../services/userService";
 import { combineReducers } from "redux";
 
 const infoState = {
-  isLoading: "",
-  id: "",
-  email: "",
-  first_name: "",
-  second_name: "",
-  address: "",
-  phone: "",
+  isLoading: false,
+  isSucceeded: true,
+  isFailed: false,
+  // id: "",
+  // email: "",
+  // first_name: "",
+  // second_name: "",
+  // address: "",
+  // phone: "",
+  id: 0,
+  email: "ordekonec@gmail.com",
+  first_name: "Daniil",
+  second_name: "Denysiuk",
+  town: "Fastiv",
+  phone: "+380936445236",
+  street: "Sichovikh stritsiv",
+  house: "6",
+  door: "",
+};
+
+const orderHistoryState = {
+  isLoading: false,
+  isSucceeded: true,
+  ifFailed: false,
+  //orders: [],
+  history: [
+    {
+      id: 0,
+      date: "29.04.2021",
+      price: "500",
+      items: [
+        {
+          id: 0,
+          name: "Рол каліфорнія",
+          count: 2,
+          img: require("../../assets/img/items/rolls/roll-2.png").default,
+        },
+        {
+          id: 1,
+          name: "Рол каліфорнія",
+          count: 3,
+          img: require("../../assets/img/items/rolls/roll-2.png").default,
+        },
+        {
+          id: 2,
+          name: "Рол каліфорнія",
+          count: 1,
+          img: require("../../assets/img/items/rolls/roll-2.png").default,
+        },
+        {
+          id: 3,
+          name: "Рол каліфорнія",
+          count: 5,
+          img: require("../../assets/img/items/rolls/roll-2.png").default,
+        },
+      ],
+    },
+    {
+      id: 1,
+      date: "28.04.2021",
+      price: "500",
+      items: [
+        {
+          id: 4,
+          name: "Рол каліфорнія",
+          count: 2,
+          img: require("../../assets/img/items/rolls/roll-2.png").default,
+        },
+        {
+          id: 5,
+          name: "Рол каліфорнія",
+          count: 3,
+          img: require("../../assets/img/items/rolls/roll-2.png").default,
+        },
+      ],
+    },
+  ],
+};
+
+const favoriteItems = {
+  isLoading: false,
+  isFailed: false,
+  isSucceded: false,
+  itemsId: [],
+  items: [],
 };
 
 export const infoConstants = {
@@ -45,11 +123,6 @@ const infoReducer = (state = infoState, action) => {
     default:
       return state;
   }
-};
-
-const orderHistoryState = {
-  isLoading: "",
-  orders: [],
 };
 
 export const orderHistoryConstants = {
@@ -100,11 +173,6 @@ const orderHistoryReducer = (state = orderHistoryState, action) => {
   }
 };
 
-const favoriteDishesState = {
-  isLoading: "",
-  dishes: [],
-};
-
 export const favoritesConstants = {
   getRequest: "user/favorites/getRequest",
   getSucceeded: "user/favorites/getSucceeded",
@@ -117,7 +185,7 @@ export const favoritesConstants = {
   deleteFailed: "user/favorites/deleteFailed",
 };
 
-const favoriteDishesReducer = (state = favoriteDishesState, action) => {
+const favoriteDishesReducer = (state = favoriteItems, action) => {
   switch (action.type) {
     case infoConstants.getRequest: {
       return { isLoading: true };

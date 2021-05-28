@@ -1,4 +1,4 @@
-import { API_URL } from "../shared/apiUrl";
+import { API_URL } from "./helpers/apiUrl";
 import tokenHeader from "./helpers/tokenHeader";
 import handleResponse from "./helpers/handleResponse";
 
@@ -43,4 +43,9 @@ const deleteUser = (token, userId) => {
     handleResponse
   );
 };
-export const userService = { register, getUserData, updateUserData, deleteUser };
+export const userService = {
+  register,
+  getUserData,
+  updateUserData,
+  deleteUser,
+};

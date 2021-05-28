@@ -3,6 +3,7 @@ import cn from "classnames";
 import { getOrderItem } from "../../../common/selectors";
 import { orderActions } from "../orderSlice";
 import ItemCounter from "../../../components/ItemCounter";
+import RemoveButton from "../../../components/RemoveButton";
 import "./style.scss";
 
 const OrderItemCard = ({ className, itemId }) => {
@@ -29,7 +30,7 @@ const OrderItemCard = ({ className, itemId }) => {
           <p className="order-item__price">{item.price} грн.</p>
         </div>
       </div>
-      <span
+      <RemoveButton
         className="order-item__delete"
         onClick={(e) => {
           e.stopPropagation();

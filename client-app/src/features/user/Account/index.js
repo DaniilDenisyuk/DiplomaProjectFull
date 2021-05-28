@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import cn from "classnames";
 import { AddressForm, UserForm, ChangePwdForm } from "../forms";
+import OrderHistory from "../OrderHistory";
+import "./style.scss";
 
 const NavBar = ({ className, baseUrl }) => (
   <nav className={cn(className, "nav-bar")}>
@@ -18,7 +20,6 @@ const NavBar = ({ className, baseUrl }) => (
     >
       Інформація
     </NavLink>
-    ;
     <NavLink
       exact
       to={`${baseUrl}/address`}
@@ -27,7 +28,6 @@ const NavBar = ({ className, baseUrl }) => (
     >
       Адреса доставки
     </NavLink>
-    ;
     <NavLink
       exact
       to={`${baseUrl}/history`}
@@ -36,7 +36,6 @@ const NavBar = ({ className, baseUrl }) => (
     >
       Історія замовлень
     </NavLink>
-    ;
     <NavLink
       exact
       to={`${baseUrl}/chosen`}
@@ -45,7 +44,6 @@ const NavBar = ({ className, baseUrl }) => (
     >
       Обране
     </NavLink>
-    ;
   </nav>
 );
 
@@ -53,23 +51,30 @@ const Account = () => {
   const { path, url } = useRouteMatch();
   return (
     <div className="account">
-      <NavBar className="account__nav-bar" baseUrl={url} />
-      <div className="account__content">
-        <Switch>
-          <Route exact path={path}>
+      <div className="account__wrapper">
+        <NavBar className="account__nav-bar" baseUrl={url} />
+        <div className="account__content">
+          <Switch>
+            <Route exact path={path}>
+              <Redirect to={`${url}/info`} />
+            </Route>
+            <Route path={`${path}/info`}>
+              <UserForm className="account__form" />
+              <ChangePwdForm className="account__form" />
+            </Route>
+            <Route path={`${path}/address`}>
+              <AddressForm className="account__form" />
+            </Route>
+            <Route path={`${path}/history`}>
+              <div className="account__history">
+                <p className="account__heading">Ваші замовлення</p>
+                <OrderHistory className="account__history-list" />
+              </div>
+            </Route>
+            <Route path={`${path}/chosen`}></Route>
             <Redirect to={`${url}/info`} />
-          </Route>
-          <Route path={`${path}/info`}>
-            <UserForm className="account__info-form" />
-            <ChangePwdForm className="account__pwd-form" />
-          </Route>
-          <Route path={`${path}/address`}>
-            <UserForm className="account__info-form" />
-          </Route>
-          <Route path={`${path}/history`}></Route>
-          <Route path={`${path}/chosen`}></Route>
-          <Redirect to={`${url}/info`} />
-        </Switch>
+          </Switch>
+        </div>
       </div>
     </div>
   );

@@ -1,11 +1,15 @@
 .item-card {
   width: 310px;
-  padding: 40px 40px;
+  padding: 0px 40px 40px;
+  border-radius: 7px;
   background-color: #ffff;
   cursor: pointer;
   &:hover {
     z-index: 1;
     box-shadow: 0px 8px 29px rgba(0, 71, 122, 0.08);
+  }
+  &__wrapper {
+    position: relative;
   }
   &__img {
     position: relative;

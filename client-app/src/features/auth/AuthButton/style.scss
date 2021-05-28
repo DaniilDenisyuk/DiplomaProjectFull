@@ -1,14 +1,30 @@
-.login-btn {
-  cursor: pointer;
+.auth {
+  height: 100%;
+  position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  &::before {
-    content: url("../../../assets/img/header/user.svg");
-    margin-right: 10px;
-    width: 20px;
-    height: 20px;
+  &__btn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    &::before {
+      content: url("../../../assets/img/header/user.svg");
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__info {
+    position: absolute;
+    top: 0;
+    padding: 25px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+    background: #fff;
+    border-radius: 5px;
   }
 }

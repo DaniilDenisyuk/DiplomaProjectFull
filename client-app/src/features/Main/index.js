@@ -1,3 +1,4 @@
+import "./style.scss";
 import { useEffect } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import {
@@ -14,12 +15,12 @@ import Home from "../Home";
 import Menu from "../menu/Menu";
 import Delivery from "../Delivery";
 import Sidenav from "../Sidenav";
-import Payment from "../order/Payment";
 import Account from "../user/Account";
 import Admin from "../admin/Admin";
 import { AuthModal } from "../auth";
 import roles from "../../common/roles";
 import PrivateRoute from "../../components/PrivateRoute";
+import Checkout from "../order/Checkout";
 
 const Main = () => {
   const location = useLocation();
@@ -39,10 +40,10 @@ const Main = () => {
             <Route exact path="/" children={<Home />} />
             <Route path="/menu" children={<Menu />} />
             <Route path="/delivery" children={<Delivery />} />
-            <Route path="/payment" children={<Payment />} />
+            <Route path="/checkout" children={<Checkout />} />
             <PrivateRoute
               path="/account"
-              roles={[roles.USER, roles.ADMIN]}
+              roles={[roles.user, roles.admin]}
               component={Account}
             />
             <PrivateRoute

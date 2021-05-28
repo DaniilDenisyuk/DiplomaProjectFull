@@ -1,23 +1,23 @@
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { getMenuItems } from "../../../common/selectors";
-import { ItemCardSmart } from "../ItemCard";
+import { getMenuItemsIdAndCategory } from "../../../common/selectors";
+import MenuItem from "../MenuItem";
 import "./style.scss";
 
-const Category = ({ items }) => {
+const MenuCategory = ({ items }) => {
   const cards = items.map((item, index) => (
-    <ItemCardSmart
+    <MenuItem
       key={`card-${index}`}
       className="category__item"
-      item={item}
-    ></ItemCardSmart>
+      itemId={item.id}
+    />
   ));
   return <div className="category">{cards.length ? cards : "No items"}</div>;
 };
 
 const Menu = () => {
-  const items = useSelector(getMenuItems);
+  const items = useSelector(getMenuItemsIdAndCategory);
 
   const sets = useCallback(() => {
     return items.filter((item) => item.category === "sets");
@@ -41,37 +41,77 @@ const Menu = () => {
           exact
           path="/menu"
           render={() => (
-            <div className="category-cards">
-              <Link to="/menu/sets" className="category-cards__card">
-                <div className="category-cards__card-bg" />
-                <span className="category-cards__card-text">Сети</span>
-              </Link>
-              <Link to="/menu/rolls" className="category-cards__card">
-                <div className="category-cards__card-bg" />
-                <span className="category-cards__card-text">Роли</span>
-              </Link>
-              <Link to="/menu/sushi" className="category-cards__card">
-                <div className="category-cards__card-bg" />
-                <span className="category-cards__card-text">Суші</span>
-              </Link>
-              <Link to="/menu/soups" className="category-cards__card">
-                <div className="category-cards__card-bg" />
-                <span className="category-cards__card-text">Супи</span>
-              </Link>
-              <Link to="/menu/drinks" className="category-cards__card">
-                <div className="category-cards__card-bg" />
-                <span className="category-cards__card-text">Напої</span>
-              </Link>
+            <>
+              <p className="menu__heading">Меню</p>
+              <div className="category-cards">
+                <Link to="/menu/sets" className="category-cards__card">
+                  <i className="category-cards__img category-cards__img--set" />
+                  <span className="category-cards__card-text">Сети</span>
+                </Link>
+                <Link to="/menu/rolls" className="category-cards__card">
+                  <i className="category-cards__img category-cards__img--roll" />
+                  <span className="category-cards__card-text">Роли</span>
+                </Link>
+                <Link to="/menu/sushi" className="category-cards__card">
+                  <i className="category-cards__img category-cards__img--sushi" />
+                  <span className="category-cards__card-text">Суші</span>
+                </Link>
+                <Link to="/menu/soups" className="category-cards__card">
+                  <i className="category-cards__img category-cards__img--soup" />
+                  <span className="category-cards__card-text">Супи</span>
+                </Link>
+                <Link to="/menu/drinks" className="category-cards__card">
+                  <i className="category-cards__img category-cards__img--drink" />
+                  <span className="category-cards__card-text">Напої</span>
+                </Link>
+              </div>
+            </>
+          )}
+        />
+        <Route
+          path="/menu/sets"
+          render={() => (
+            <div>
+              <p className="menu__heading">Сети</p>
+              <MenuCategory className="menu__category" items={sets()} />
             </div>
           )}
         />
-        <Route path="/menu/sets" render={() => <Category items={sets()} />} />
-        <Route path="/menu/rolls" render={() => <Category items={rolls()} />} />
-        <Route path="/menu/sushi" render={() => <Category items={sushi()} />} />
-        <Route path="/menu/soups" render={() => <Category items={soups()} />} />
+        <Route
+          path="/menu/rolls"
+          render={() => (
+            <div>
+              <p className="menu__heading">Роли</p>
+              <MenuCategory className="menu__category" items={rolls()} />
+            </div>
+          )}
+        />
+        <Route
+          path="/menu/sushi"
+          render={() => (
+            <div>
+              <p className="menu__heading">Суші</p>
+              <MenuCategory className="menu__category" items={sushi()} />
+            </div>
+          )}
+        />
+        <Route
+          path="/menu/soups"
+          render={() => (
+            <div>
+              <p className="menu__heading">Супи</p>
+              <MenuCategory className="menu__category" items={soups()} />
+            </div>
+          )}
+        />
         <Route
           path="/menu/drinks"
-          render={() => <Category items={drinks()} />}
+          render={() => (
+            <div>
+              <p className="menu__heading">Напої</p>
+              <MenuCategory className="menu__category" items={drinks()} />
+            </div>
+          )}
         />
       </Switch>
     </div>

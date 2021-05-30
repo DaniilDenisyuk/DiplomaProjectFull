@@ -1,3 +1,0 @@
-const profilesController = () => {};
-
-export { profilesController };

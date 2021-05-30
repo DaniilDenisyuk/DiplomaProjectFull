@@ -1,2 +1,2 @@
 CREATE USER odmen WITH PASSWORD 'qwerty';
-CREATE DATABASE app OWNER odmen;
+CREATE DATABASE sushi OWNER odmen;

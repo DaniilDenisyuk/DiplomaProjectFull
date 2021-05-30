@@ -1,12 +1,24 @@
 import { Router } from "express";
 import { authorize, validateRequest } from "../middleware/index.js";
 import { ValidationError } from "../common/errorTypes.js";
-import authSchema from "../common/schemas/auth.js";
+import { userInfoSchema, authSchema } from "../common/schemas/index.js";
 import { authService } from "../services/authService.js";
 
 const authController = Router();
 
 const authenticate = (req, res, next) => {
+  const { login, password } = req.body;
+  const ipAddress = req.ip;
+  authService
+    .authenticate({ login, password, ipAddress })
+    .then(({ refreshToken, ...user }) => {
+      setTokenCookie(res, refreshToken);
+      res.json(user);
+    })
+    .catch(next);
+};
+
+const register = (req, res, next) => {
   const { login, password } = req.body;
   const ipAddress = req.ip;
   authService
@@ -47,6 +59,16 @@ const setTokenCookie = (res, token) => {
   res.cookie("refreshToken", token, cookieOptions);
 };
 
+authController.post(
+  "/register",
+  validateRequest(
+    userInfoSchema
+      .not("role", "id")
+      .or("phone")
+      .with("phone", ["first_name", "password"])
+  ),
+  register
+);
 authController.post("/authenticate", validateRequest(authSchema), authenticate);
 authController.post("/refresh-token", refreshToken);
 authController.post("/revoke-token", authorize(), revokeToken);

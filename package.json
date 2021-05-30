@@ -1,0 +1,37 @@
+{
+  "name": "test2",
+  "version": "1.0.0",
+  "description": "test task",
+  "type": "module",
+  "main": "none",
+  "scripts": {
+    "start": "cd restAPI && nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaniilDenisyuk/test2.git"
+  },
+  "author": "me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaniilDenisyuk/test2/issues"
+  },
+  "homepage": "https://github.com/DaniilDenisyuk/test2#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.5",
+    "cors": "^2.8.5",
+    "crypto-random-string": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "pg": "^8.5.1",
+    "redis": "^3.1.2"
+  }
+}

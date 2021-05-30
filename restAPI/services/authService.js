@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { promisify } from "util";
 import redis from "redis";
-import dotenv from "dotenv";
-import { usersService } from "./usersService.js";
+import usersService from "./usersService.js";
 import { UnathorizedError, ValidationError } from "../common/errorTypes.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -19,9 +19,18 @@ const Redis = {
   exists: promisify(redisClient.exists.bind(redisClient)),
 };
 
+const register = async (userInfo) => {
+  await usersService.createUser(userInfo);
+  return true;
+};
+
 const authenticate = async ({ login, password, ipAddress }) => {
   const user = await usersService.getUserByLogin(login);
-  if (!user || !bcrypt.compare(password, user.password)) {
+  if (
+    !user ||
+    !bcrypt.compare(password, user.password) ||
+    password != user.password
+  ) {
     throw ValidationError("Username or password is incorrect");
   }
 
@@ -93,7 +102,7 @@ const generateJwtToken = (userId, userName, userRole, ipAddress) =>
     { sub: userId, id: userId, username: userName, role: userRole, ipAddress },
     process.env.TOKEN_SECRET,
     {
-      expiresIn: "10m",
+      expiresIn: "1d",
     }
   );
 

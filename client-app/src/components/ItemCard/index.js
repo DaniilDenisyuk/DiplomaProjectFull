@@ -14,7 +14,7 @@ export const ItemCard = ({
 }) => (
   <section onClick={onCardClick} className={cn(className, "item-card")}>
     <div className="item-card__img">
-      <img src={item.image} alt={item.name} />
+      <img src={`http://${item.imgs[0]}`} alt={item.name} />
     </div>
     <div className="item-card__wrapper">
       <h2 className="item-card__name">{item.name}</h2>

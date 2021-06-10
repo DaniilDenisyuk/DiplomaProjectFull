@@ -6,7 +6,7 @@ import menuService from "../services/menuService.js";
 
 const menuController = Router();
 
-const getMenuAvailable = (req, res, next) => {
+const getMenu = (req, res, next) => {
   menuService
     .getMenuAvailable()
     .then((menu) => res.json(menu))
@@ -23,9 +23,9 @@ const updateItem = (req, res, next) => {
 };
 
 const addItem = (req, res, next) => {
-  const fields = req.body;
+  const { images, ...fields } = req.body;
   menuService
-    .addItem(fields)
+    .addItem(fields, images)
     .then(() => res.status(200).end())
     .catch(next);
 };
@@ -38,7 +38,7 @@ const removeItem = (req, res, next) => {
     .catch(next);
 };
 
-menuController.get("/", getMenuAvailable);
+menuController.get("/", getMenu);
 menuController.post(
   "/",
   authorize(ROLES.admin),
@@ -53,6 +53,14 @@ menuController.put(
   validateRequest(menuItemSchema.not("id").min(1)),
   updateItem
 );
+
+menuController.put(
+  "/:id/images",
+  authorize(ROLES.admin),
+  validateRequest(menuItemSchema.not("id").min(1)),
+  updateItem
+);
+
 menuController.delete("/:id", authorize(ROLES.admin), removeItem);
 
 export { menuController };

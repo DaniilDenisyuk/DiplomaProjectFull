@@ -20,11 +20,11 @@ const getAllOrders = (req, res, next) => {
     .catch(next);
 };
 
-const getUserOrders = (req, res, next) => {
-  const { id: userId } = req.user;
+const getOrderById = (req, res, next) => {
+  const orderId = req.params.id;
   ordersService
-    .getUserOrders(userId)
-    .then((orders) => res.json(orders))
+    .getOrderById(orderId)
+    .then((order) => res.json(order))
     .catch(next);
 };
 
@@ -32,7 +32,7 @@ const createOrder = (req, res, next) => {
   const { items_id, ...fields } = req.body;
   ordersService
     .createOrder(fields, items_id)
-    .then(() => res.status(200).end())
+    .then((id) => res.json(id))
     .catch(next);
 };
 
@@ -46,8 +46,8 @@ const updateOrderStatus = (req, res, next) => {
 };
 
 ordersController.get("/", authorize(ROLES.admin), getAllOrders);
+ordersController.get("/:id", getOrderById);
 ordersController.get("/pending", authorize(ROLES.admin), getPendingOrders);
-ordersController.get("/user", authorize(ROLES.user), getUserOrders);
 ordersController.post(
   "/",
   validateRequest(
@@ -58,7 +58,7 @@ ordersController.post(
   createOrder
 );
 ordersController.put(
-  "/orders/:id",
+  "/:id",
   validateRequest(orderSchema.or("status")),
   authorize(ROLES.admin),
   updateOrderStatus

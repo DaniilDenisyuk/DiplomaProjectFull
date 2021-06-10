@@ -19,11 +19,13 @@ const Category = ({ name, toFull, items }) => (
     >
       Показати усі
     </Link>
-    <ItemSlider
-      spaceBetween={20}
-      className="h-category__items"
-      itemComponents={items}
-    />
+    {items && items.length > 0 && (
+      <ItemSlider
+        spaceBetween={20}
+        className="h-category__items"
+        itemComponents={items}
+      />
+    )}
   </li>
 );
 

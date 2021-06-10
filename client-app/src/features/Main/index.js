@@ -1,6 +1,6 @@
 import "./style.scss";
 import { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useLocation,
   useHistory,
@@ -17,19 +17,42 @@ import Delivery from "../Delivery";
 import Sidenav from "../Sidenav";
 import Account from "../user/Account";
 import Admin from "../admin/Admin";
-import { AuthModal } from "../auth";
+import { AuthModal, RegisterModal } from "../auth";
 import roles from "../../common/roles";
 import PrivateRoute from "../../components/PrivateRoute";
 import Checkout from "../order/Checkout";
+import { menuActions } from "../menu/menuSlice";
+import { authActions } from "../auth/authSlice";
+import { getToken, getIsLoggedIn, getTokenExp } from "../../common/selectors";
 
 const Main = () => {
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const exp = useSelector(getTokenExp);
+  const isLoggedIn = useSelector(getIsLoggedIn);
   const background = location.state && location.state.background;
-  const back = (e) => {
-    e.stopPropagation();
+  const back = () => {
     history.push(background);
   };
+  useEffect(() => {
+    let timeout;
+    let refreshTimeout;
+    if (exp) {
+      const expires = new Date(exp * 1000);
+      timeout = expires.getTime() - Date.now() - 60 * 1000;
+    } else {
+      timeout = 0;
+    }
+    refreshTimeout = setTimeout(
+      () => dispatch(authActions.refreshToken()),
+      timeout
+    );
+    return () => clearTimeout(refreshTimeout);
+  }, [exp, dispatch]);
+  useEffect(() => {
+    dispatch(menuActions.getMenu());
+  }, [dispatch]);
   return (
     <>
       <div className="main">
@@ -67,20 +90,19 @@ const Main = () => {
             />
             <Redirect to="/" />
           </Switch>
-          {background && (
+          {background && !isLoggedIn ? (
             <>
-              <Route path="/login" children={<AuthModal onClose={back} />} />
-              {/* <Route
-            path="/register"
-            children={
-              <RegisterModal
-                submitComponent={Loading}
-                handleSubmit={handleRegistr}
-                handleClose={back}
+              <Route
+                path="/login"
+                children={<AuthModal onSuccess={back} onClose={back} />}
               />
-            }
-          /> */}
+              <Route
+                path="/register"
+                children={<RegisterModal onSuccess={back} onClose={back} />}
+              />
             </>
+          ) : (
+            <Redirect to="/" />
           )}
         </div>
         <Footer />

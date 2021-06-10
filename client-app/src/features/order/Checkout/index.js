@@ -15,6 +15,7 @@ import {
   getOrderOverallSum,
 } from "../../../common/selectors";
 import { orderActions } from "../orderSlice";
+import { ordersService } from "../../../services/ordersService";
 import OrderItemCard from "../OrderItem";
 import Button from "../../../components/Button";
 import ItemCounter from "../../../components/ItemCounter";
@@ -55,7 +56,7 @@ const OrderOverall = ({ className, onOrder }) => {
             </p>
             <p className="order-overall__sub">
               Доставка:
-              <span>{"40"}&#8372;</span>
+              <span>{"0"}&#8372;</span>
             </p>
           </div>
         )}
@@ -137,7 +138,8 @@ const Checkout = () => {
   ));
 
   const onSubmit = async (order) => {
-    //await userService.createOrder();
+    console.log(order);
+    await ordersService.createOrder({ ...order, items_id: orderItemsId });
   };
   const onError = (errors, e) => console.log(errors, e);
 
@@ -191,10 +193,10 @@ const Checkout = () => {
             <p className="checkout__sub-heading">Інформація</p>
             <FormGroup
               className={cn("checkout__info-group", {
-                dirty: !!watch("name"),
+                dirty: !!watch("customer_name"),
               })}
               inputProps={{
-                ...register("name", { required: true }),
+                ...register("customer_name", { required: true }),
                 type: "text",
               }}
               error={errors.name && errors.name.message}
@@ -202,13 +204,13 @@ const Checkout = () => {
             />
             <FormGroup
               className={cn("checkout__info-group", {
-                dirty: !!watch("phone"),
+                dirty: !!watch("customer_phone"),
               })}
               inputProps={{
-                ...register("phone", { required: true }),
+                ...register("customer_phone", { required: true }),
                 type: "text",
               }}
-              error={errors.phone && errors.phone.message}
+              error={errors.customer_phone && errors.customer_phone.message}
               label="Телефон"
             />
             <FormGroup

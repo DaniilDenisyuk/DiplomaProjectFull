@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import { useSelector } from "react-redux";
 import { getUserAddress, getToken } from "../../../common/selectors";
-import { userService } from "../../../services/userService";
+import { userDataService } from "../../../services/userDataService";
 import Loading from "../../../components/Loading";
 import FormGroup from "../../../components/FormGroup";
 import Button from "../../../components/Button";
@@ -24,7 +24,7 @@ export const AddressForm = ({ className }) => {
 
   const onSubmit = async (address) => {
     setIsSubmitting(true);
-    await userService.updateAddress(token, address);
+    await userDataService.updateAddress(token, address);
     setIsSubmitting(false);
   };
 

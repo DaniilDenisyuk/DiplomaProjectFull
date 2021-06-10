@@ -11,6 +11,9 @@ export const menuItemSchema = Joi.object({
   weight: Joi.string().alphanum(),
   description: Joi.string(),
   price: Joi.string().alphanum(),
+  images: Joi.array().items(
+    Joi.object({ img: Joi.string().required(), order: Joi.number() })
+  ),
   available: Joi.bool(),
 });
 

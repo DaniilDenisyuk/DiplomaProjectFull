@@ -9,7 +9,7 @@ import {
   getUserPhone,
   getUserEmail,
 } from "../../../common/selectors";
-import { userActions } from "../userSlice";
+import { infoActions } from "../userSlice";
 import Loading from "../../../components/Loading";
 import FormGroup from "../../../components/FormGroup";
 import Button from "../../../components/Button";
@@ -32,7 +32,7 @@ export const UserForm = ({ className }) => {
   });
   const onSubmit = async (data, e) => {
     setIsSubmitting(true);
-    await dispatch(userActions.updateUserInfo(token, data));
+    await dispatch(infoActions.updateUserInfo(token, data));
     setIsSubmitting(false);
   };
   const onError = (errors, e) => console.log(errors, e);

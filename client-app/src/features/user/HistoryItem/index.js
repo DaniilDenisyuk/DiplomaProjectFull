@@ -5,7 +5,7 @@ import { useClickOutside } from "../../../common/hooks";
 import "./style.scss";
 
 const HistoryItem = ({ className, item }) => {
-  const { id, date, price, items } = item;
+  const { id, date, order_price, items } = item;
   const [shuffled, setShuffled] = useState(true);
   const ref = useRef();
   useClickOutside(ref, () => {
@@ -76,7 +76,7 @@ const HistoryItem = ({ className, item }) => {
               )}
             </div>
           </div>
-          <p className="history-item__price">{price}грн.</p>
+          <p className="history-item__price">{order_price}грн.</p>
           <div className="history-item__photos">
             {photos.length > 3 ? (
               <>

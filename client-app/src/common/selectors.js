@@ -1,4 +1,6 @@
 export const getToken = (store) => store.auth.jwt;
+export const getTokenExp = (store) => store.auth.exp;
+
 export const getIsLoggedIn = (store) => store.auth.isLoggedIn;
 export const getUsername = (store) => store.auth.username;
 export const getUserRole = (store) => store.auth.role;
@@ -60,3 +62,8 @@ export const getUserFirstName = (store) => store.user.info.first_name;
 export const getUserLastName = (store) => store.user.info.last_name;
 export const getUserPhone = (store) => store.user.info.phone;
 export const getOrderHistory = (store) => store.user.orderHistory;
+export const getUserFavorites = (store) => store.user.favorites.itemsId;
+export const getIsItemInFavorites = (itemId) => (store) => {
+  const favorites = getUserFavorites(store);
+  return favorites.findIndex((id) => itemId === id) > -1;
+};

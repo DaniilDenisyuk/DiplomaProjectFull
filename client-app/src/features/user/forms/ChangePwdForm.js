@@ -4,7 +4,7 @@ import cn from "classnames";
 
 import { useSelector } from "react-redux";
 import { getToken, getUserId } from "../../../common/selectors";
-import { userService } from "../../../services/userService";
+import { userDataService } from "../../../services/userDataService";
 import Loading from "../../../components/Loading";
 import FormGroup from "../../../components/FormGroup";
 import Button from "../../../components/Button";
@@ -27,7 +27,7 @@ export const ChangePwdForm = ({ className }) => {
 
   const onSubmit = async ({ oldPwd, newPwd }, e) => {
     setIsSubmitting(true);
-    await userService.changeUserPassword(token, oldPwd, newPwd);
+    await userDataService.changeUserPassword(token, oldPwd, newPwd);
     setIsSubmitting(false);
   };
 

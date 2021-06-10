@@ -5,9 +5,6 @@ import { promisify } from "util";
 import redis from "redis";
 import usersService from "./usersService.js";
 import { UnathorizedError, ValidationError } from "../common/errorTypes.js";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const jwt = { sign: jsonwebtoken.sign, verify: promisify(jsonwebtoken.verify) };
 
@@ -19,13 +16,17 @@ const Redis = {
   exists: promisify(redisClient.exists.bind(redisClient)),
 };
 
-const register = async (userInfo) => {
-  await usersService.createUser(userInfo);
+const register = async ({ name, phone, password }) => {
+  await usersService.createUser({
+    name,
+    phone,
+    password: bcrypt.hashSync(password, 10),
+  });
   return true;
 };
 
 const authenticate = async ({ login, password, ipAddress }) => {
-  const user = await usersService.getUserByLogin(login);
+  const user = await usersService.getUserInfoByLogin(login);
   if (
     !user ||
     !bcrypt.compare(password, user.password) ||
@@ -34,10 +35,11 @@ const authenticate = async ({ login, password, ipAddress }) => {
     throw ValidationError("Username or password is incorrect");
   }
 
-  const jwToken = generateJwtToken(
+  const jwt = generateJwtToken(
     user.id,
     user.username || user.email,
     user.role,
+    Math.floor(Date.now() / 1000) + 60 * 10, //10mins
     ipAddress
   );
   const refreshToken = generateRefreshToken(
@@ -46,10 +48,11 @@ const authenticate = async ({ login, password, ipAddress }) => {
     user.role,
     ipAddress
   );
+  delete user.password;
 
   return {
-    ...basicFields(user),
-    jwt: jwToken,
+    user,
+    jwt,
     refreshToken,
   };
 };
@@ -67,11 +70,11 @@ const refreshToken = async ({ token, ipAddress }) => {
     basicInfo.id,
     basicInfo.username,
     basicInfo.role,
+    Math.floor(Date.now() / 1000) + 60 * 10,
     ipAddress
   );
 
   return {
-    ...basicFields(basicInfo),
     jwt: jwToken,
     refreshToken: newRefreshToken,
   };
@@ -97,13 +100,17 @@ const verifyRefreshToken = async (token) => {
   return refreshToken;
 };
 
-const generateJwtToken = (userId, userName, userRole, ipAddress) =>
+const generateJwtToken = (userId, userName, userRole, expiresIn, ipAddress) =>
   jwt.sign(
-    { sub: userId, id: userId, username: userName, role: userRole, ipAddress },
-    process.env.TOKEN_SECRET,
     {
-      expiresIn: "1d",
-    }
+      sub: userId,
+      id: userId,
+      username: userName,
+      exp: expiresIn,
+      role: userRole,
+      ipAddress,
+    },
+    process.env.TOKEN_SECRET
   );
 
 const generateRefreshToken = (userId, userName, userRole, ipAddress) =>
@@ -127,6 +134,7 @@ const basicFields = (user) => ({
 });
 
 export const authService = {
+  register,
   verifyToken,
   verifyRefreshToken,
   authenticate,

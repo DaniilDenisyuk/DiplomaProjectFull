@@ -2,9 +2,6 @@ INSERT INTO Users (username, first_name, last_name, email, password, role) VALUE
   ('danden6', 'Данііл', 'Денисюк', 'denysiuk@gmail.com', 'qwerty', 'admin'),
   ('rustman', 'Ростислав', 'Марич', 'marych@gmail.com', '12345', 'user');
 
-INSERT INTO User_Address (user_id, city, street, house) VALUES
-  ('1', 'Фастів', 'Десь-на-Журавлівці', 'якийсь-дім');
-
 INSERT INTO MenuItems (name, category, weight, description, price) VALUES
   ('Рол каліфорнія 1', 'rolls', '925г','ролл Филадельфия с копченым
   лососем, ролл Филадельфия в
@@ -77,31 +74,32 @@ INSERT INTO MenuItems (name, category, weight, description, price) VALUES
 
 INSERT INTO MenuItems (name, category, volume, energy, price) VALUES
   ('Напій Швепс 1', 'drinks', '0.5л', '500ккал', '100'),
-  ('Напій Швепс 2', 'drinks', '0.5л', '500ккал', '100'),
-  ('Напій Швепс 3', 'drinks', '0.5л', '500ккал', '100');
+  ('Напій Швепс 2', 'drinks', '0.5л', '500ккал', '100');
 
 INSERT INTO Item_Image (item_id, img, img_order) VALUES
-  (1, '1.png', 1),
-  (2, '1.png', 1),
-  (3, '1.png', 1),
-  (4, '1.png', 1),
-  (5, '1.png', 1),
-  (6, '1.png', 1),
-  (7, '1.png', 1),
-  (8, '1.png', 1),
-  (9, '1.png', 1),
-  (10, '1.png', 1),
-  (11, '1.png', 1),
-  (12, '1.png', 1),
-  (13, '1.png', 1),
-  (14, '1.png', 1),
-  (15, '1.png', 1),
-  (16, '1.png', 1),
-  (17, '1.png', 1);
+  (1, 'localhost:3005/media/roll-1.png', 1),
+  (2, 'localhost:3005/media/roll-2.png', 1),
+  (3, 'localhost:3005/media/roll-3.png', 1),
+  (4, 'localhost:3005/media/roll-4.png', 1),
+  (5, 'localhost:3005/media/roll-1.png', 1),
+  (6, 'localhost:3005/media/set-1.png', 1),
+  (7, 'localhost:3005/media/set-2.png', 1),
+  (8, 'localhost:3005/media/set-3.png', 1),
+  (9, 'localhost:3005/media/set-4.png', 1),
+  (10, 'localhost:3005/media/set-1.png', 1),
+  (11, 'localhost:3005/media/sushi-1.png', 1),
+  (12, 'localhost:3005/media/sushi-2.png', 1),
+  (13, 'localhost:3005/media/sushi-1.png', 1),
+  (14, 'localhost:3005/media/sushi-2.png', 1),
+  (15, 'localhost:3005/media/soup-2.png', 1),
+  (16, 'localhost:3005/media/soup-1.png', 1),
+  (17, 'localhost:3005/media/soup-2.png', 1),
+  (18, 'localhost:3005/media/drink-1.png', 1),
+  (19, 'localhost:3005/media/drink-2.png', 1);
 
-INSERT INTO Orders (user_id, order_price) VALUES
-  (2, 500),
-  (2, 900);
+INSERT INTO Orders (user_id, order_price, customer_name, customer_phone) VALUES
+  (2, 500, 'Марич', '21421421421'),
+  (2, 900, 'Марич', '21421421421');
 
 INSERT INTO Order_Item (order_id, item_id) VALUES
   (1, 1),

@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import cn from "classnames";
-
 import { authActions } from "../authSlice";
 import FormGroup from "../../../components/FormGroup";
 import Modal from "../../../components/Modal";
@@ -11,7 +10,7 @@ import Button from "../../../components/Button";
 import Loading from "../../../components/Loading";
 import "./style.scss";
 
-const AuthForm = () => {
+const AuthForm = ({ onSuccess }) => {
   const dispatch = useDispatch();
   const onAuth = ({ login, password }) => {
     return dispatch(authActions.login(login, password));
@@ -26,6 +25,7 @@ const AuthForm = () => {
     setIsSubmitting(true);
     await onAuth(data);
     setIsSubmitting(false);
+    onSuccess();
   };
   const onError = (errors, e) => ({ errors, e });
   return (
@@ -63,7 +63,13 @@ const AuthForm = () => {
         </Button>
         <div className="form__links">
           Ще не зареєстровані?
-          <Link className="form__link" to="/register">
+          <Link
+            className="form__link"
+            to={{
+              pathname: "/register",
+              state: { background: { pathname: "/" } },
+            }}
+          >
             Зареєструватися
           </Link>
         </div>

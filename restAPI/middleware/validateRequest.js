@@ -7,6 +7,7 @@ export const validateRequest = (schema) => {
     stripUnknown: true, // remove unknown props
   };
   return (req, res, next) => {
+    console.log(req.body);
     const { error, value } = schema.validate(req.body, options);
     if (error) {
       next(

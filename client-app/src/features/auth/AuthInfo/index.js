@@ -13,9 +13,7 @@ import "./style.scss";
 const AuthInfo = ({ className, onClose }) => {
   const username = useSelector(getUsername);
   const token = useSelector(getToken);
-  const role = useSelector(getUserRole)
-    .replace("admin", "Адміністратор")
-    .replace("user", "Користувач");
+  const role = useSelector(getUserRole);
   const history = useHistory();
   const ref = useRef();
   const dispatch = useDispatch();
@@ -23,13 +21,16 @@ const AuthInfo = ({ className, onClose }) => {
   return (
     <div className={cn(className, "auth-info")} ref={ref}>
       <p className="auth-info__username">{username}</p>
-      <p className="auth-info__role">{role}</p>
+      <p className="auth-info__role">
+        {role.replace("admin", "Адміністратор").replace("user", "Користувач")}
+      </p>
       <Button
         className="auth-info__button"
         secondary
         rounded
         onClick={() => {
-          dispatch(authActions.logout(token)).then(() => onClose());
+          onClose();
+          dispatch(authActions.logout(token));
         }}
       >
         Вийти

@@ -10,4 +10,7 @@
   &:hover &__like-btn {
     visibility: visible;
   }
+  &:hover {
+    cursor: default;
+  }
 }

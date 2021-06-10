@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import "./common/init.js";
 import { logErrors, errorHandler } from "./middleware/index.js";
-import role from "./common/roles.js";
+import path from "path";
 import {
   //adminController,
   authController,
@@ -14,17 +16,17 @@ const port = process.env.PORT || 3005;
 
 const app = express();
 
-//app.use(express.static(path.join(__dirname, "build")));
-app.use(cors());
-
+app.use(express.static(path.join("static")));
 // app.get("/*", function (req, res) {
 //   res.sendFile(path.join(__dirname, "build", "index.html"));
 // });
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/auth", authController);
-app.use("/api/users-data", usersDataController);
+app.use("/api/user-data", usersDataController);
 app.use("/api/orders", ordersController);
 app.use("/api/menu", menuController);
 //app.use("/api/admin", adminController);

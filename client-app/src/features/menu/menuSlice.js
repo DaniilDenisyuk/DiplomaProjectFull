@@ -1,24 +1,16 @@
 import { menuService } from "../../services/menuService";
-import { DRINKS } from "../../common/fakeDB/drinks";
-import { SETS } from "../../common/fakeDB/sets";
-import { SUSHI } from "../../common/fakeDB/sushi";
-import { ROLLS } from "../../common/fakeDB/rolls";
 
 const initialState = {
+  isSucceeded: false,
   isLoading: false,
   isFailed: false,
-  items: [...DRINKS, ...SETS, ...SUSHI, ...ROLLS],
-  itemsIdAndCategory: [
-    ...[...DRINKS, ...SETS, ...SUSHI, ...ROLLS].map((item) => ({
-      id: item.id,
-      category: item.category,
-    })),
-  ],
+  items: [],
+  itemsIdAndCategory: [],
 };
 
 export const menuConstants = {
   getRequest: "auth/getMenuRequest",
-  getSucceed: "auth/getMenuSucceed",
+  getSucceeded: "auth/getMenuSucceeded",
   getFailed: "auth/getMenuFailed",
 };
 
@@ -27,7 +19,7 @@ const getMenu = () => {
     type: menuConstants.getRequest,
   });
   const success = (items) => ({
-    type: menuConstants.getSucceed,
+    type: menuConstants.getSucceeded,
     payload: { items },
   });
   const failure = () => ({
@@ -51,19 +43,28 @@ export const menuActions = {
 
 export const menuReducer = (state = initialState, action) => {
   switch (action.type) {
-    case menuConstants.getSucceed: {
+    case menuConstants.getSucceeded: {
       const { items } = action.payload;
+      const itemsIdAndCategory = items.map((item) => ({
+        id: item.id,
+        category: item.category,
+      }));
       return {
+        ...state,
+        isSucceeded: true,
         items,
+        itemsIdAndCategory,
       };
     }
     case menuConstants.getRequest: {
       return {
+        ...state,
         isLoading: true,
       };
     }
     case menuConstants.getFailed: {
       return {
+        ...state,
         isFailed: true,
       };
     }

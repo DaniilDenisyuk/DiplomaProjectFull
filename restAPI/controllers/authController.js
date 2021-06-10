@@ -11,9 +11,9 @@ const authenticate = (req, res, next) => {
   const ipAddress = req.ip;
   authService
     .authenticate({ login, password, ipAddress })
-    .then(({ refreshToken, ...user }) => {
+    .then(({ refreshToken, ...other }) => {
       setTokenCookie(res, refreshToken);
-      res.json(user);
+      res.json(other);
     })
     .catch(next);
 };
@@ -22,28 +22,28 @@ const register = (req, res, next) => {
   const { login, password } = req.body;
   const ipAddress = req.ip;
   authService
-    .authenticate({ login, password, ipAddress })
-    .then(({ refreshToken, ...user }) => {
-      setTokenCookie(res, refreshToken);
-      res.json(user);
+    .register({ login, password, ipAddress })
+    .then(() => {
+      res.json({ message: "successfully registered" });
     })
     .catch(next);
 };
 
 const refreshToken = (req, res, next) => {
-  const token = req.body.refreshToken || req.cookies.refreshToken;
+  const token = req.cookies.refreshToken;
+  if (!token) return next(ValidationError("Token required"));
   const ipAddress = req.ip;
   authService
     .refreshToken({ token, ipAddress })
-    .then(({ refreshToken, ...user }) => {
+    .then(({ refreshToken, jwt }) => {
       setTokenCookie(res, refreshToken);
-      res.json(user);
+      res.json({ jwt });
     })
     .catch(next);
 };
 
 const revokeToken = (req, res, next) => {
-  const token = req.body.refreshToken || req.cookies.refreshToken;
+  const token = req.cookies.refreshToken;
   if (!token) return next(ValidationError("Token required"));
   authService
     .revokeToken({ token })
@@ -54,6 +54,7 @@ const revokeToken = (req, res, next) => {
 const setTokenCookie = (res, token) => {
   const cookieOptions = {
     httpOnly: true,
+    path: "/api/auth",
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   };
   res.cookie("refreshToken", token, cookieOptions);
@@ -71,6 +72,6 @@ authController.post(
 );
 authController.post("/authenticate", validateRequest(authSchema), authenticate);
 authController.post("/refresh-token", refreshToken);
-authController.post("/revoke-token", authorize(), revokeToken);
+authController.post("/revoke-token", revokeToken);
 
 export { authController };

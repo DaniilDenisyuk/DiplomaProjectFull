@@ -8,6 +8,7 @@ import {
 import cn from "classnames";
 import { AddressForm, UserForm, ChangePwdForm } from "../forms";
 import OrderHistory from "../OrderHistory";
+import Favorites from "../Favorites";
 import "./style.scss";
 
 const NavBar = ({ className, baseUrl }) => (
@@ -38,7 +39,7 @@ const NavBar = ({ className, baseUrl }) => (
     </NavLink>
     <NavLink
       exact
-      to={`${baseUrl}/chosen`}
+      to={`${baseUrl}/favorites`}
       className="nav-bar__link"
       activeClassName="nav-bar__link--active"
     >
@@ -71,7 +72,9 @@ const Account = () => {
                 <OrderHistory className="account__history-list" />
               </div>
             </Route>
-            <Route path={`${path}/chosen`}></Route>
+            <Route path={`${path}/favorites`}>
+              <Favorites />
+            </Route>
             <Redirect to={`${url}/info`} />
           </Switch>
         </div>

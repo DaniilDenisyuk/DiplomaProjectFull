@@ -1,25 +1,22 @@
 import { authService } from "../../services/authService";
 
 const initialState = {
+  isFailed: false,
   isLoggingIn: false,
-  //isLoggedIn: false,
-  // id: "",
-  // username: "",
-  // jwt: "",
-  // role: "",
-  isLoggedIn: true,
-  id: "0",
-  username: "DanDen6",
-  jwt: "someJwt",
-  role: "admin",
+  isLoggedIn: false,
+  id: "",
+  username: "",
+  exp: "",
+  jwt: "",
+  role: "",
 };
 
 export const authConstants = {
   loginRequest: "auth/loginRequest",
-  loginSucceed: "auth/loginSucceed",
+  loginSucceeded: "auth/loginSucceeded",
   loginFailed: "auth/loginFailed",
   refreshTokenRequest: "auth/refreshTokenRequest",
-  refreshTokenSucceed: "auth/refreshTokenSucceed",
+  refreshTokenSucceeded: "auth/refreshTokenSucceeded",
   refreshTokenFailed: "auth/refreshTokenFailed",
   logout: "auth/logout",
 };
@@ -28,22 +25,23 @@ const login = (login, password) => {
   const request = () => ({
     type: authConstants.loginRequest,
   });
-  const success = (user) => ({
-    type: authConstants.loginSucceed,
-    user,
+  const success = (authInfo) => ({
+    type: authConstants.loginSucceeded,
+    payload: authInfo,
   });
   const failure = () => ({
     type: authConstants.loginFailed,
   });
-
   return (dispatch) => {
     dispatch(request());
     return authService
       .login(login, password)
-      .then((user) => {
-        dispatch(success(user));
+      .then(({ user, auth, jwt }) => {
+        dispatch(success({ user, auth, jwt }));
       })
-      .catch((e) => dispatch(failure()));
+      .catch((e) => {
+        dispatch(failure());
+      });
   };
 };
 
@@ -51,9 +49,9 @@ const refreshToken = () => {
   const request = () => ({
     type: authConstants.refreshTokenRequest,
   });
-  const success = (user) => ({
-    type: authConstants.refreshTokenSucceed,
-    user,
+  const success = (jwt, auth) => ({
+    type: authConstants.refreshTokenSucceeded,
+    payload: { jwt, auth },
   });
   const failure = () => ({
     type: authConstants.refreshTokenFailed,
@@ -63,21 +61,23 @@ const refreshToken = () => {
     dispatch(request());
     return authService
       .refreshToken()
-      .then((user) => {
-        dispatch(success(user));
+      .then(({ jwt, auth }) => {
+        dispatch(success(jwt, auth));
       })
       .catch((e) => dispatch(failure()));
   };
 };
 
 const logout = (token) => {
-  const request = () => ({
+  const success = () => ({
     type: authConstants.logout,
   });
-
   return (dispatch) => {
-    dispatch(request());
-    return authService.logout().catch((e) => {});
+    dispatch(success());
+    return authService
+      .logout(token)
+      .then(() => {})
+      .catch((e) => {});
   };
 };
 
@@ -93,32 +93,38 @@ export const authReducer = (state = initialState, action) => {
       return {
         isLoggingIn: true,
       };
-    case authConstants.loginSucceed: {
-      const { user } = action;
+    case authConstants.loginSucceeded: {
+      const { auth, jwt } = action.payload;
       return {
         isLoggedIn: true,
-        id: user.id,
-        username: user.username,
-        jwt: user.jwt,
-        role: user.role,
+        id: auth.id,
+        username: auth.username,
+        exp: auth.exp,
+        role: auth.role,
+        jwt,
       };
     }
     case authConstants.loginFailed:
-      return {};
+      return {
+        isFailed: true,
+      };
     case authConstants.logout:
-      return {};
+      return {
+        isLoggedIn: false,
+      };
     case authConstants.refreshTokenRequest:
       return {
         isLoggingIn: true,
       };
-    case authConstants.refreshTokenSucceed: {
-      const { user } = action;
+    case authConstants.refreshTokenSucceeded: {
+      const { auth, jwt } = action.payload;
       return {
         isLoggedIn: true,
-        id: user.id,
-        username: user.username,
-        jwt: user.jwt,
-        role: user.role,
+        id: auth.id,
+        username: auth.username,
+        exp: auth.exp,
+        role: auth.role,
+        jwt,
       };
     }
     case authConstants.refreshTokenFailed:

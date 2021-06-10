@@ -34,7 +34,7 @@ const getPendingOrders = async () => {
   });
 };
 
-const getOrders = async () => {
+const getAllOrders = async () => {
   const sql = `select ${defaultFields.map((field) => `o.${field}`)},
     array_agg(array[mi.id::varchar, mi.name, mi.price::varchar, ii.img]) as items
     from orders as o
@@ -65,7 +65,6 @@ const createOrder = async (fields, items_id) => {
     ", "
   )}`;
   const finalSql = `with inserted as (${sql}) ${sql2};`;
-  console.log(finalSql);
   const res = await db.query(finalSql, args);
   return true;
 };
@@ -101,7 +100,7 @@ const getUserOrders = async (userId) => {
 
 export const ordersService = {
   getPendingOrders,
-  getOrders,
+  getAllOrders,
   createOrder,
   updateOrderStatus,
   getUserOrders,

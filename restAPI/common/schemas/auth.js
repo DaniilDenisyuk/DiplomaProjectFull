@@ -1,8 +1,8 @@
 import Joi from "joi";
 
 export const authSchema = Joi.object({
-  login: Joi.string().alphanum(),
-  password: Joi.string(),
+  login: Joi.string().alphanum().required(),
+  password: Joi.string().required(),
 });
 
 export default authSchema;

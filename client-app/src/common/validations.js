@@ -3,11 +3,9 @@ export const required = (value) => !!value.toString();
 export const number = (value, errMess) =>
   value && isNaN(Number(value)) ? false : true;
 
-export const minValue = (min) => (value) =>
-  value && value < min ? false : true;
+export const minValue = (min) => (value) => value && value < min ? false : true;
 
-export const maxValue = (max) => (value) =>
-  value && value > max ? false : true;
+export const maxValue = (max) => (value) => value && value > max ? false : true;
 
 export const minMaxValue = (min, max) => {
   const isNotLower = minValue(min);

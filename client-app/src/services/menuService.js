@@ -1,48 +1,40 @@
-import { API_URL } from "./helpers/apiUrl";
-import tokenHeader from "./helpers/tokenHeader";
 import handleResponse from "./helpers/handleResponse";
+import axios from "./helpers/axiosWIthJwtInterceptor";
+import directions from "../common/cursorDirections";
 
-const getMenu = async () => {
-  const requestOptions = {
-    method: "GET",
-  };
-  return fetch(`${API_URL}/menu`, requestOptions).then(handleResponse);
+const getTopMenu = async () => {
+  return axios.get("/menu").then(handleResponse);
 };
 
-const addItem = async (token) => {
-  const requestOptions = {
-    method: "POST",
-    headers: tokenHeader(token),
-    credentials: "include",
-  };
-  return fetch(`${API_URL}/menu`, requestOptions).then(handleResponse);
+const getItems = async (
+  cursor = { amount: 250, direction: directions.fwd, startId: 1 },
+  filters
+) => {
+  return axios
+    .get("/menu", { params: { ...cursor, ...filters } })
+    .then(handleResponse);
 };
 
-const updateItem = async (token, itemId, itemFields) => {
-  const requestOptions = {
-    method: "PUT",
-    headers: tokenHeader(token),
-    credentials: "include",
-    body: JSON.stringify(itemFields),
-  };
-  return fetch(`${API_URL}/menu/${itemId}`, requestOptions).then(
-    handleResponse
-  );
+const getItemsByCategory = async (category, cursor) => {
+  return getItems(cursor, { category });
 };
 
-const deleteItem = async (token, itemId) => {
-  const requestOptions = {
-    method: "DELETE",
-    headers: tokenHeader(token),
-    credentials: "include",
-  };
-  return fetch(`${API_URL}/menu/${itemId}`, requestOptions).then(
-    handleResponse
-  );
+const addItem = async (itemFields) => {
+  return axios.post("/menu", itemFields).then(handleResponse);
+};
+
+const updateItem = async (itemId, itemFields) => {
+  return axios.post(`/menu/${itemId}`, itemFields).then(handleResponse);
+};
+
+const deleteItem = async (itemId) => {
+  return axios.delete(`/menu/${itemId}`).then(handleResponse);
 };
 
 export const menuService = {
-  getMenu,
+  getTopMenu,
+  getItems,
+  getItemsByCategory,
   addItem,
   updateItem,
   deleteItem,

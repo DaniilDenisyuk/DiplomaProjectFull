@@ -1,51 +1,38 @@
-import { API_URL } from "./helpers/apiUrl";
-import tokenHeader from "./helpers/tokenHeader";
+import axios from "./helpers/axiosWIthJwtInterceptor";
 import handleResponse from "./helpers/handleResponse";
+import directions from "../common/cursorDirections";
 
 const createOrder = async (orderFields) => {
-  const requestOptions = {
-    method: "POST",
-    body: JSON.stringify(orderFields),
-    credentials: "include",
-  };
-  return fetch(`${API_URL}/orders`, requestOptions).then(handleResponse);
+  return axios.post(`/orders`, orderFields).then(handleResponse);
 };
 
-const getAllOrders = async (token) => {
-  const requestOptions = {
-    method: "GET",
-    headers: tokenHeader(token),
-    credentials: "include",
-  };
-  return fetch(`${API_URL}/orders`, requestOptions).then(handleResponse);
+const getOrders = async (
+  cursor = { amount: 250, direction: directions.fwd, startId: 1 },
+  filters
+) => {
+  return axios
+    .get("/orders", {
+      params: {
+        ...cursor,
+        ...filters,
+      },
+    })
+    .then(handleResponse);
 };
 
-const getPendingOrders = async (token) => {
-  const requestOptions = {
-    method: "GET",
-    headers: tokenHeader(token),
-    credentials: "include",
-  };
-  return fetch(`${API_URL}/orders/pending`, requestOptions).then(
-    handleResponse
-  );
+const getPendingOrders = async (cursor) => {
+  return getOrders(cursor, { pending: true });
 };
 
-const updateOrderStatus = async (token, orderId, status) => {
-  const requestOptions = {
-    method: "PUT",
-    headers: tokenHeader(token),
-    body: JSON.stringify({ status }),
-    credentials: "include",
-  };
-  return fetch(`${API_URL}/orders/${orderId}`, requestOptions).then(
-    handleResponse
-  );
+const updateOrderStatus = async (orderId, status) => {
+  return axios
+    .put(`/orders/${orderId}`, null, { params: { status } })
+    .then(handleResponse);
 };
 
 export const ordersService = {
   createOrder,
-  getAllOrders,
+  getOrders,
   getPendingOrders,
   updateOrderStatus,
 };

@@ -1,3 +1,3 @@
 export * from "./userService";
-export * from "./adminService";
+export * from "./menuService";
 export * from "./authService";

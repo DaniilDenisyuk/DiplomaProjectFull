@@ -1,59 +1,55 @@
 import jwt_decode from "jwt-decode";
-import { API_URL } from "./helpers/apiUrl";
+import axios from "axios";
 import handleResponse from "./helpers/handleResponse";
 
-const register = (user) => {
-  const requestOptions = {
-    method: "POST",
-    body: JSON.stringify(user),
-  };
-  return fetch(`${API_URL}/auth/register`, requestOptions).then(handleResponse);
-};
+export const authService = (function () {
+  let jwt = null;
 
-const login = async (login, password) => {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({ login, password }),
-    credentials: "include",
+  const getJwt = () => jwt;
+
+  const register = (user) => {
+    return axios.post("/auth/register", user).then(handleResponse);
   };
 
-  return fetch(`${API_URL}/auth/authenticate`, requestOptions)
-    .then(handleResponse)
-    .then(({ user, jwt }) => {
-      const { id, username, exp, role } = jwt_decode(jwt);
-      return { user, auth: { id, username, exp, role }, jwt };
-    });
-};
-
-const logout = async () => {
-  const requestOptions = {
-    method: "POST",
-    credentials: "include",
+  const login = async (login, password) => {
+    return axios
+      .post("/auth/authenticate", { login, password })
+      .then(handleResponse)
+      .then(({ user, jwt: newJwt }) => {
+        jwt = newJwt;
+        const { id, username, exp, role } = jwt_decode(newJwt);
+        for (const key of user) {
+          localStorage.setItem(key, user);
+        }
+        return { user, auth: { id, username, exp, role }, isLoggedIn: true };
+      });
   };
-  return fetch(`${API_URL}/auth/revoke-token`, requestOptions).then(
-    handleResponse
-  );
-};
 
-const refreshToken = async () => {
-  const requestOptions = {
-    method: "POST",
-    credentials: "include",
+  const logout = async () => {
+    jwt = null;
+    localStorage.clear();
+    return axios.post("/auth/revoke-token").then(handleResponse);
   };
-  return fetch(`${API_URL}/auth/refresh-token`, requestOptions)
-    .then(handleResponse)
-    .then(({ jwt }) => {
-      const { id, username, exp, role } = jwt_decode(jwt);
-      return { auth: { id, username, exp, role }, jwt };
-    });
-};
 
-export const authService = {
-  register,
-  login,
-  logout,
-  refreshToken,
-};
+  const refreshToken = async () => {
+    return axios({
+      method: "post",
+      url: "/auth/refresh-token",
+    })
+      .then(handleResponse)
+      .then(({ jwt: newJwt }) => {
+        jwt = newJwt;
+        const { id, username, exp, role } = jwt_decode(jwt);
+        return { auth: { id, username, exp, role } };
+      });
+  };
+  return {
+    getJwt,
+    register,
+    login,
+    logout,
+    refreshToken,
+  };
+})();
+
+export default authService;

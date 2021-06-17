@@ -12,7 +12,7 @@ const OrderItemCard = ({ className, itemId }) => {
   return (
     <section className={cn(className, "order-item")}>
       <div className="order-item__img">
-        <img src={`http://${item.imgs[0]}`} alt={item.name} />
+        <img src={item.imgs[0]} alt={item.name} />
       </div>
       <div className="order-item__info">
         <h2 className="order-item__name">{item.name}</h2>

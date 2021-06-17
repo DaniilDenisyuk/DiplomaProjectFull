@@ -26,6 +26,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
+    align-items: center;
     color: #0d0d0d;
     &::before {
       filter: brightness(0%);
@@ -46,8 +47,8 @@
   }
 
   &__value-container {
-    font-family: MontserratSemiBold;
-    font-size: 17px;
+    font-family: msb;
+    font-size: 1rem;
     position: relative;
     display: flex;
     margin-right: 6px;
@@ -82,8 +83,8 @@
 
   &__option {
     cursor: pointer;
-    font-family: Montserrat;
-    font-size: 14px;
+    font-family: mr;
+    font-size: 0.875rem;
     line-height: 17px;
     padding: 5px 0;
     margin: 5px 0;

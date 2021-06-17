@@ -145,113 +145,117 @@ const Checkout = () => {
 
   return (
     <div className="checkout">
-      <p className="checkout__heading">Оформлення замовлення</p>
-      {orderItemsId.length < 1 ? (
-        <div className="no-items">
-          <p className="no-items__text">Немає що замовляти!</p>
-          <Button
-            className="no-items__button"
-            secondary
-            rounded
-            onClick={() => history.push("/menu")}
-          >
-            Перейти в меню
-          </Button>
-        </div>
-      ) : (
-        <div className="checkout__wrapper">
-          <div className="checkout__order">
-            {cards.length > 0 && (
-              <>
-                <div className="checkout__order-main">{cards}</div>
-                <div className="checkout__order-aux">{auxItems}</div>
-              </>
-            )}
+      <div className="__container">
+        <p className="page-sub-heading">Оформлення замовлення</p>
+        {orderItemsId.length < 1 ? (
+          <div className="no-items">
+            <p className="no-items__text">Немає що замовляти!</p>
+            <Button
+              className="no-items__button"
+              secondary
+              rounded
+              onClick={() => history.push("/menu")}
+            >
+              Перейти в меню
+            </Button>
           </div>
-          <div className="checkout__delivery">
-            <p className="checkout__sub-heading">Доставка</p>
-            <FormGroup
-              className="checkout__radio-group"
-              inputProps={{
-                ...register("delivery", { required: true }),
-                type: "radio",
-                value: "0",
-              }}
-              label="Самовивіз"
-            />
-            <FormGroup
-              className="ccheckout__radio-group"
-              inputProps={{
-                ...register("delivery", { required: true }),
-                type: "radio",
-                value: "1",
-              }}
-              label="Кур'єр"
-            />
+        ) : (
+          <div className="checkout__wrapper">
+            <div className="checkout__order">
+              {cards.length > 0 && (
+                <>
+                  <div className="checkout__order-main">{cards}</div>
+                  <div className="checkout__order-aux">{auxItems}</div>
+                </>
+              )}
+            </div>
+            <div className="checkout__right-col">
+              <div className="checkout__delivery">
+                <p className="checkout__sub-heading">Доставка</p>
+                <FormGroup
+                  className="checkout__radio-group"
+                  inputProps={{
+                    ...register("delivery", { required: true }),
+                    type: "radio",
+                    value: "0",
+                  }}
+                  label="Самовивіз"
+                />
+                <FormGroup
+                  className="ccheckout__radio-group"
+                  inputProps={{
+                    ...register("delivery", { required: true }),
+                    type: "radio",
+                    value: "1",
+                  }}
+                  label="Кур'єр"
+                />
+              </div>
+              <div className="checkout__info">
+                <p className="checkout__sub-heading">Інформація</p>
+                <FormGroup
+                  className={cn("checkout__info-group", {
+                    dirty: !!watch("customer_name"),
+                  })}
+                  inputProps={{
+                    ...register("customer_name", { required: true }),
+                    type: "text",
+                  }}
+                  error={errors.name && errors.name.message}
+                  label="Ім'я"
+                />
+                <FormGroup
+                  className={cn("checkout__info-group", {
+                    dirty: !!watch("customer_phone"),
+                  })}
+                  inputProps={{
+                    ...register("customer_phone", { required: true }),
+                    type: "text",
+                  }}
+                  error={errors.customer_phone && errors.customer_phone.message}
+                  label="Телефон"
+                />
+                <FormGroup
+                  className={cn("checkout__info-group", {
+                    dirty: !!watch("address"),
+                  })}
+                  inputProps={{
+                    ...register("address", { required: true }),
+                    type: "text",
+                  }}
+                  error={errors.address && errors.address.message}
+                  label="Адреса"
+                />
+              </div>
+              <div className="checkout__pay-way">
+                <p className="checkout__sub-heading">Спосіб оплати</p>
+                <FormGroup
+                  className="checkout__radio-group"
+                  inputProps={{
+                    ...register("pay_way", { required: true }),
+                    type: "radio",
+                    value: "0",
+                  }}
+                  label="Оплата при отриманні"
+                />
+                <FormGroup
+                  className="checkout__radio-group"
+                  inputProps={{
+                    ...register("pay_way", { required: true }),
+                    type: "radio",
+                    value: "1",
+                  }}
+                  label="Банківська карта"
+                />
+              </div>
+              <OrderOverall
+                className="checkout__overall"
+                onOrder={formSubmit(onSubmit, onError)}
+              />
+            </div>
           </div>
-          <div className="checkout__info">
-            <p className="checkout__sub-heading">Інформація</p>
-            <FormGroup
-              className={cn("checkout__info-group", {
-                dirty: !!watch("customer_name"),
-              })}
-              inputProps={{
-                ...register("customer_name", { required: true }),
-                type: "text",
-              }}
-              error={errors.name && errors.name.message}
-              label="Ім'я"
-            />
-            <FormGroup
-              className={cn("checkout__info-group", {
-                dirty: !!watch("customer_phone"),
-              })}
-              inputProps={{
-                ...register("customer_phone", { required: true }),
-                type: "text",
-              }}
-              error={errors.customer_phone && errors.customer_phone.message}
-              label="Телефон"
-            />
-            <FormGroup
-              className={cn("checkout__info-group", {
-                dirty: !!watch("address"),
-              })}
-              inputProps={{
-                ...register("address", { required: true }),
-                type: "text",
-              }}
-              error={errors.address && errors.address.message}
-              label="Адреса"
-            />
-          </div>
-          <div className="checkout__pay-way">
-            <p className="checkout__sub-heading">Спосіб оплати</p>
-            <FormGroup
-              className="checkout__radio-group"
-              inputProps={{
-                ...register("pay_way", { required: true }),
-                type: "radio",
-                value: "0",
-              }}
-              label="Оплата при отриманні"
-            />
-            <FormGroup
-              className="checkout__radio-group"
-              inputProps={{
-                ...register("pay_way", { required: true }),
-                type: "radio",
-                value: "1",
-              }}
-              label="Банківська карта"
-            />
-          </div>
-          <OrderOverall
-            className="checkout__overall"
-            onOrder={formSubmit(onSubmit, onError)}
-          />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

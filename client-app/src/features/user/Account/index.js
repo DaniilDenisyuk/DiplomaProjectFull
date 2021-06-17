@@ -52,7 +52,7 @@ const Account = () => {
   const { path, url } = useRouteMatch();
   return (
     <div className="account">
-      <div className="account__wrapper">
+      <div className="account__wrapper __container">
         <NavBar className="account__nav-bar" baseUrl={url} />
         <div className="account__content">
           <Switch>

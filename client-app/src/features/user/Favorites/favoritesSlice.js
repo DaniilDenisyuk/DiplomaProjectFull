@@ -26,7 +26,11 @@ export const favoritesReducer = (state = favoritesState, action) => {
     }
     case favoritesConstants.getSucceeded: {
       const { itemsId } = action.payload;
-      return { isSucceded: true, itemsId };
+      console.log(itemsId.map(({ item_id }) => item_id));
+      return {
+        isSucceded: true,
+        itemsId: itemsId.map(({ item_id }) => item_id),
+      };
     }
     case favoritesConstants.getFailed: {
       return { ...state, isFailed: true };
@@ -82,7 +86,7 @@ const getFavorites = (token) => {
   };
 };
 
-const addToFavorites = (token, itemId) => {
+const addToFavorites = (itemId) => {
   const request = () => ({
     type: favoritesConstants.getRequest,
   });
@@ -96,13 +100,13 @@ const addToFavorites = (token, itemId) => {
   return (dispatch) => {
     dispatch(request());
     return userDataService
-      .addItemToFavorites(token, itemId)
+      .addItemToFavorites(itemId)
       .then(() => dispatch(success(itemId)))
       .catch(() => dispatch(failure()));
   };
 };
 
-const deleteFromFavorites = (token, itemId) => {
+const deleteFromFavorites = (itemId) => {
   const request = () => ({
     type: favoritesConstants.getRequest,
   });
@@ -116,7 +120,7 @@ const deleteFromFavorites = (token, itemId) => {
   return (dispatch) => {
     dispatch(request());
     return userDataService
-      .removeItemToFavorites(token, itemId)
+      .removeItemToFavorites(itemId)
       .then(() => dispatch(success(itemId)))
       .catch(() => dispatch(failure));
   };

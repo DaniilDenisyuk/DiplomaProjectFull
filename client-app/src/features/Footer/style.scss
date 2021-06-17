@@ -7,7 +7,7 @@
     position: relative;
     width: 100%;
     padding-top: 45px;
-    padding-bottom: 45px;
+    padding-bottom: 30px;
   }
 
   &__row {
@@ -50,8 +50,8 @@
   &__copyright {
     color: #ffffff;
     margin-top: 20px;
-    font-family: Roboto;
-    font-size: 13px;
+    font-family: rr;
+    font-size: 0.825rem;
     text-align: center;
     line-height: 20px;
   }
@@ -60,16 +60,16 @@
 .footer-list {
   &__heading {
     color: #ffffff;
-    font-family: RobotoMedium;
-    font-size: 18px;
+    font-family: rm;
+    font-size: 1.15rem;
     margin-bottom: 15px;
   }
   &__link {
     display: block;
     padding: 5px 0;
     color: #afafaf;
-    font-family: Roboto;
-    font-size: 14px;
+    font-family: rr;
+    font-size: 0.875rem;
     &:hover {
       color: #ff5d29;
     }

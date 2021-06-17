@@ -32,7 +32,7 @@ const getUserFavorites = (req, res, next) => {
 
 const addItemToFavorites = (req, res, next) => {
   const { id: userId } = req.user;
-  const itemId = req.body.itemId;
+  const { id: itemId } = req.params;
   menuService
     .addItemToUserFavorites(userId, itemId)
     .then(() => res.status(200).end())
@@ -41,7 +41,7 @@ const addItemToFavorites = (req, res, next) => {
 
 const removeItemFromFavorites = (req, res, next) => {
   const { id: userId } = req.user;
-  const { id: itemId } = req.body;
+  const { id: itemId } = req.params;
   menuService
     .removeItemFromUserFavorites(userId, itemId)
     .then(() => res.status(200).end())
@@ -57,21 +57,17 @@ const updateUserInfo = (req, res, next) => {
     .catch(next);
 };
 
-usersDataController.use(authorize(ROLES.user, ROLES.admin));
+usersDataController.use(authorize(ROLES.user));
 
 usersDataController.get("/", getUserInfo);
-usersDataController.get("/orders", authorize(ROLES.user), getUserOrders);
-usersDataController.get("/favorites", authorize(ROLES.user), getUserFavorites);
-usersDataController.put("/", validateRequest(userInfoSchema), updateUserInfo);
-usersDataController.post(
-  "/favorites",
-  authorize(ROLES.user),
-  addItemToFavorites
+usersDataController.get("/orders", getUserOrders);
+usersDataController.get("/favorites", getUserFavorites);
+usersDataController.put(
+  "/info",
+  validateRequest(userInfoSchema),
+  updateUserInfo
 );
-usersDataController.delete(
-  "/favorites",
-  authorize(ROLES.user),
-  removeItemFromFavorites
-);
+usersDataController.post("/favorites/:id", addItemToFavorites);
+usersDataController.delete("/favorites/:id", removeItemFromFavorites);
 
 export { usersDataController };

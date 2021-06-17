@@ -13,6 +13,14 @@ const getMenu = (req, res, next) => {
     .catch(next);
 };
 
+const getTopItems = (req, res, next) => {
+  const { itemsPerCategory = 10 } = req.params;
+  menuService
+    .getTopItemsFromEachCategory(itemsPerCategory)
+    .then((menu) => res.json(menu))
+    .catch(next);
+};
+
 const updateItem = (req, res, next) => {
   const itemId = req.params.id;
   const fields = req.body;
@@ -39,6 +47,7 @@ const removeItem = (req, res, next) => {
 };
 
 menuController.get("/", getMenu);
+menuController.get("/top-items", getTopItems);
 menuController.post(
   "/",
   authorize(ROLES.admin),

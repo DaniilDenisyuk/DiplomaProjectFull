@@ -8,12 +8,12 @@ export const authService = (function () {
   const getJwt = () => jwt;
 
   const register = (user) => {
-    return axios.post("/auth/register", user).then(handleResponse);
+    return axios.post("/api/auth/register", user).then(handleResponse);
   };
 
   const login = async (login, password) => {
     return axios
-      .post("/auth/authenticate", { login, password })
+      .post("/api/auth/authenticate", { login, password })
       .then(handleResponse)
       .then(({ user, jwt: newJwt }) => {
         jwt = newJwt;
@@ -28,13 +28,14 @@ export const authService = (function () {
   const logout = async () => {
     jwt = null;
     localStorage.clear();
-    return axios.post("/auth/revoke-token").then(handleResponse);
+    return axios.post("/api/auth/revoke-token").then(handleResponse);
   };
 
   const refreshToken = async () => {
     return axios({
       method: "post",
-      url: "/auth/refresh-token",
+      url: "/api/auth/refresh-token",
+      withCredentials: true,
     })
       .then(handleResponse)
       .then(({ jwt: newJwt }) => {

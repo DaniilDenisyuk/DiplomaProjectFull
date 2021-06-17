@@ -3,7 +3,7 @@ import handleResponse from "./helpers/handleResponse";
 import directions from "../common/cursorDirections";
 
 const createOrder = async (orderFields) => {
-  return axios.post(`/orders`, orderFields).then(handleResponse);
+  return axios.post(`/api/orders`, orderFields).then(handleResponse);
 };
 
 const getOrders = async (
@@ -11,7 +11,7 @@ const getOrders = async (
   filters
 ) => {
   return axios
-    .get("/orders", {
+    .get("/api/orders", {
       params: {
         ...cursor,
         ...filters,
@@ -26,7 +26,7 @@ const getPendingOrders = async (cursor) => {
 
 const updateOrderStatus = async (orderId, status) => {
   return axios
-    .put(`/orders/${orderId}`, null, { params: { status } })
+    .put(`/api/orders/${orderId}`, null, { params: { status } })
     .then(handleResponse);
 };
 

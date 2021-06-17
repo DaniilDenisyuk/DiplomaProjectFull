@@ -19,6 +19,16 @@ const getMenuAvailable = async () => {
   return res.rows;
 };
 
+const getTopItemsFromEachCategory = async (itemsPerCategory) => {
+  const sql = `select ranked_scores.* from
+    (SELECT score_data.*,
+      row_number() OVER (PARTITION BY category ORDER BY orders_count DESC)
+      FROM score_data) ranked_scores
+      where row_number <= ${itemsPerCategory}`;
+  const res = await db.query(sql);
+  return res.rows;
+};
+
 const addItem = async (fields, images) => {
   let { sql, args } = queryBuilder.insert(defaultTable, fields, ["id"]);
   if (images && images.length > 0) {
@@ -56,7 +66,6 @@ const getUserFavorites = async (userId) => {
   const { sql, args } = queryBuilder.select("user_item", ["item_id"], {
     user_id: userId,
   });
-  console.log(sql, args);
   const res = await db.query(sql, args);
   return res.rows;
 };
@@ -80,6 +89,7 @@ const removeItemFromUserFavorites = async (userId, itemId) => {
 };
 
 export const menuService = {
+  getTopItemsFromEachCategory,
   getMenuAvailable,
   getUserFavorites,
   removeItemFromUserFavorites,

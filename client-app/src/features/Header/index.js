@@ -1,9 +1,9 @@
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 import cn from "classnames";
 
-import { AuthButton, AuthInfoPopup } from "../auth";
-import { CartButton, CartModal } from "../order";
+import { AuthButton } from "../auth";
+import { CartModule } from "../order";
 import SelectLocation from "../location/SelectLocation";
 import SelectLang from "../lang/SelectLang";
 import Logo from "../../components/Logo";
@@ -78,12 +78,11 @@ const Burger = ({ className, onClick }) => (
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
-  const [cartOpened, setCartOpened] = useState(false);
-  const history = useHistory();
+
   return (
     <>
-      <header className="header __container">
-        <section className="header__wrapper">
+      <header className="header">
+        <section className="header__wrapper __container">
           <Burger onClick={() => setMenuOpened(true)} />
           <NavMenu
             className="header__nav"
@@ -95,26 +94,9 @@ const Header = () => {
           <SelectLocation className="header__location" />
           <SelectLang className="header__lang" />
           <AuthButton className="header__login" />
-          <CartButton
-            className="header__cart"
-            onOpenCart={() => setCartOpened(true)}
-          />
+          <CartModule className="header__cart" />
         </section>
       </header>
-      {cartOpened && (
-        <CartModal
-          className="header__cart-modal"
-          onClose={() => setCartOpened(false)}
-          onOrderClick={() => {
-            setCartOpened(false);
-            history.push("/checkout");
-          }}
-          onToMenuClick={() => {
-            setCartOpened(false);
-            history.push("/menu");
-          }}
-        />
-      )}
     </>
   );
 };

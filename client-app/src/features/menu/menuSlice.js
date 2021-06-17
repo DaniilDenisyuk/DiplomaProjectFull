@@ -29,7 +29,7 @@ const getMenu = () => {
   return (dispatch) => {
     dispatch(request());
     return menuService
-      .getMenu()
+      .getAvailableMenu()
       .then((items) => {
         dispatch(success(items));
       })

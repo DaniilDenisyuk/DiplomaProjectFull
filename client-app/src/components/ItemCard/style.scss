@@ -4,6 +4,7 @@
   border-radius: 7px;
   background-color: #ffff;
   cursor: pointer;
+  text-align: left;
   &:hover {
     z-index: 1;
     box-shadow: 0px 8px 29px rgba(0, 71, 122, 0.08);
@@ -19,14 +20,14 @@
     margin-bottom: 10px;
   }
   &__name {
-    font-family: MontserratBold;
-    font-size: 24px;
+    font-family: msb;
+    font-size: 1.25rem;
     color: #232323;
     margin-bottom: 15px;
   }
   &__info {
-    font-family: Montserrat;
-    font-size: 13px;
+    font-family: mr;
+    font-size: 0.8rem;
     color: #474747;
     margin-bottom: 20px;
     span {
@@ -40,13 +41,13 @@
     align-items: center;
   }
   &__price {
-    font-family: Roboto;
+    font-family: rr;
     color: #101010;
-    font-size: 20px;
+    font-size: 1.25rem;
   }
   &__add-button {
-    font-family: MontserratMedium;
-    font-size: 14px;
+    font-family: mm;
+    font-size: 0.875rem;
     width: 130px;
     height: 40px;
     margin-left: auto;

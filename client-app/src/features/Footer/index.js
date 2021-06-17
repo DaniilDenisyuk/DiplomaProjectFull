@@ -98,13 +98,12 @@ const Footer = () => {
     <RenderFooterList key={`list-${i}`} className="footer__list" {...list} />
   ));
   return (
-    <footer className="footer __container">
-      <div className="footer__wrapper">
+    <footer className="footer">
+      <div className="footer__wrapper __container">
         <div className="footer__row">{lists}</div>
         <p className="footer__copyright">
           © Developed by Daniil Denysiuk
-          <br /> Designed by Rostislav Marych
-          <br /> 2021
+          <br /> Designed by Rostislav Marych, 2021.
         </p>
       </div>
     </footer>

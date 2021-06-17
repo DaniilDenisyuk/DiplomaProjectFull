@@ -6,52 +6,75 @@
   border: none;
   color: #ffffff;
   &::before {
-    content: url("../../../assets/img/header/cart.svg");
-    width: 41px;
-    height: 41px;
+    content: "";
+    background: url("../../../assets/img/header/cart.svg") center center/contain
+      no-repeat;
+    width: 34px;
+    height: 34px;
     margin-right: 10px;
   }
 }
 
 .cart {
-  display: block;
-  color: #0d0d0d;
+  position: relative;
+  &::before {
+    content: "";
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-bottom: 18px solid #ffffff;
+    position: absolute;
+    bottom: 100%;
+  }
+  &__dash {
+    display: block;
+    width: 100%;
+    background: #e5e5e5;
+    height: 1px;
+    position: absolute;
+    left: 0;
+  }
+  &__wrapper {
+    width: 490px;
+    padding: 45px 50px;
+    border-radius: 6px;
+    color: #0d0d0d;
+    background-color: #fff;
+    position: absolute;
+    right: -100px;
+    top: 100%;
+  }
+
   &__items {
     position: relative;
-    width: 490px;
+    margin: 15px 0 25px;
     z-index: 2;
-    display: block;
-    max-height: 500px;
+    width: calc(100% + 25px);
+    padding-right: 10px;
+    max-height: 410px;
     overflow-y: scroll;
-    margin-bottom: 15px;
-    padding: 0 55px;
   }
   &__to-menu {
     height: 46px;
     margin: auto;
   }
   &__empty {
-    padding: 50px;
     text-align: center;
   }
   &__item {
-    width: 100%;
-    margin-bottom: 15px;
+    padding: 12.5px 0;
   }
   &__heading {
     font-size: 28px;
-    padding: 45px 55px 0;
     margin-bottom: 15px;
   }
   &__result {
+    padding-top: 45px;
     display: flex;
     align-items: center;
-    border-top: 1px solid #e5e5e5;
-    padding: 35px 55px;
   }
   &__sum {
-    font-size: 22px;
-    font-family: MontserratSemiBold;
+    font-size: 1.25rem;
+    font-family: msb;
     color: #0d0d0d;
     margin-right: 50px;
   }
@@ -63,22 +86,24 @@
   }
 }
 
-.cart-modal {
-  padding: 0;
+.cart-module {
   position: relative;
-  .modal__close {
-    right: 55px;
-    top: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  &__modal {
+    padding: 0;
+    position: relative;
+    background-color: transparent;
+    .modal {
+      &__close {
+        z-index: 2;
+        right: -50px;
+        top: 50px;
+      }
+    }
   }
-  &::before {
-    content: "";
-    border-left: 13px solid transparent;
-    border-right: 13px solid transparent;
-    border-bottom: 18px solid #ffffff;
-    position: absolute;
-    z-index: 2;
-    top: 0px;
-    right: 80px;
-    transform: translateY(-100%);
+  &__button {
+    height: 100%;
   }
 }

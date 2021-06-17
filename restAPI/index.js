@@ -18,7 +18,7 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
-app.use("/static", express.static(path.join("static")));
+app.use("/public", express.static(path.resolve(__dirname, "public")));
 
 if (process.env.NODE_ENV === "production") {
   app.use("", express.static(path.resolve(__dirname, "../client-app/build")));

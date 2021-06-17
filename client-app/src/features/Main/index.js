@@ -58,7 +58,7 @@ const Main = () => {
       <div className="main">
         <Header />
         <Sidenav />
-        <div className="content __container">
+        <div className="content ">
           <Switch location={background || location}>
             <Route exact path="/" children={<Home />} />
             <Route path="/menu" children={<Menu />} />

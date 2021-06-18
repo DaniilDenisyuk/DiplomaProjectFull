@@ -1,13 +1,18 @@
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { getMenuItemsIdAndCategory } from "../../../common/selectors";
-import { MenuItemWithLike } from "../MenuItem";
+import {
+  getMenuItemsIdAndCategory,
+  getIsLoggedIn,
+} from "../../../common/selectors";
+import { MenuItemWithLike, MenuItem } from "../MenuItem";
 import "./style.scss";
 
 const MenuCategory = ({ items }) => {
+  const isLoggedIn = useSelector(getIsLoggedIn);
+  const CardComponent = isLoggedIn ? MenuItemWithLike : MenuItem;
   const cards = items.map((item, index) => (
-    <MenuItemWithLike
+    <CardComponent
       key={`card-${index}`}
       className="category__item"
       itemId={item.id}

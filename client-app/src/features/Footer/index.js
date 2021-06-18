@@ -79,7 +79,12 @@ const LISTS = [
 
 const RenderFooterList = ({ className, name, links, listClass }) => {
   const items = links.map(({ name, to }, i) => (
-    <Link to={to} className="footer-list__link" key={`link-${i}`}>
+    <Link
+      to={to}
+      onClick={(e) => e.stopPropagation()}
+      className="footer-list__link"
+      key={`link-${i}`}
+    >
       {name}
     </Link>
   ));

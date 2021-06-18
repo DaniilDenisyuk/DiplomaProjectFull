@@ -49,6 +49,7 @@ const NavMenu = ({ className, links, auxLinks, isActive, onClose }) => {
       key={`main-${i}`}
       className="nav-menu__link"
       activeClassName="nav-menu__link--active"
+      onClick={(e) => e.stopPropagation()}
     >
       {name}
     </NavLink>

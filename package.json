@@ -1,24 +1,24 @@
 {
-  "name": "test2",
+  "name": "sushi-app",
   "version": "1.0.0",
   "description": "test task",
   "type": "module",
   "main": "none",
   "scripts": {
     "build": "npm install && cd client-app && npm install && npm run build",
-    "start": "if [$NODE_ENV == 'production']; then node app.js; else nodemon app.js; fi",
+    "start": "NODE_ENV=production node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DaniilDenisyuk/test2.git"
+    "url": "git+https://github.com/DaniilDenisyuk/FoodOrderingService/.git"
   },
   "author": "me",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DaniilDenisyuk/test2/issues"
+    "url": "https://github.com/DaniilDenisyuk/FoodOrderingService/issues"
   },
-  "homepage": "https://github.com/DaniilDenisyuk/test2#readme",
+  "homepage": "https://github.com/DaniilDenisyuk/FoodOrderingService#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",

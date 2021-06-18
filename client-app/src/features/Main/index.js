@@ -34,7 +34,7 @@ const Main = () => {
   const isLoggedIn = useSelector(getIsLoggedIn);
   const background = location.state && location.state.background;
   const back = () => {
-    history.push(background);
+    history.push(background || "/");
   };
   useEffect(() => {
     let timeout;
@@ -60,26 +60,22 @@ const Main = () => {
     }
   }, [dispatch, isLoggedIn]);
   return (
-    <>
-      <div className="main">
-        <Header />
-        <Sidenav />
-        <div className="content ">
-          <Switch location={background || location}>
-            <Route exact path="/" children={<Home />} />
-            <Route path="/menu" children={<Menu />} />
-            <Route path="/delivery" children={<Delivery />} />
-            <Route path="/checkout" children={<Checkout />} />
-            <PrivateRoute
-              path="/account"
-              roles={[roles.user, roles.admin]}
-              component={Account}
-            />
-            <PrivateRoute
-              path="/admin"
-              roles={[roles.ADMIN]}
-              component={Admin}
-            />
+    <div className="main">
+      <Header />
+      <Sidenav />
+      <div className="content ">
+        <Switch location={background || location}>
+          <Route exact path="/" children={<Home />} />
+          <Route path="/menu" children={<Menu />} />
+          <Route path="/delivery" children={<Delivery />} />
+          <Route path="/checkout" children={<Checkout />} />
+          <PrivateRoute
+            path="/account"
+            roles={[roles.user, roles.admin]}
+            component={Account}
+          />
+          <PrivateRoute path="/admin" roles={[roles.ADMIN]} component={Admin} />
+          {!isLoggedIn && !background && (
             <Redirect
               from="/login"
               to={{
@@ -87,6 +83,8 @@ const Main = () => {
                 state: { background: { pathname: "/" } },
               }}
             />
+          )}
+          {!isLoggedIn && !background && (
             <Redirect
               from="/register"
               to={{
@@ -94,26 +92,24 @@ const Main = () => {
                 state: { background: { pathname: "/" } },
               }}
             />
-            <Redirect to="/" />
-          </Switch>
-          {background && !isLoggedIn ? (
-            <>
-              <Route
-                path="/login"
-                children={<AuthModal onSuccess={back} onClose={back} />}
-              />
-              <Route
-                path="/register"
-                children={<RegisterModal onSuccess={back} onClose={back} />}
-              />
-            </>
-          ) : (
-            <Redirect to="/" />
           )}
-        </div>
-        <Footer />
+          <Redirect to="/" />
+        </Switch>
+        {!isLoggedIn && background && (
+          <>
+            <Route
+              path="/login"
+              children={<AuthModal onSuccess={back} onClose={back} />}
+            />
+            <Route
+              path="/register"
+              children={<RegisterModal onSuccess={back} onClose={back} />}
+            />
+          </>
+        )}
       </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 

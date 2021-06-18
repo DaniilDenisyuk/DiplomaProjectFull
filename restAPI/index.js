@@ -21,7 +21,7 @@ const app = express();
 app.use("/public", express.static(path.resolve(__dirname, "public")));
 
 if (process.env.NODE_ENV === "production") {
-  app.use("", express.static(path.resolve(__dirname, "../client-app/build")));
+  app.use(express.static(path.resolve(__dirname, "../client-app/build")));
 }
 
 app.use(cors({ origin: true, credentials: true }));

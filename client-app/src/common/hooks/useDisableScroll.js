@@ -2,7 +2,9 @@ import { useEffect } from "react";
 
 export const useDisableScroll = (condition = true) => {
   useEffect(() => {
-    if (condition) document.body.style.overflow = "hidden";
+    if (condition) {
+      document.body.classList.add("scroll-disabled");
+    }
     // const keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
     // let supportsPassive = false;
     // try {
@@ -47,7 +49,7 @@ export const useDisableScroll = (condition = true) => {
     //   disableScroll();
     // }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.classList.remove("scroll-disabled");
       // enableScroll();
     };
   }, [condition]);

@@ -2,7 +2,7 @@ import cn from "classnames";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getOrderItemsSum,
   getOrderItemsId,
@@ -76,7 +76,7 @@ const OrderOverall = ({ className, onOrder }) => {
           }}
         >
           {submitting ? (
-            <Loading className="form__submitting" message="Замовити" />
+            <Loading className="form__submitting" message="Обробка" />
           ) : (
             "Замовити"
           )}
@@ -108,6 +108,7 @@ const AuxItem = ({ className, itemId }) => {
 
 const Checkout = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const name = useSelector(getUserFirstName);
   const phone = useSelector(getUserPhone);
   const address = useSelector(getUserFullAddress);
@@ -116,12 +117,21 @@ const Checkout = () => {
     handleSubmit: formSubmit,
     formState: { errors },
     watch,
+    setValue,
+    reset,
   } = useForm({
     mode: "onBlur",
-    defaultValues: { delivery: 0, pay_way: 0, name, phone, address },
+    defaultValues: {
+      delivery: "",
+      pay_way: "",
+      customer_name: name,
+      customer_phone: phone,
+      address,
+    },
   });
   const orderItemsId = useSelector(getOrderItemsId);
   const orderAuxItemsId = useSelector(getOrderAddsId);
+  const sum = useSelector(getOrderItemsSum);
   const cards = orderItemsId.map((id) => (
     <OrderItemCard
       key={`item-${id}`}
@@ -136,12 +146,18 @@ const Checkout = () => {
       itemId={id}
     />
   ));
-
+  useEffect(() => {
+    setValue("customer_name", name);
+    setValue("customer_phone", phone);
+    setValue("address", address);
+  }, [name, phone, address, setValue]);
   const onSubmit = async (order) => {
-    console.log(order);
-    await ordersService.createOrder({ ...order, items_id: orderItemsId });
+    const fields = { ...order, order_price: sum, items_id: orderItemsId };
+    await ordersService.createOrder(fields);
+    reset();
+    dispatch(orderActions.reset());
   };
-  const onError = (errors, e) => console.log(errors, e);
+  const onError = (errors, e) => console.log("not succeed", errors, e);
 
   return (
     <div className="checkout">
@@ -220,7 +236,7 @@ const Checkout = () => {
                     dirty: !!watch("address"),
                   })}
                   inputProps={{
-                    ...register("address", { required: true }),
+                    ...register("address", { required: false }),
                     type: "text",
                   }}
                   error={errors.address && errors.address.message}

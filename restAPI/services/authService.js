@@ -16,42 +16,45 @@ const Redis = {
   exists: promisify(redisClient.exists.bind(redisClient)),
 };
 
-const register = async ({ name, phone, password }) => {
+const hashPassword = (password) => bcrypt.hashSync(password, 10);
+
+const comparePasswords = async (pwd, ethalon) => {
+  const res = await bcrypt.compare(pwd, ethalon);
+  return res | (ethalon === pwd);
+};
+
+const register = async (name, phone, password) => {
   await usersService.createUser({
-    name,
+    first_name: name,
     phone,
-    password: bcrypt.hashSync(password, 10),
+    password: hashPassword(password),
   });
   return true;
 };
 
 const authenticate = async ({ login, password, ipAddress }) => {
   const user = await usersService.getUserInfoByLogin(login);
-  if (
-    !user ||
-    !bcrypt.compare(password, user.password) ||
-    password != user.password
-  ) {
+  const isEqualPwd = await comparePasswords(password, user.password);
+  if (!user || !isEqualPwd) {
     throw ValidationError("Username or password is incorrect");
   }
 
   const jwt = generateJwtToken(
     user.id,
-    user.username || user.email,
+    user.username || user.email || user.first_name,
     user.role,
     Math.floor(Date.now() / 1000) + 60 * 10, //10mins
     ipAddress
   );
   const refreshToken = generateRefreshToken(
     user.id,
-    user.username || user.email,
+    user.username || user.email || user.first_name,
     user.role,
     ipAddress
   );
   delete user.password;
 
   return {
-    user,
     jwt,
     refreshToken,
   };
@@ -87,7 +90,9 @@ const revokeToken = async ({ token }) => {
 };
 
 const verifyToken = async (token) =>
-  await jwt.verify(token, process.env.TOKEN_SECRET);
+  jwt.verify(token, process.env.TOKEN_SECRET).catch((e) => {
+    throw UnathorizedError(e.message);
+  });
 
 const verifyRefreshToken = async (token) => {
   const refreshToken = await jwt.verify(
@@ -134,10 +139,12 @@ const basicFields = (user) => ({
 });
 
 export const authService = {
+  hashPassword,
   register,
   verifyToken,
   verifyRefreshToken,
   authenticate,
+  comparePasswords,
   refreshToken,
   revokeToken,
 };

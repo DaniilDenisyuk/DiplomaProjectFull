@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState, useRef } from "react";
 import cn from "classnames";
-
-import { useSelector } from "react-redux";
-import { getToken, getUserId } from "../../../common/selectors";
 import { userDataService } from "../../../services/userDataService";
 import Loading from "../../../components/Loading";
 import FormGroup from "../../../components/FormGroup";
@@ -12,12 +9,12 @@ import Button from "../../../components/Button";
 export const ChangePwdForm = ({ className }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const password = useRef({});
-  const token = useSelector(getToken);
   const {
     register,
     handleSubmit: formSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm({
     mode: "onBlur",
     defaultValues: { oldPwd: "", newPwd: "", newPwd2: "" },
@@ -27,8 +24,13 @@ export const ChangePwdForm = ({ className }) => {
 
   const onSubmit = async ({ oldPwd, newPwd }, e) => {
     setIsSubmitting(true);
-    await userDataService.changeUserPassword(token, oldPwd, newPwd);
-    setIsSubmitting(false);
+    userDataService
+      .changeUserPassword(oldPwd, newPwd)
+      .then(() => {
+        reset();
+      })
+      .catch(console.log)
+      .finally(() => setIsSubmitting(false));
   };
 
   const onError = (errors, e) => console.log(errors, e);

@@ -7,7 +7,21 @@
     right: 35px;
     border-color: #cfcfcf;
   }
-  &:hover &__like-btn {
+  &__remove-btn {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    background-color: #ff5d29;
+    border-width: 0;
+    &::after,
+    &::before {
+      background-color: #fff;
+    }
+  }
+  &:hover &__like-btn,
+  &:hover &__remove-btn {
     visibility: visible;
   }
   &:hover {

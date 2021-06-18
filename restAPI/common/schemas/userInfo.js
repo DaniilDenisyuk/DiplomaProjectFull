@@ -12,6 +12,10 @@ export const userInfoSchema = Joi.object({
     minDomainSegments: 2,
     tlds: { allow: true },
   }),
+  city: Joi.string().min(2),
+  street: Joi.string().min(2),
+  house: Joi.number().min(1),
+  door: Joi.string().min(2),
   role: Joi.string().valid(...Object.values(roles)),
 });
 

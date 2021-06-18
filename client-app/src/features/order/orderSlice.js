@@ -16,6 +16,7 @@ const initialState = {
 };
 
 export const orderConstants = {
+  reset: "order/reset",
   addItem: "order/addItem",
   changeCount: "order/changeCount",
   removeItem: "order/removeItem",
@@ -37,6 +38,10 @@ const addItem = (item) => ({
   payload: { item },
 });
 
+const reset = () => ({
+  type: orderConstants.reset,
+});
+
 const removeItem = (itemId) => ({
   type: orderConstants.removeItem,
   payload: { id: itemId },
@@ -53,6 +58,7 @@ const changeAddsCount = (itemId, newCount) => ({
 });
 
 export const orderActions = {
+  reset,
   addItem,
   removeItem,
   changeCount,
@@ -82,6 +88,9 @@ export const orderReducer = (state = initialState, action) => {
         itemsSum,
         overallSum,
       };
+    }
+    case orderConstants.reset: {
+      return initialState;
     }
     case orderConstants.removeItem: {
       const { id } = action.payload;

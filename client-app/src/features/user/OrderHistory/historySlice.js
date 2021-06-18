@@ -1,4 +1,5 @@
 import { userDataService } from "../../../services/userDataService";
+import { userConstants } from "../userSlice";
 
 const historyState = {
   isLoading: false,
@@ -18,6 +19,7 @@ export const historyReducer = (state = historyState, action) => {
     case historyConstants.getRequest: {
       return { ...state, isLoading: true };
     }
+    case userConstants.getAllSucceeded:
     case historyConstants.getSucceeded: {
       const { orders } = action.payload;
       return {

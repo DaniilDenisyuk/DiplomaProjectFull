@@ -27,7 +27,14 @@ const updateUserInfo = async (updatedFields) => {
   return axios.put("/api/user-data/info", updatedFields).then(handleResponse);
 };
 
+const changeUserPassword = async (oldPwd, newPwd) => {
+  return axios
+    .put("/api/user-data/password", { oldPwd, newPwd })
+    .then(handleResponse);
+};
+
 export const userDataService = {
+  changeUserPassword,
   getUserFavorites,
   addItemToFavorites,
   removeItemToFavorites,

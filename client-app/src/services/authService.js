@@ -10,18 +10,17 @@ export const authService = (function () {
   const register = (user) => {
     return axios.post("/api/auth/register", user).then(handleResponse);
   };
-
+  // for (const key of user) {
+  //   localStorage.setItem(key, user);
+  // }1
   const login = async (login, password) => {
     return axios
       .post("/api/auth/authenticate", { login, password })
       .then(handleResponse)
-      .then(({ user, jwt: newJwt }) => {
+      .then(({ jwt: newJwt }) => {
         jwt = newJwt;
         const { id, username, exp, role } = jwt_decode(newJwt);
-        for (const key of user) {
-          localStorage.setItem(key, user);
-        }
-        return { user, auth: { id, username, exp, role }, isLoggedIn: true };
+        return { id, username, exp, role };
       });
   };
 
@@ -41,7 +40,7 @@ export const authService = (function () {
       .then(({ jwt: newJwt }) => {
         jwt = newJwt;
         const { id, username, exp, role } = jwt_decode(jwt);
-        return { auth: { id, username, exp, role } };
+        return { id, username, exp, role };
       });
   };
   return {

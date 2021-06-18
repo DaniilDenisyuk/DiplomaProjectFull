@@ -1,5 +1,8 @@
 import db from "../common/db/database.js";
 import queryBuilder from "../common/db/queryBuilder.js";
+import ordersService from "./ordersService.js";
+import menuService from "./menuService.js";
+
 const defaultTable = "Users";
 const defaultFields = [
   "id",
@@ -58,7 +61,19 @@ const deleteUser = async (userId) => {
   return res.rows[0].id;
 };
 
+const getAllUserData = async (userId) => {
+  let info = getUserInfoById(userId);
+  let orders = ordersService.getUserOrders(userId);
+  let favorites = menuService.getUserFavorites(userId);
+  return {
+    info: await info,
+    orders: await orders,
+    favorites: await favorites,
+  };
+};
+
 export const usersService = {
+  getAllUserData,
   getUserInfoByLogin,
   getUserInfoById,
   getAllUsers,

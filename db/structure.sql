@@ -5,7 +5,7 @@ CREATE TABLE Users (
   first_name varchar(31) NOT NULL,
   last_name varchar(31),
   email varchar(31),
-  password varchar,
+  password varchar(256),
   city varchar(31),
   street varchar(31),
   house varchar(31),
@@ -26,6 +26,7 @@ CREATE TABLE Orders (
   user_id integer,
   customer_name varchar(31) NOT NULL,
   customer_phone varchar(31),
+  address varchar(127),
   order_date date NOT NULL default current_date,
   order_price float NOT NULL,
   status varchar(31) default 'pending'

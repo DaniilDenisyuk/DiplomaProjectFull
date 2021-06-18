@@ -2,17 +2,17 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import cn from "classnames";
 
-import { useSelector } from "react-redux";
-import { getUserAddress, getToken } from "../../../common/selectors";
-import { userDataService } from "../../../services/userDataService";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserAddress } from "../../../common/selectors";
+import { infoActions } from "../userSlice";
 import Loading from "../../../components/Loading";
 import FormGroup from "../../../components/FormGroup";
 import Button from "../../../components/Button";
 
 export const AddressForm = ({ className }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
   const { town, street, house, door } = useSelector(getUserAddress);
-  const token = useSelector(getToken);
   const {
     register,
     handleSubmit: formSubmit,
@@ -24,7 +24,7 @@ export const AddressForm = ({ className }) => {
 
   const onSubmit = async (address) => {
     setIsSubmitting(true);
-    await userDataService.updateAddress(token, address);
+    await dispatch(infoActions.updateUserInfo(address));
     setIsSubmitting(false);
   };
 

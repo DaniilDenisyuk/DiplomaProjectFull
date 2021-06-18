@@ -1,10 +1,24 @@
 import { Router } from "express";
 import { authorize, validateRequest } from "../middleware/index.js";
 import ROLES from "../common/roles.js";
-import { userInfoSchema } from "../common/schemas/index.js";
-import { menuService, ordersService, usersService } from "../services/index.js";
+import { ValidationError } from "../common/errorTypes.js";
+import { userInfoSchema, updatePwdSchema } from "../common/schemas/index.js";
+import {
+  authService,
+  menuService,
+  ordersService,
+  usersService,
+} from "../services/index.js";
 
 const usersDataController = Router();
+
+const getAllUserData = (req, res, next) => {
+  const { id: userId } = req.user;
+  usersService
+    .getAllUserData(userId)
+    .then((data) => res.json(data))
+    .catch(next);
+};
 
 const getUserInfo = (req, res, next) => {
   const { id: userId } = req.user;
@@ -57,11 +71,29 @@ const updateUserInfo = (req, res, next) => {
     .catch(next);
 };
 
+const updateUserPassword = async (req, res, next) => {
+  const { id: userId } = req.user;
+  const { oldPwd, newPwd } = req.body;
+  const { password } = await usersService.getUserInfoById(userId);
+  const isEqualPwd = await authService.comparePasswords(oldPwd, password);
+  if (!isEqualPwd) next(ValidationError("passwords are not equal"));
+  const hash = authService.hashPassword(newPwd);
+  usersService
+    .updateUserInfo(userId, { password: hash })
+    .then(() => res.status(200).end())
+    .catch(next);
+};
+
 usersDataController.use(authorize(ROLES.user));
 
-usersDataController.get("/", getUserInfo);
+usersDataController.get("/", getAllUserData);
 usersDataController.get("/orders", getUserOrders);
 usersDataController.get("/favorites", getUserFavorites);
+usersDataController.put(
+  "/password",
+  validateRequest(updatePwdSchema),
+  updateUserPassword
+);
 usersDataController.put(
   "/info",
   validateRequest(userInfoSchema),

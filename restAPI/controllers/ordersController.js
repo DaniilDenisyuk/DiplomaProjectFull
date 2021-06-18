@@ -3,6 +3,7 @@ import { authorize, validateRequest } from "../middleware/index.js";
 import ROLES from "../common/roles.js";
 import orderSchema from "../common/schemas/order.js";
 import ordersService from "../services/ordersService.js";
+import { authService } from "../services/authService.js";
 
 const ordersController = Router();
 
@@ -28,12 +29,18 @@ const getOrderById = (req, res, next) => {
     .catch(next);
 };
 
-const createOrder = (req, res, next) => {
+const createOrder = async (req, res, next) => {
   const { items_id, ...fields } = req.body;
-  ordersService
-    .createOrder(fields, items_id)
-    .then((id) => res.json(id))
-    .catch(next);
+  try {
+    if (req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const id = await authService.verifyToken(token).then(({ id }) => id);
+      fields.user_id = id;
+    }
+    ordersService.createOrder(fields, items_id).then((id) => res.json(id));
+  } catch (e) {
+    next(e);
+  }
 };
 
 const updateOrderStatus = (req, res, next) => {

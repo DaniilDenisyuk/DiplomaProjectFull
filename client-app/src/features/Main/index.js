@@ -18,12 +18,13 @@ import Sidenav from "../Sidenav";
 import Account from "../user/Account";
 import Admin from "../admin/Admin";
 import { AuthModal, RegisterModal } from "../auth";
+import { userActions } from "../user/userSlice";
 import roles from "../../common/roles";
 import PrivateRoute from "../../components/PrivateRoute";
 import Checkout from "../order/Checkout";
 import { menuActions } from "../menu/menuSlice";
 import { authActions } from "../auth/authSlice";
-import { getToken, getIsLoggedIn, getTokenExp } from "../../common/selectors";
+import { getIsLoggedIn, getTokenExp } from "../../common/selectors";
 
 const Main = () => {
   const location = useLocation();
@@ -53,6 +54,11 @@ const Main = () => {
   useEffect(() => {
     dispatch(menuActions.getMenu());
   }, [dispatch]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(userActions.getAllUserData());
+    }
+  }, [dispatch, isLoggedIn]);
   return (
     <>
       <div className="main">

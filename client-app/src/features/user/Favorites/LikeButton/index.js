@@ -1,7 +1,7 @@
-import LikeButtonGeneric from "../../../components/LikeButton";
+import LikeButtonGeneric from "../../../../components/LikeButton";
 import { useDispatch, useSelector } from "react-redux";
-import { getIsItemInFavorites } from "../../../common/selectors";
-import { favoritesActions } from "../Favorites/favoritesSlice";
+import { getIsItemInFavorites } from "../../../../common/selectors";
+import { favoritesActions } from "../favoritesSlice";
 
 const LikeButton = ({ className, itemId }) => {
   const dispatch = useDispatch();
@@ -16,7 +16,6 @@ const LikeButton = ({ className, itemId }) => {
           dispatch(favoritesActions.addToFavorites(itemId));
         }
       }}
-      active={isFavorite}
     />
   );
 };

@@ -2,7 +2,6 @@ import { userDataService } from "../../services/userDataService";
 import { favoritesReducer } from "./Favorites/favoritesSlice";
 import { historyReducer } from "./OrderHistory/historySlice";
 import { combineReducers } from "redux";
-import { authConstants } from "../auth/authSlice";
 
 const infoState = {
   isLoading: false,
@@ -29,87 +28,87 @@ export const infoConstants = {
   updateFailed: "user/info/updateFailed",
 };
 
+export const userConstants = {
+  getAllRequest: "user/getAllRequest",
+  getAllSucceeded: "user/getAllSucceeded",
+  getAllFailed: "user/getAllFailed",
+};
+
 const infoReducer = (state = infoState, action) => {
   switch (action.type) {
-    case authConstants.loginSucceeded: {
-      const {
-        id,
-        email,
-        first_name,
-        last_name,
-        address,
-        phone,
-        town,
-        street,
-        house,
-        door,
-      } = action.payload.user;
-      return {
-        ...state,
-        id,
-        email,
-        first_name,
-        last_name,
-        address,
-        phone,
-        town,
-        street,
-        house,
-        door,
-      };
-    }
     case infoConstants.getRequest: {
       return { isLoading: true };
     }
+    case userConstants.getAllSucceeded:
     case infoConstants.getSucceeded: {
-      const { info } = action;
+      const { info } = action.payload;
       return { isSuccededed: true, ...info };
     }
     case infoConstants.getFailed: {
       return { isFailed: true };
     }
     case infoConstants.updateRequest: {
-      return { isLoading: true };
+      return state;
     }
     case infoConstants.updateSucceeded: {
-      const { updatedInfo } = action;
-      return { isSuccededed: true, ...updatedInfo };
+      const { fields } = action.payload;
+      return { ...state, ...fields };
     }
     case infoConstants.updateFailed: {
-      return { isFailed: true };
+      return state;
     }
     default:
       return state;
   }
 };
 
-const getUserInfo = (token, userId) => {
+const getAllUserData = () => {
   const request = () => ({
-    type: infoConstants.getRequest,
+    type: userConstants.getAllRequest,
   });
-  const success = (user) => ({
-    type: infoConstants.getSucceeded,
-    user,
+  const success = (userData) => ({
+    type: userConstants.getAllSucceeded,
+    payload: userData,
   });
   const failure = () => ({
-    type: infoConstants.getFailed,
+    type: userConstants.getAllFailed,
   });
   return (dispatch) => {
     dispatch(request());
     return userDataService
-      .getUser(token, userId)
-      .then((userInfo) => dispatch(success(userInfo)))
+      .getAllUserData()
+      .then((userData) => dispatch(success(userData)))
       .catch(() => dispatch(failure));
   };
 };
 
-const updateUserInfo = (token, fields) => {
+// const getUserInfo = () => {
+//   const request = () => ({
+//     type: infoConstants.getRequest,
+//   });
+//   const success = (user) => ({
+//     type: infoConstants.getSucceeded,
+//     user,
+//   });
+//   const failure = () => ({
+//     type: infoConstants.getFailed,
+//   });
+//   return (dispatch) => {
+//     dispatch(request());
+//     return userDataService
+//       .getUser()
+//       .then((userInfo) => dispatch(success(userInfo)))
+//       .catch(() => dispatch(failure));
+//   };
+// };
+
+const updateUserInfo = (fields) => {
   const request = () => ({
     type: infoConstants.updateRequest,
   });
-  const success = (user) => ({
+  const success = (fields) => ({
     type: infoConstants.updateSucceeded,
-    user,
+    payload: { fields },
   });
   const failure = () => ({
     type: infoConstants.updateFailed,
@@ -117,14 +116,18 @@ const updateUserInfo = (token, fields) => {
   return (dispatch) => {
     dispatch(request());
     return userDataService
-      .updateUserInfo(token, fields)
-      .then((userInfo) => dispatch(success(userInfo)))
+      .updateUserInfo(fields)
+      .then(() => dispatch(success(fields)))
       .catch(() => dispatch(failure));
   };
 };
 
+export const userActions = {
+  getAllUserData,
+};
+
 export const infoActions = {
-  getUserInfo,
+  //getUserInfo,
   updateUserInfo,
 };
 

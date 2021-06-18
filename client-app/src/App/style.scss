@@ -41,6 +41,15 @@ button {
   padding: 48px 0;
 }
 
+body.scroll-disabled {
+  overflow: hidden;
+  .main {
+    & > * {
+      padding-right: 14px;
+    }
+  }
+}
+
 .page-heading {
   font-family: msb;
   font-size: 3rem;

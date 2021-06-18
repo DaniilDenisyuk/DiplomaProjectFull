@@ -1,4 +1,5 @@
 import { userDataService } from "../../../services/userDataService";
+import { userConstants } from "../userSlice";
 
 const favoritesState = {
   isLoading: false,
@@ -24,12 +25,12 @@ export const favoritesReducer = (state = favoritesState, action) => {
     case favoritesConstants.getRequest: {
       return { ...state, isLoading: true };
     }
+    case userConstants.getAllSucceeded:
     case favoritesConstants.getSucceeded: {
-      const { itemsId } = action.payload;
-      console.log(itemsId.map(({ item_id }) => item_id));
+      const { favorites } = action.payload;
       return {
         isSucceded: true,
-        itemsId: itemsId.map(({ item_id }) => item_id),
+        itemsId: favorites.map(({ item_id }) => item_id),
       };
     }
     case favoritesConstants.getFailed: {
@@ -70,9 +71,9 @@ const getFavorites = (token) => {
   const request = () => ({
     type: favoritesConstants.getRequest,
   });
-  const success = (itemsId) => ({
+  const success = (favorites) => ({
     type: favoritesConstants.getSucceeded,
-    payload: { itemsId },
+    payload: { favorites },
   });
   const failure = () => ({
     type: favoritesConstants.getFailed,
@@ -81,7 +82,7 @@ const getFavorites = (token) => {
     dispatch(request());
     return userDataService
       .getUserFavorites(token)
-      .then((itemsId) => dispatch(success(itemsId)))
+      .then((favorites) => dispatch(success(favorites)))
       .catch(() => dispatch(failure()));
   };
 };

@@ -1,18 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import cn from "classnames";
 import { useRef } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useClickOutside } from "../../../common/hooks/useClickOutside";
-import { getUsername, getToken, getUserRole } from "../../../common/selectors";
+import { getUsername, getUserRole } from "../../../common/selectors";
 import { authActions } from "../authSlice";
 import Button from "../../../components/Button";
 import "./style.scss";
 
 const AuthInfo = ({ className, onClose }) => {
   const username = useSelector(getUsername);
-  const token = useSelector(getToken);
   const role = useSelector(getUserRole);
   const history = useHistory();
   const ref = useRef();
@@ -30,7 +28,7 @@ const AuthInfo = ({ className, onClose }) => {
         rounded
         onClick={() => {
           onClose();
-          dispatch(authActions.logout(token));
+          dispatch(authActions.logout());
         }}
       >
         Вийти

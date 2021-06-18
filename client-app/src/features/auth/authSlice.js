@@ -7,7 +7,6 @@ const initialState = {
   id: "",
   username: "",
   exp: "",
-  jwt: "",
   role: "",
 };
 
@@ -25,9 +24,9 @@ const login = (login, password) => {
   const request = () => ({
     type: authConstants.loginRequest,
   });
-  const success = (authInfo) => ({
+  const success = (auth) => ({
     type: authConstants.loginSucceeded,
-    payload: authInfo,
+    payload: { auth },
   });
   const failure = () => ({
     type: authConstants.loginFailed,
@@ -36,8 +35,8 @@ const login = (login, password) => {
     dispatch(request());
     return authService
       .login(login, password)
-      .then(({ user, auth, jwt }) => {
-        dispatch(success({ user, auth, jwt }));
+      .then((auth) => {
+        dispatch(success(auth));
       })
       .catch((e) => {
         dispatch(failure());
@@ -49,9 +48,9 @@ const refreshToken = () => {
   const request = () => ({
     type: authConstants.refreshTokenRequest,
   });
-  const success = (jwt, auth) => ({
+  const success = (auth) => ({
     type: authConstants.refreshTokenSucceeded,
-    payload: { jwt, auth },
+    payload: { auth },
   });
   const failure = () => ({
     type: authConstants.refreshTokenFailed,
@@ -61,21 +60,21 @@ const refreshToken = () => {
     dispatch(request());
     return authService
       .refreshToken()
-      .then(({ jwt, auth }) => {
-        dispatch(success(jwt, auth));
+      .then((auth) => {
+        dispatch(success(auth));
       })
       .catch((e) => dispatch(failure()));
   };
 };
 
-const logout = (token) => {
+const logout = () => {
   const success = () => ({
     type: authConstants.logout,
   });
   return (dispatch) => {
     dispatch(success());
     return authService
-      .logout(token)
+      .logout()
       .then(() => {})
       .catch((e) => {});
   };
@@ -94,14 +93,13 @@ export const authReducer = (state = initialState, action) => {
         isLoggingIn: true,
       };
     case authConstants.loginSucceeded: {
-      const { auth, jwt } = action.payload;
+      const { auth } = action.payload;
       return {
         isLoggedIn: true,
         id: auth.id,
         username: auth.username,
         exp: auth.exp,
         role: auth.role,
-        jwt,
       };
     }
     case authConstants.loginFailed:
@@ -117,14 +115,13 @@ export const authReducer = (state = initialState, action) => {
         isLoggingIn: true,
       };
     case authConstants.refreshTokenSucceeded: {
-      const { auth, jwt } = action.payload;
+      const { auth } = action.payload;
       return {
         isLoggedIn: true,
         id: auth.id,
         username: auth.username,
         exp: auth.exp,
         role: auth.role,
-        jwt,
       };
     }
     case authConstants.refreshTokenFailed:

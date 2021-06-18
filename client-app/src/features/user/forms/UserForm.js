@@ -32,7 +32,7 @@ export const UserForm = ({ className }) => {
   });
   const onSubmit = async (data, e) => {
     setIsSubmitting(true);
-    await dispatch(infoActions.updateUserInfo(token, data));
+    await dispatch(infoActions.updateUserInfo(data));
     setIsSubmitting(false);
   };
   const onError = (errors, e) => console.log(errors, e);

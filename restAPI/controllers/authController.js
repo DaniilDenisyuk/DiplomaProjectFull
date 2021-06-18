@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authorize, validateRequest } from "../middleware/index.js";
+import { validateRequest } from "../middleware/index.js";
 import { ValidationError } from "../common/errorTypes.js";
 import { userInfoSchema, authSchema } from "../common/schemas/index.js";
 import { authService } from "../services/authService.js";
@@ -19,10 +19,9 @@ const authenticate = (req, res, next) => {
 };
 
 const register = (req, res, next) => {
-  const { login, password } = req.body;
-  const ipAddress = req.ip;
+  const { first_name, phone, password } = req.body;
   authService
-    .register({ login, password, ipAddress })
+    .register(first_name, phone, password)
     .then(() => {
       res.json({ message: "successfully registered" });
     })

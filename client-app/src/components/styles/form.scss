@@ -1,15 +1,15 @@
 .form {
   display: block;
   line-height: 24px;
-  font-family: Roboto;
-  font-size: 14px;
+  font-family: rr;
+  font-size: 0.875rem;
   color: #67758d;
   &__wrapper {
     width: 350px;
   }
   &__heading {
-    font-family: MontserratSemiBold;
-    font-size: 24px;
+    font-family: msb;
+    font-size: 1.5rem;
     color: #110a3a;
     margin-bottom: 18px;
     letter-spacing: 1.5%;
@@ -23,16 +23,16 @@
   }
 
   &__submit {
-    font-family: RobotoMedium;
-    font-size: 20px;
+    font-family: rm;
+    font-size: 1.25rem;
     height: 56px;
     width: 100%;
     margin-top: 40px;
     border-radius: 7px;
   }
   &__tip-message {
-    font-family: Montserrat;
-    font-size: 13px;
+    font-family: mr;
+    font-size: 0.8rem;
     color: #717171;
     margin-bottom: 21px;
   }
@@ -41,7 +41,7 @@
     color: #67758d;
   }
   &__link {
-    font-family: RobotoMedium;
+    font-family: rm;
     margin-left: 10px;
     color: #ff5d29;
     &:hover {

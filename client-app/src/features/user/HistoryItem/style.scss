@@ -1,10 +1,10 @@
 .history-item {
-  padding: 0px 40px;
+  padding: 0px 55px 0 45px;
   background: #ffffff;
   box-shadow: 0px 0px 30px rgba(19, 16, 57, 0.05);
   border-radius: 13px;
   font-size: 16px;
-
+  position: relative;
   color: #343434;
   &:hover {
     box-shadow: 0px 0px 30px rgba(19, 16, 57, 0.2);
@@ -12,16 +12,16 @@
   &__wrapper {
     display: flex;
     align-items: center;
-    height: 155px;
+    height: 145px;
   }
   &__info {
     align-self: flex-start;
-    font-family: MontserratMedium;
+    font-family: mm;
     flex: 0 0 215px;
   }
   &__price {
     text-align: center;
-    font-family: MontserratMedium;
+    font-family: mm;
     flex: 0 0 180px;
   }
   &__photos {
@@ -30,11 +30,9 @@
     font-size: 14px;
     color: rgba(0, 0, 0, 0.49);
   }
-  &__buttons {
-    display: flex;
-  }
   &__button {
     height: 40px;
+    font-size: 0.875rem;
   }
   &__hiden-photos {
     display: flex;
@@ -54,9 +52,9 @@
     }
   }
   &__date {
-    font-size: 18px;
-    margin-top: 15px;
-    font-family: RobotoMedium;
+    font-size: 1.15rem;
+    padding-top: 15px;
+    font-family: rm;
   }
   &__price {
   }
@@ -71,6 +69,7 @@
   }
   &__item-info {
     display: flex;
+    font-family: mm;
     align-items: center;
     margin-bottom: 10px;
   }
@@ -78,13 +77,79 @@
     flex: 0 0 85%;
     text-overflow: ellipsis;
   }
-  &__items-list {
-    width: 215px;
-    margin: 15px 0;
-  }
   &__item-count {
     vertical-align: middle;
     font-size: 14px;
     margin-left: auto;
+  }
+  &__items-list {
+    width: 100%;
+    padding: 15px 0 15px;
+    .history-item {
+      &__wrapper {
+        height: 105px;
+      }
+      &__info {
+        margin-bottom: -10px;
+        align-self: auto;
+      }
+      &__photo {
+        margin: 0;
+      }
+    }
+  }
+  &__like-btn {
+    color: #ff6938;
+    background-color: transparent;
+    border: none;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    span {
+      margin-right: 20px;
+      font-size: 2rem;
+    }
+    &:hover {
+      border-bottom: 1px solid #ff6938;
+      margin-bottom: -1px;
+    }
+  }
+  &__cart-btn {
+    margin-left: auto;
+  }
+  &__result {
+    display: flex;
+    height: 110px;
+    align-items: center;
+  }
+  &__dash {
+    display: block;
+    background-color: rgba(74, 74, 74, 0.14);
+    height: 1px;
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
+  &__order-info {
+    flex: 0 0 270px;
+    margin: -5px;
+    font-size: 0.8rem;
+    p {
+      display: flex;
+      margin: 5px;
+      span {
+        font-family: msb;
+        margin-left: auto;
+      }
+    }
+  }
+  &__order-sum {
+    margin-left: auto;
+    margin-right: 60px;
+    span {
+      font-family: msb;
+      font-size: 1.3rem;
+    }
   }
 }

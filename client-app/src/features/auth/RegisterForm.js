@@ -5,10 +5,10 @@ import cn from "classnames";
 import Button from "../../components/Button";
 import FormGroup from "../../components/FormGroup";
 import Modal from "../../components/Modal";
-import { userDataService } from "../../services/userDataService";
+import authService from "../../services/authService";
 import Loading from "../../components/Loading";
 
-export const RegisterForm = ({ className }) => {
+export const RegisterForm = ({ className, onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
@@ -16,12 +16,13 @@ export const RegisterForm = ({ className }) => {
     formState: { errors },
   } = useForm({
     mode: "onBlur",
-    defaultValues: { name: "", phone: "", password: "" },
+    defaultValues: { first_name: "", phone: "", password: "" },
   });
   const onSubmit = async (data) => {
     setIsSubmitting(true);
-    await userDataService.register(data);
+    await authService.register(data);
     setIsSubmitting(false);
+    onSuccess();
   };
   const onError = (errors, e) => console.log(errors, e);
   return (
@@ -34,7 +35,7 @@ export const RegisterForm = ({ className }) => {
         <FormGroup
           className="form__form-group"
           inputProps={{
-            ...register("customer_name", { required: true }),
+            ...register("first_name", { required: true }),
             type: "text",
             placeholder: "Ім'я",
           }}
@@ -67,7 +68,13 @@ export const RegisterForm = ({ className }) => {
         </Button>
         <div className="form__links">
           Вже маєте профіль?
-          <Link className="form__link" to="/login">
+          <Link
+            className="form__link"
+            to={{
+              pathname: "/login",
+              state: { background: { pathname: "/" } },
+            }}
+          >
             Увійти
           </Link>
         </div>

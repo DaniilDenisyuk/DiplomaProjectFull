@@ -25,8 +25,10 @@ CREATE TABLE Orders (
   id serial,
   user_id integer,
   customer_name varchar(31) NOT NULL,
-  customer_phone varchar(31),
-  address varchar(127),
+  customer_phone varchar(31) NOT NULL,
+  payment_way varchar(31),
+  delivery_way varchar(31),
+  delivery_address varchar(63),
   order_date date NOT NULL default current_date,
   order_price float NOT NULL,
   status varchar(31) default 'pending'

@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   getOrderItemsSum,
+  getOrderItemsCount,
   getOrderItemsId,
   getOrderAdd,
   getOrderAddsId,
@@ -122,11 +123,11 @@ const Checkout = () => {
   } = useForm({
     mode: "onBlur",
     defaultValues: {
-      delivery: "",
-      pay_way: "",
+      delivery_way: "",
+      payment_way: "",
       customer_name: name,
       customer_phone: phone,
-      address,
+      delivery_address: address,
     },
   });
   const orderItemsId = useSelector(getOrderItemsId);
@@ -151,8 +152,9 @@ const Checkout = () => {
     setValue("customer_phone", phone);
     setValue("address", address);
   }, [name, phone, address, setValue]);
+  const items = useSelector(getOrderItemsCount());
   const onSubmit = async (order) => {
-    const fields = { ...order, order_price: sum, items_id: orderItemsId };
+    const fields = { ...order, order_price: sum, items };
     await ordersService.createOrder(fields);
     reset();
     dispatch(orderActions.reset());
@@ -191,18 +193,18 @@ const Checkout = () => {
                 <FormGroup
                   className="checkout__radio-group"
                   inputProps={{
-                    ...register("delivery", { required: true }),
+                    ...register("delivery_way", { required: true }),
                     type: "radio",
-                    value: "0",
+                    value: "delivery",
                   }}
                   label="Самовивіз"
                 />
                 <FormGroup
                   className="ccheckout__radio-group"
                   inputProps={{
-                    ...register("delivery", { required: true }),
+                    ...register("delivery_way", { required: true }),
                     type: "radio",
-                    value: "1",
+                    value: "self",
                   }}
                   label="Кур'єр"
                 />
@@ -233,13 +235,15 @@ const Checkout = () => {
                 />
                 <FormGroup
                   className={cn("checkout__info-group", {
-                    dirty: !!watch("address"),
+                    dirty: !!watch("delivery_address"),
                   })}
                   inputProps={{
-                    ...register("address", { required: false }),
+                    ...register("delivery_address", { required: false }),
                     type: "text",
                   }}
-                  error={errors.address && errors.address.message}
+                  error={
+                    errors.delivery_address && errors.delivery_address.message
+                  }
                   label="Адреса"
                 />
               </div>
@@ -248,18 +252,18 @@ const Checkout = () => {
                 <FormGroup
                   className="checkout__radio-group"
                   inputProps={{
-                    ...register("pay_way", { required: true }),
+                    ...register("payment_way", { required: true }),
                     type: "radio",
-                    value: "0",
+                    value: "cash",
                   }}
                   label="Оплата при отриманні"
                 />
                 <FormGroup
                   className="checkout__radio-group"
                   inputProps={{
-                    ...register("pay_way", { required: true }),
+                    ...register("payment_way", { required: true }),
                     type: "radio",
-                    value: "1",
+                    value: "bank card",
                   }}
                   label="Банківська карта"
                 />

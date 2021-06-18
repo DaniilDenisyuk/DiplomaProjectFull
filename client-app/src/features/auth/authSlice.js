@@ -112,6 +112,7 @@ export const authReducer = (state = initialState, action) => {
       };
     case authConstants.refreshTokenRequest:
       return {
+        ...state,
         isLoggingIn: true,
       };
     case authConstants.refreshTokenSucceeded: {

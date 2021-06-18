@@ -47,7 +47,7 @@ const HistoryItem = ({ className, item }) => {
   );
 
   const listItems = itemsInfo.map((itemInfo, i) => (
-    <div className="history-item__wrapper">
+    <div className="history-item__wrapper" key={`item-${i}`}>
       <div className="history-item__info"> {itemInfo}</div>
       <p className="history-item__price">{items[i].price}грн.</p>
       <div className="history-item__photo">{photos[i]}</div>

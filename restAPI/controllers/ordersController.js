@@ -30,14 +30,14 @@ const getOrderById = (req, res, next) => {
 };
 
 const createOrder = async (req, res, next) => {
-  const { items_id, ...fields } = req.body;
+  const { items, ...fields } = req.body;
   try {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(" ")[1];
       const id = await authService.verifyToken(token).then(({ id }) => id);
       fields.user_id = id;
     }
-    ordersService.createOrder(fields, items_id).then((id) => res.json(id));
+    ordersService.createOrder(fields, items).then((id) => res.json(id));
   } catch (e) {
     next(e);
   }
@@ -59,8 +59,8 @@ ordersController.post(
   "/",
   validateRequest(
     orderSchema
-      .or("items_id")
-      .with("items_id", ["order_price", "customer_name", "customer_phone"])
+      .or("items")
+      .with("items", ["order_price", "customer_name", "customer_phone"])
   ),
   createOrder
 );

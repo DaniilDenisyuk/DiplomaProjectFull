@@ -56,12 +56,12 @@ const getAllOrders = async () => {
   });
 };
 
-const createOrder = async (fields, items_id) => {
+const createOrder = async (fields, items) => {
   const { sql, args } = queryBuilder.insert(defaultTable, fields, ["id"]);
-  const values = items_id.map(
-    (itemId) => `((select id from inserted), ${itemId})`
+  const values = items.map(
+    ({ id, count }) => `((select id from inserted), ${id}, ${count})`
   );
-  const sql2 = `Insert into order_item (order_id, item_id) values ${values.join(
+  const sql2 = `Insert into order_item (order_id, item_id, item_count) values ${values.join(
     ", "
   )} returning (select id from inserted)`;
   const finalSql = `with inserted as (${sql}) ${sql2};`;

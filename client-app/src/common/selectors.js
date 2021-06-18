@@ -48,6 +48,10 @@ export const getOrderItemCount = (id) => (store) => {
     return items[index].count;
   }
 };
+export const getOrderItemsCount = (id) => (store) => {
+  const items = getOrderItems(store);
+  return items.map(({ id, count }) => ({ id, count }));
+};
 
 export const getUserAddress = (store) => {
   const { town, street, house, door } = store.user.info;

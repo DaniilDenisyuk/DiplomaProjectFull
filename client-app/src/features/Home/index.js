@@ -2,9 +2,12 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback } from "react";
 
-import { MenuItemWithLike } from "../menu/MenuItem";
+import { MenuItemWithLike, MenuItem } from "../menu/MenuItem";
 import ItemSlider from "../../components/ItemSlider";
-import { getMenuItemsIdAndCategory } from "../../common/selectors";
+import {
+  getMenuItemsIdAndCategory,
+  getIsLoggedIn,
+} from "../../common/selectors";
 import Contacts from "../Contacts";
 import Delivery from "../Delivery";
 
@@ -30,39 +33,41 @@ const Category = ({ name, toFull, items }) => (
 
 const Home = () => {
   const items = useSelector(getMenuItemsIdAndCategory);
+  const isLoggedIn = useSelector(getIsLoggedIn);
+  const CardComponent = isLoggedIn ? MenuItemWithLike : MenuItem;
   const sets = useCallback(() => {
     return items
       .filter((item) => item.category === "sets")
       .map(({ id }) => (
-        <MenuItemWithLike className="home__menu-item" itemId={id} />
+        <CardComponent className="home__menu-item" itemId={id} />
       ));
   }, [items]);
   const rolls = useCallback(() => {
     return items
       .filter((item) => item.category === "rolls")
       .map(({ id }) => (
-        <MenuItemWithLike className="home__menu-item" itemId={id} />
+        <CardComponent className="home__menu-item" itemId={id} />
       ));
   }, [items]);
   const sushi = useCallback(() => {
     return items
       .filter((item) => item.category === "sushi")
       .map(({ id }) => (
-        <MenuItemWithLike className="home__menu-item" itemId={id} />
+        <CardComponent className="home__menu-item" itemId={id} />
       ));
   }, [items]);
   const soups = useCallback(() => {
     return items
       .filter((item) => item.category === "soups")
       .map(({ id }) => (
-        <MenuItemWithLike className="home__menu-item" itemId={id} />
+        <CardComponent className="home__menu-item" itemId={id} />
       ));
   }, [items]);
   const drinks = useCallback(() => {
     return items
       .filter((item) => item.category === "drinks")
       .map(({ id }) => (
-        <MenuItemWithLike className="home__menu-item" itemId={id} />
+        <CardComponent className="home__menu-item" itemId={id} />
       ));
   }, [items]);
   return (

@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import cn from "classnames";
 import { useSelector, useDispatch } from "react-redux";
-import { getToken } from "../../../common/selectors";
 import {
   getUserFirstName,
   getUserLastName,
@@ -13,6 +12,14 @@ import { infoActions } from "../userSlice";
 import Loading from "../../../components/Loading";
 import FormGroup from "../../../components/FormGroup";
 import Button from "../../../components/Button";
+import { trimFields } from "../../../common/utils";
+import {
+  wordWithHyphen,
+  email as emailValidation,
+  phone as phoneValidation,
+  minLength,
+  maxLength,
+} from "../../../common/validations";
 
 export const UserForm = ({ className }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,16 +28,16 @@ export const UserForm = ({ className }) => {
   const lastName = useSelector(getUserLastName);
   const phone = useSelector(getUserPhone);
   const email = useSelector(getUserEmail);
-  const token = useSelector(getToken);
   const {
     register,
     handleSubmit: formSubmit,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useForm({
     mode: "onBlur",
-    defaultValues: { firstName, lastName, phone, email },
+    defaultValues: { first_name: firstName, last_name: lastName, phone, email },
   });
   const onSubmit = async (data, e) => {
+    trimFields(data);
     setIsSubmitting(true);
     await dispatch(infoActions.updateUserInfo(data));
     setIsSubmitting(false);
@@ -46,25 +53,61 @@ export const UserForm = ({ className }) => {
         <FormGroup
           className="form__form-group"
           inputProps={{
-            ...register("firstName", { required: true }),
+            ...register("first_name", {
+              required: false,
+              validate: (v) => {
+                if (v === "") return true;
+                return !minLength(2)(v)
+                  ? "Мінімум 2 літери"
+                  : !maxLength(20)(v)
+                  ? "Максимум 20 літер"
+                  : !wordWithHyphen(v)
+                  ? "Слово з/без тире"
+                  : true;
+              },
+            }),
             type: "text",
           }}
-          error={errors.firstName && errors.firstName.message}
+          error={errors.first_name && errors.first_name.message}
           label="Ім'я"
         />
         <FormGroup
           className="form__form-group"
           inputProps={{
-            ...register("lastName", { required: false }),
+            ...register("last_name", {
+              required: false,
+              validate: (v) => {
+                if (v === "") return true;
+                return !minLength(2)(v)
+                  ? "Мінімум 2 літери"
+                  : !maxLength(20)(v)
+                  ? "Максимум 20 літер"
+                  : !wordWithHyphen(v)
+                  ? "Слово з/без тире"
+                  : true;
+              },
+            }),
             type: "text",
           }}
-          error={errors.lastName && errors.lastName.message}
+          error={errors.last_name && errors.last_name.message}
           label="Прізвище"
         />
         <FormGroup
           className="form__form-group"
           inputProps={{
-            ...register("phone", { required: true }),
+            ...register("phone", {
+              required: false,
+              validate: (v) => {
+                if (v === "") return true;
+                return !minLength(10)(v)
+                  ? "Мінімум 10 символів"
+                  : !maxLength(13)(v)
+                  ? "Максимум 13 символів"
+                  : !phoneValidation(v)
+                  ? "Формат номеру: +380ххххххххх"
+                  : true;
+              },
+            }),
             type: "text",
           }}
           error={errors.phone && errors.phone.message}
@@ -73,7 +116,13 @@ export const UserForm = ({ className }) => {
         <FormGroup
           className="form__form-group"
           inputProps={{
-            ...register("email", { required: true }),
+            ...register("email", {
+              required: false,
+              validate: (v) => {
+                if (v === "") return true;
+                return emailValidation(v) || "Некоректна адреса";
+              },
+            }),
             type: "text",
           }}
           error={errors.email && errors.email.message}

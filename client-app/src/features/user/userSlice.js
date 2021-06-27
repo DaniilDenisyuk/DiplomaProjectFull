@@ -13,7 +13,7 @@ const infoState = {
   last_name: "",
   address: "",
   phone: "",
-  town: "",
+  city: "",
   street: "",
   house: "",
   door: "",

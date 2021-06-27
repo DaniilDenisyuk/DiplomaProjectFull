@@ -1,0 +1,16 @@
+.alert {
+  width: 640px;
+  &__message {
+    font-family: mm;
+    font-size: 1.5rem;
+  }
+  &__buttons {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__button {
+    width: 140px;
+    height: 46px;
+  }
+}

@@ -16,7 +16,7 @@ const getPendingOrders = (req, res, next) => {
 
 const getAllOrders = (req, res, next) => {
   ordersService
-    .getOrders()
+    .getAllOrders()
     .then((orders) => res.json(orders))
     .catch(next);
 };

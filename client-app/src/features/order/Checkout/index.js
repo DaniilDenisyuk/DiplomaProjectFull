@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import {
   getOrderItemsSum,
   getOrderItemsCount,
@@ -16,6 +17,14 @@ import {
   getOrderOverallSum,
 } from "../../../common/selectors";
 import { orderActions } from "../orderSlice";
+import {
+  wordWithHyphen,
+  minLength,
+  maxLength,
+  phone as phoneValidation,
+  limitSpecialChars,
+} from "../../../common/validations";
+import {} from "../../../common/utils";
 import { ordersService } from "../../../services/ordersService";
 import OrderItemCard from "../OrderItem";
 import Button from "../../../components/Button";
@@ -37,51 +46,53 @@ const OrderOverall = ({ className, onOrder }) => {
         "order-overall--active": active,
       })}
     >
-      <div
-        className="order-overall__dropdown"
-        onClick={() => setActive(!active)}
-      >
-        <p className="order-overall__heading checkout__sub-heading">Сума</p>
-        <span className="order-overall__dropdown-indicator"></span>
-      </div>
-      <div className="order-overall__wrapper">
-        {active && (
-          <div className="order-overall__composite">
-            <p className="order-overall__sub">
-              Товари:
-              <span>{sum}&#8372;</span>
-            </p>
-            <p className="order-overall__sub">
-              Додатки:
-              <span>{addsSum}&#8372;</span>
-            </p>
-            <p className="order-overall__sub">
-              Доставка:
-              <span>{"0"}&#8372;</span>
-            </p>
-          </div>
-        )}
-        <p className="order-overall__full-sum">
-          До сплати:
-          <span>{overallSum}&#8372;</span>
-        </p>
-
-        <Button
-          className="order-overall__submit-btn"
-          primary
-          rounded
-          onClick={() => {
-            setSubmitting(true);
-            onOrder();
-            setSubmitting(false);
-          }}
+      <div className="order-overall__content-wrapper">
+        <div
+          className="order-overall__dropdown"
+          onClick={() => setActive(!active)}
         >
-          {submitting ? (
-            <Loading className="form__submitting" message="Обробка" />
-          ) : (
-            "Замовити"
+          <p className="order-overall__heading checkout__sub-heading">Сума</p>
+          <span className="order-overall__dropdown-indicator"></span>
+        </div>
+        <div className="order-overall__wrapper">
+          {active && (
+            <div className="order-overall__composite">
+              <p className="order-overall__sub">
+                Товари:
+                <span>{sum}&#8372;</span>
+              </p>
+              <p className="order-overall__sub">
+                Додатки:
+                <span>{addsSum}&#8372;</span>
+              </p>
+              <p className="order-overall__sub">
+                Доставка:
+                <span>{"0"}&#8372;</span>
+              </p>
+            </div>
           )}
-        </Button>
+          <p className="order-overall__full-sum">
+            До сплати:
+            <span>{overallSum}&#8372;</span>
+          </p>
+
+          <Button
+            className="order-overall__submit-btn"
+            primary
+            rounded
+            onClick={() => {
+              setSubmitting(true);
+              onOrder();
+              setSubmitting(false);
+            }}
+          >
+            {submitting ? (
+              <Loading className="form__submitting" message="Обробка" />
+            ) : (
+              "Замовити"
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -155,9 +166,10 @@ const Checkout = () => {
   const items = useSelector(getOrderItemsCount());
   const onSubmit = async (order) => {
     const fields = { ...order, order_price: sum, items };
-    await ordersService.createOrder(fields);
+    const { id } = await ordersService.createOrder(fields);
     reset();
     dispatch(orderActions.reset());
+    alert(`Ідентифікатор вашого замовлення: ${id}`);
   };
   const onError = (errors, e) => console.log("not succeed", errors, e);
 
@@ -216,10 +228,21 @@ const Checkout = () => {
                     dirty: !!watch("customer_name"),
                   })}
                   inputProps={{
-                    ...register("customer_name", { required: true }),
+                    ...register("customer_name", {
+                      required: true,
+                      validate: (v) => {
+                        return !minLength(2)(v)
+                          ? "Мінімум 2 літери"
+                          : !maxLength(20)(v)
+                          ? "Максимум 20 літер"
+                          : !limitSpecialChars(v)
+                          ? "Слова, кома, тире"
+                          : true;
+                      },
+                    }),
                     type: "text",
                   }}
-                  error={errors.name && errors.name.message}
+                  error={errors.customer_name && errors.customer_name.message}
                   label="Ім'я"
                 />
                 <FormGroup
@@ -227,7 +250,18 @@ const Checkout = () => {
                     dirty: !!watch("customer_phone"),
                   })}
                   inputProps={{
-                    ...register("customer_phone", { required: true }),
+                    ...register("customer_phone", {
+                      required: true,
+                      validate: (v) => {
+                        return !minLength(10)(v)
+                          ? "Мінімум 10 символів"
+                          : !maxLength(13)(v)
+                          ? "Максимум 13 символів"
+                          : !phoneValidation(v)
+                          ? "Формат номеру: +380ххххххххх"
+                          : true;
+                      },
+                    }),
                     type: "text",
                   }}
                   error={errors.customer_phone && errors.customer_phone.message}
@@ -238,7 +272,17 @@ const Checkout = () => {
                     dirty: !!watch("delivery_address"),
                   })}
                   inputProps={{
-                    ...register("delivery_address", { required: false }),
+                    ...register("delivery_address", {
+                      required: false,
+                      validate: (v) => {
+                        if (v === "") return true;
+                        return !minLength(2)(v)
+                          ? "Мінімум 2 символи"
+                          : !maxLength(40)(v)
+                          ? "Максимум 40 символів"
+                          : true;
+                      },
+                    }),
                     type: "text",
                   }}
                   error={
@@ -263,7 +307,7 @@ const Checkout = () => {
                   inputProps={{
                     ...register("payment_way", { required: true }),
                     type: "radio",
-                    value: "bank card",
+                    value: "bank-card",
                   }}
                   label="Банківська карта"
                 />

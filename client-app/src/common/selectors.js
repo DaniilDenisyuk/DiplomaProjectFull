@@ -54,12 +54,12 @@ export const getOrderItemsCount = (id) => (store) => {
 };
 
 export const getUserAddress = (store) => {
-  const { town, street, house, door } = store.user.info;
-  return { town, street, house, door };
+  const { city, street, house, door } = store.user.info;
+  return { city, street, house, door };
 };
 export const getUserFullAddress = (store) => {
-  const { town, street, house, door } = store.user.info;
-  return [town, street, house, door].filter((item) => !!item).join(", ");
+  const { city, street, house, door } = store.user.info;
+  return [city, street, house, door].filter((item) => !!item).join(", ");
 };
 export const getUserEmail = (store) => store.user.info.email;
 export const getUserFirstName = (store) => store.user.info.first_name;

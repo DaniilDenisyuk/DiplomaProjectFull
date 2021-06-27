@@ -29,6 +29,7 @@ const getPendingOrders = async () => {
       name: item[1],
       price: item[2],
       img: item[3],
+      count: item[4],
     }));
     return row;
   });
@@ -36,7 +37,7 @@ const getPendingOrders = async () => {
 
 const getAllOrders = async () => {
   const sql = `select ${defaultFields.map((field) => `o.${field}`)},
-    array_agg(array[mi.id::varchar, mi.name, mi.price::varchar, ii.img]) as items
+    array_agg(array[mi.id::varchar, mi.name, mi.price::varchar, ii.img, oi.item_count::varchar]) as items
     from orders as o
     left join order_item as oi on oi.order_id = o.id
     join menuitems as mi on mi.id = oi.item_id
@@ -51,6 +52,7 @@ const getAllOrders = async () => {
       name: item[1],
       price: item[2],
       img: item[3],
+      count: item[4],
     }));
     return row;
   });
@@ -66,6 +68,7 @@ const createOrder = async (fields, items) => {
   )} returning (select id from inserted)`;
   const finalSql = `with inserted as (${sql}) ${sql2};`;
   const res = await db.query(finalSql, args);
+  console.log(res.rows[0]);
   return res.rows[0];
 };
 

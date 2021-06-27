@@ -5,6 +5,7 @@ import { userDataService } from "../../../services/userDataService";
 import Loading from "../../../components/Loading";
 import FormGroup from "../../../components/FormGroup";
 import Button from "../../../components/Button";
+import { password as passwordValidation } from "../../../common/validations";
 
 export const ChangePwdForm = ({ className }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,16 +49,20 @@ export const ChangePwdForm = ({ className }) => {
             ...register("oldPwd", { required: true }),
             type: "password",
           }}
-          error={errors.phone && errors.phone.message}
+          error={errors.oldPwd && errors.oldPwd.message}
           label="Старий пароль"
         />
         <FormGroup
           className="form__form-group"
           inputProps={{
-            ...register("newPwd", { required: true }),
+            ...register("newPwd", {
+              required: true,
+              validate: (v) =>
+                passwordValidation(v) || "мін.8 cимв.,1 циф.,1 літ.",
+            }),
             type: "password",
           }}
-          error={errors.phone && errors.phone.message}
+          error={errors.newPwd && errors.newPwd.message}
           label="Новий пароль"
         />
         <FormGroup
@@ -66,11 +71,11 @@ export const ChangePwdForm = ({ className }) => {
             ...register("newPwd2", {
               required: true,
               validate: (value) =>
-                value === password.current || "Паролі не співпадають",
+                value === password.current || "Не співпадають",
             }),
             type: "password",
           }}
-          error={errors.email && errors.email.message}
+          error={errors.newPwd2 && errors.newPwd2.message}
           label="Повторіть новий пароль"
         />
         <Button type="submit" className="form__submit" secondary>

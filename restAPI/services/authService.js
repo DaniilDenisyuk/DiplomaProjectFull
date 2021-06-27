@@ -34,8 +34,11 @@ const register = async (name, phone, password) => {
 
 const authenticate = async ({ login, password, ipAddress }) => {
   const user = await usersService.getUserInfoByLogin(login);
+  if (!user) {
+    throw ValidationError("Username or password is incorrect");
+  }
   const isEqualPwd = await comparePasswords(password, user.password);
-  if (!user || !isEqualPwd) {
+  if (!isEqualPwd) {
     throw ValidationError("Username or password is incorrect");
   }
 

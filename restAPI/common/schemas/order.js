@@ -6,9 +6,9 @@ export const orderSchema = Joi.object({
   customer_name: Joi.string(),
   customer_phone: Joi.number(),
   order_price: Joi.number(),
-  payment_way: Joi.string().allow("bank card", "cash"),
+  payment_way: Joi.string().allow("bank-card", "cash"),
   delivery_way: Joi.string().allow("self", "delivery"),
-  delivery_address: Joi.string().allow("").optional(),
+  delivery_address: Joi.string().allow(""),
   status: Joi.string().allow("pending", "declined", "confirmed"),
   items: Joi.array().items(
     Joi.object({

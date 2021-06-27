@@ -41,11 +41,13 @@ button {
   padding: 48px 0;
 }
 
-body.scroll-disabled {
-  overflow: hidden;
-  .main {
-    & > * {
-      padding-right: 14px;
+body {
+  &.scroll-disabled {
+    overflow: hidden;
+    .main {
+      & > * {
+        padding-right: 14px;
+      }
     }
   }
 }

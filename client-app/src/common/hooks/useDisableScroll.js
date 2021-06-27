@@ -1,8 +1,17 @@
 import { useEffect } from "react";
 
+const isOverflown = ({
+  clientWidth,
+  clientHeight,
+  scrollWidth,
+  scrollHeight,
+}) => {
+  return scrollHeight > clientHeight || scrollWidth > clientWidth;
+};
+
 export const useDisableScroll = (condition = true) => {
   useEffect(() => {
-    if (condition) {
+    if (condition && isOverflown(document.body)) {
       document.body.classList.add("scroll-disabled");
     }
     // const keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
